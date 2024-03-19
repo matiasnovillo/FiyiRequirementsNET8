@@ -2,6 +2,8 @@
 using FiyiRequirements.Areas.CMSCore.Entities;
 using FiyiRequirements.Areas.CMSCore.Entities.EntitiesConfiguration;
 using FiyiRequirements.Areas.BasicCore.Entities.EntitiesConfiguration;
+using FiyiRequirements.Areas.FiyiRequirements.Entities;
+using FiyiRequirements.Areas.FiyiRequirements.Entities.EntitiesConfiguration;
 
 namespace FiyiRequirements.Areas.BasicCore.Entities.Configuration
 {
@@ -17,6 +19,12 @@ namespace FiyiRequirements.Areas.BasicCore.Entities.Configuration
         public DbSet<Parameter> Parameter { get; set; }
 
         //FiyiRequirements
+        public DbSet<Requirement> Requirement { get; set; }
+        public DbSet<RequirementChangehistory> RequirementChangehistory { get; set; }
+        public DbSet<RequirementFile> RequirementFile { get; set; }
+        public DbSet<RequirementNote> RequirementNote { get; set; }
+        public DbSet<RequirementPriority> RequirementPriority { get; set; }
+        public DbSet<RequirementState> RequirementState { get; set; }
 
         public EFCoreContext(IConfiguration configuration)
         {
@@ -64,6 +72,12 @@ namespace FiyiRequirements.Areas.BasicCore.Entities.Configuration
                 modelBuilder.ApplyConfiguration(new ParameterConfiguration());
 
                 //FiyiRequirements
+                modelBuilder.ApplyConfiguration(new RequirementConfiguration());
+                modelBuilder.ApplyConfiguration(new RequirementChangehistoryConfiguration());
+                modelBuilder.ApplyConfiguration(new RequirementFileConfiguration());
+                modelBuilder.ApplyConfiguration(new RequirementNoteConfiguration());
+                modelBuilder.ApplyConfiguration(new RequirementPriorityConfiguration());
+                modelBuilder.ApplyConfiguration(new RequirementStateConfiguration());
 
                 #region User
                 modelBuilder.Entity<User>().HasData(new User
@@ -144,7 +158,6 @@ namespace FiyiRequirements.Areas.BasicCore.Entities.Configuration
                     UserLastModificationId = 1
                 });
                 #endregion
-
 
                 modelBuilder.Entity<Role>().HasData(new Role
                 {

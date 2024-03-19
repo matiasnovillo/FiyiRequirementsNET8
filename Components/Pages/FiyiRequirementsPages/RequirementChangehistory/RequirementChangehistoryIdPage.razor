@@ -1,0 +1,277 @@
+
+@page "/FiyiRequirements/RequirementChangehistoryPage/{RequirementChangehistoryId:int}"
+
+@using FiyiRequirements.Areas.FiyiRequirements.Repositories;
+@using FiyiRequirements.Areas.FiyiRequirements.Entities;
+@using FiyiRequirements.Areas.FiyiRequirements.DTOs;
+@inject RequirementChangehistoryRepository requirementchangehistoryRepository;
+
+@if (RequirementChangehistoryId == 0)
+{
+    <PageTitle>Add requirementchangehistory - FiyiRequirements</PageTitle>
+}
+else
+{
+    <PageTitle>Edit requirementchangehistory - FiyiRequirements</PageTitle>
+}
+
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+
+<div class="main-content position-relative max-height-vh-100 h-100">
+    <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
+    <div class="container-fluid px-2 px-md-4">
+        <div class="page-header min-height-300 border-radius-xl mt-4"
+             style="background-image: url('assets/img/illustrations/Landscape2.jpg');">
+            <span class="mask bg-gradient-primary opacity-6"></span>
+        </div>
+        <div class="card card-body mx-3 mx-md-4 mt-n6">
+            <div class="card-header mb-0 pb-0 bg-white">
+                <h1 class="mb-3">
+                    @if(RequirementChangehistoryId == 0)
+                    {
+                        <span>Add requirementchangehistory</span>
+                    }
+                    else
+                    {
+                        <span>Edit requirementchangehistory</span>
+                    }
+                </h1>
+                <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementChangehistoryPage">
+                    <span class="fas fa-chevron-left"></span>
+                    &nbsp;Go back
+                </NavLink>
+            </div>
+            <div class="card-body px-0">
+                <form method="post" @onsubmit="Submit"
+                      @formname="requirementchangehistory-form" class="mb-4">
+                    <AntiforgeryToken />
+                    <!--Active-->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="strict-search"
+                               @bind="RequirementChangehistory!.Active"
+                               id="active" />
+                        <label class="form-check-label"
+                               for="active">
+                            Active
+                        </label>
+                    </div>
+                    <!--RequirementId-->
+                    <div class="mb-3">
+                        <label for="requirementid"
+                               class="input-group input-group-static">
+                            RequirementId
+                        </label>
+                        <select id="requirementid"
+                            class="form-control"
+                            @bind=RequirementChangehistory.RequirementId>
+                        </select>
+                    </div>
+                    <!--RequirementStateId-->
+                    <div class="mb-3">
+                        <label for="requirementstateid"
+                               class="input-group input-group-static">
+                            RequirementStateId
+                        </label>
+                        <select id="requirementstateid"
+                            class="form-control"
+                            @bind=RequirementChangehistory.RequirementStateId>
+                        </select>
+                    </div>
+                    <!--RequirementPriorityId-->
+                    <div class="mb-3">
+                        <label for="requirementpriorityid"
+                               class="input-group input-group-static">
+                            RequirementPriorityId
+                        </label>
+                        <select id="requirementpriorityid"
+                            class="form-control"
+                            @bind=RequirementChangehistory.RequirementPriorityId>
+                        </select>
+                    </div>
+                    
+                    <hr />
+                    <button id="btn-submit" type="submit"
+                            class="btn bg-gradient-primary">
+                        <i class="fas fa-pen"></i>
+                        @if (RequirementChangehistoryId == 0)
+                        {
+                            <span>Add</span>
+                        }
+                        else
+                        {
+                            <span>Edit</span>
+                        }
+                    </button>
+                    <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementChangehistoryPage">
+                        <span class="fas fa-chevron-left"></span>
+                        &nbsp;Go back
+                    </NavLink>
+                </form>
+                @((MarkupString)MessageForForm)
+            </div>
+        </div>
+    </div>
+
+    <FiyiRequirements.Components.Layout.FooterDashboard></FiyiRequirements.Components.Layout.FooterDashboard>
+</div>
+
+@code {
+    #region Properties
+    public List<Menu> lstMenuResult { get; set; } = [];
+
+    public List<Role> lstRole { get; set; } = [];
+
+    [Parameter]
+    public int RequirementChangehistoryId { get; set; }
+
+    public string MessageForForm { get; set; } = "";
+
+    [SupplyParameterFromForm]
+    public RequirementChangehistory RequirementChangehistory { get; set; } = new();
+
+    public User User { get; set; } = new();
+
+    
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            //Look for saved user in shared component, simulates a session
+            User = StateContainer.User == null ? new() : StateContainer.User;
+
+            lstMenuResult = [];
+            RequirementChangehistory = new();
+
+            if (User != null)
+            {
+                if (User.UserId != 0)
+                {
+                    //Logged user
+                    if (User.RoleId != 1) //Only Root can access
+                    {
+                        NavigationManager.NavigateTo("403");
+                    }
+
+                    List<Menu> lstMenu = menuRepository
+                                        .GetAll();
+
+                    lstMenuResult = rolemenuRepository
+                                        .GetAllByRoleId(User.RoleId, lstMenu);
+
+                    lstRole = roleRepository.GetAll();
+
+                    if (RequirementChangehistoryId == 0)
+                    {
+                        //Create new RequirementChangehistory
+                        RequirementChangehistory = new();
+                    }
+                    else
+                    {
+                        //Edit RequirementChangehistory
+                        
+                        RequirementChangehistory = requirementchangehistoryRepository
+                                    .GetByRequirementChangehistoryId(RequirementChangehistoryId);
+                    }
+                }
+                else
+                {
+                    //Not logged user
+
+                    //Redirect to...
+                    NavigationManager.NavigateTo("Login");
+                }
+            }
+            else
+            {
+                //Impossible
+            }
+
+            base.OnInitialized();
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            if (RequirementChangehistoryId == 0)
+            {
+                //Create new RequirementChangehistory
+                RequirementChangehistory.RequirementChangehistoryId = 0;
+
+                RequirementChangehistory.DateTimeCreation = DateTime.Now;
+                RequirementChangehistory.DateTimeLastModification = DateTime.Now;
+
+                requirementchangehistoryRepository
+                        .Add(RequirementChangehistory);
+            }
+            else
+            {
+                //Update data
+                RequirementChangehistory.DateTimeLastModification = DateTime.Now;
+
+                requirementchangehistoryRepository
+                            .Update(RequirementChangehistory);
+            }
+
+            //Redirect to users page
+            NavigationManager.NavigateTo("FiyiRequirements/RequirementChangehistoryPage");
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+        finally
+        {
+            //Re-render the page to show ScannedText
+            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        }
+    }
+
+    
+}
+

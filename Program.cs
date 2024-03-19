@@ -3,6 +3,7 @@ using FiyiRequirements.Areas.BasicCore.Repositories;
 using FiyiRequirements.Areas.CMSCore.Repositories;
 using FiyiRequirements.Components.Shared;
 using FiyiRequirements.Components;
+using FiyiRequirements.Areas.FiyiRequirements.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,12 @@ builder.Services.AddScoped<FailureRepository>();
 builder.Services.AddScoped<ParameterRepository>();
 
 //Set access to repositories: FiyiRequirements
+builder.Services.AddScoped<RequirementRepository>();
+builder.Services.AddScoped<RequirementChangehistoryRepository>();
+builder.Services.AddScoped<RequirementFileRepository>();
+builder.Services.AddScoped<RequirementNoteRepository>();
+builder.Services.AddScoped<RequirementPriorityRepository>();
+builder.Services.AddScoped<RequirementStateRepository>();
 
 //Set access to StateContainer to share data between Blazor components
 builder.Services.AddScoped<StateContainer>();

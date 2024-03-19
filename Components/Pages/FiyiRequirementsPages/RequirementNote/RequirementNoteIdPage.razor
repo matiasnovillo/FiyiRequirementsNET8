@@ -1,0 +1,334 @@
+
+@page "/FiyiRequirements/RequirementNotePage/{RequirementNoteId:int}"
+
+@using FiyiRequirements.Areas.FiyiRequirements.Repositories;
+@using FiyiRequirements.Areas.FiyiRequirements.Entities;
+@using FiyiRequirements.Areas.FiyiRequirements.DTOs;
+@inject RequirementNoteRepository requirementnoteRepository;
+
+@if (RequirementNoteId == 0)
+{
+    <PageTitle>Add requirementnote - FiyiRequirements</PageTitle>
+}
+else
+{
+    <PageTitle>Edit requirementnote - FiyiRequirements</PageTitle>
+}
+
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+
+<div class="main-content position-relative max-height-vh-100 h-100">
+    <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
+    <div class="container-fluid px-2 px-md-4">
+        <div class="page-header min-height-300 border-radius-xl mt-4"
+             style="background-image: url('assets/img/illustrations/Landscape2.jpg');">
+            <span class="mask bg-gradient-primary opacity-6"></span>
+        </div>
+        <div class="card card-body mx-3 mx-md-4 mt-n6">
+            <div class="card-header mb-0 pb-0 bg-white">
+                <h1 class="mb-3">
+                    @if(RequirementNoteId == 0)
+                    {
+                        <span>Add requirementnote</span>
+                    }
+                    else
+                    {
+                        <span>Edit requirementnote</span>
+                    }
+                </h1>
+                <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementNotePage">
+                    <span class="fas fa-chevron-left"></span>
+                    &nbsp;Go back
+                </NavLink>
+            </div>
+            <div class="card-body px-0">
+                <form method="post" @onsubmit="Submit"
+                      @formname="requirementnote-form" class="mb-4">
+                    <AntiforgeryToken />
+                    <!--Active-->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="strict-search"
+                               @bind="RequirementNote!.Active"
+                               id="active" />
+                        <label class="form-check-label"
+                               for="active">
+                            Active
+                        </label>
+                    </div>
+                    <!--Title-->
+                    <div class="mb-3">
+                        <label for="title"
+                               class="input-group input-group-static">
+                            Title
+                        </label>
+                        <input type="text"
+                               id="title"
+                               class="form-control"
+                               required
+                               @bind="RequirementNote!.Title" />
+                    </div>
+                    
+                    <!--Body-->
+                    <div class="mb-3">
+                        <label for="quill-editor-body"
+                               class="input-group input-group-static">
+                            Body
+                        </label>
+                        <div id="quill-editor-body">
+                        </div>
+                        <button id="button-quill-conversion-body"
+                        type="button"
+                        class="btn btn-outline-primary my-2">
+                            Convert to HTML
+                        </button>
+                        <input type="text"
+                               id="quill-result-body"
+                               class="form-control"
+                               
+                               @bind="RequirementNote!.Body" />
+                    </div>
+                    <link rel="stylesheet" href="assets/vendor/quill/dist/quill.snow.css">
+                    <script type="text/javascript">
+                        var quilleditorbody = new Quill("#quill-editor-body", {
+                            theme: 'snow',
+                            modules: {
+                                toolbar: {
+                                    container: [
+                                        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                                        ["bold", "italic", "underline", "strike"],
+                                        [{ list: "ordered" }, { list: "bullet" }],
+                                        ["link", "image", "video"],
+                                        ["clean"]
+                                    ],
+                                    handlers: {
+                                        image: imageHandlerBody,
+                                        video: videoHandlerBody
+                                    }
+                                }
+                            }
+                        });
+
+                        function imageHandlerBody() {
+                            var range = this.quill.getSelection();
+                            var value = prompt('Por favor, ingrese la URL de la imagen');
+                            if (value) {
+                                this.quill.insertEmbed(range.index, 'image', value, Quill.sources.USER);
+                            }
+                        }
+
+                        function videoHandlerBody() {
+                            var range = this.quill.getSelection();
+                            var value = prompt('Por favor, ingrese la URL del video');
+                            if (value) {
+                                this.quill.insertEmbed(range.index, 'video', value, Quill.sources.USER);
+                            }
+                        }
+
+                        $("#button-quill-conversion-body").on("click", function () {
+                            var htmlbody = quilleditorbody.root.innerHTML;
+                            $("#quill-result-body").val(htmlbody)
+                        });
+
+                        $(document).ready(function () {
+                            quilleditorbody.container.childNodes[0].innerHTML = quilleditorbody.getText();
+                        });
+                    </script>
+                    <script src="assets/vendor/quill/dist/quill.min.js"></script>
+                    <!--RequirementId-->
+                    <div class="mb-3">
+                        <label for="requirementid"
+                               class="input-group input-group-static">
+                            RequirementId
+                        </label>
+                        <select id="requirementid"
+                            class="form-control"
+                            @bind=RequirementNote.RequirementId>
+                        </select>
+                    </div>
+                    
+                    <hr />
+                    <button id="btn-submit" type="submit"
+                            class="btn bg-gradient-primary">
+                        <i class="fas fa-pen"></i>
+                        @if (RequirementNoteId == 0)
+                        {
+                            <span>Add</span>
+                        }
+                        else
+                        {
+                            <span>Edit</span>
+                        }
+                    </button>
+                    <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementNotePage">
+                        <span class="fas fa-chevron-left"></span>
+                        &nbsp;Go back
+                    </NavLink>
+                </form>
+                @((MarkupString)MessageForForm)
+            </div>
+        </div>
+    </div>
+
+    <FiyiRequirements.Components.Layout.FooterDashboard></FiyiRequirements.Components.Layout.FooterDashboard>
+</div>
+
+@code {
+    #region Properties
+    public List<Menu> lstMenuResult { get; set; } = [];
+
+    public List<Role> lstRole { get; set; } = [];
+
+    [Parameter]
+    public int RequirementNoteId { get; set; }
+
+    public string MessageForForm { get; set; } = "";
+
+    [SupplyParameterFromForm]
+    public RequirementNote RequirementNote { get; set; } = new();
+
+    public User User { get; set; } = new();
+
+    
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            //Look for saved user in shared component, simulates a session
+            User = StateContainer.User == null ? new() : StateContainer.User;
+
+            lstMenuResult = [];
+            RequirementNote = new();
+
+            if (User != null)
+            {
+                if (User.UserId != 0)
+                {
+                    //Logged user
+                    if (User.RoleId != 1) //Only Root can access
+                    {
+                        NavigationManager.NavigateTo("403");
+                    }
+
+                    List<Menu> lstMenu = menuRepository
+                                        .GetAll();
+
+                    lstMenuResult = rolemenuRepository
+                                        .GetAllByRoleId(User.RoleId, lstMenu);
+
+                    lstRole = roleRepository.GetAll();
+
+                    if (RequirementNoteId == 0)
+                    {
+                        //Create new RequirementNote
+                        RequirementNote = new();
+                    }
+                    else
+                    {
+                        //Edit RequirementNote
+                        
+                        RequirementNote = requirementnoteRepository
+                                    .GetByRequirementNoteId(RequirementNoteId);
+                    }
+                }
+                else
+                {
+                    //Not logged user
+
+                    //Redirect to...
+                    NavigationManager.NavigateTo("Login");
+                }
+            }
+            else
+            {
+                //Impossible
+            }
+
+            base.OnInitialized();
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            if (RequirementNoteId == 0)
+            {
+                //Create new RequirementNote
+                RequirementNote.RequirementNoteId = 0;
+
+                RequirementNote.DateTimeCreation = DateTime.Now;
+                RequirementNote.DateTimeLastModification = DateTime.Now;
+
+                requirementnoteRepository
+                        .Add(RequirementNote);
+            }
+            else
+            {
+                //Update data
+                RequirementNote.DateTimeLastModification = DateTime.Now;
+
+                requirementnoteRepository
+                            .Update(RequirementNote);
+            }
+
+            //Redirect to users page
+            NavigationManager.NavigateTo("FiyiRequirements/RequirementNotePage");
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+        finally
+        {
+            //Re-render the page to show ScannedText
+            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        }
+    }
+
+    
+}
+

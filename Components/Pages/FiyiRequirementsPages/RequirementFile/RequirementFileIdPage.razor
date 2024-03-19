@@ -1,0 +1,340 @@
+
+@page "/FiyiRequirements/RequirementFilePage/{RequirementFileId:int}"
+
+@using FiyiRequirements.Areas.FiyiRequirements.Repositories;
+@using FiyiRequirements.Areas.FiyiRequirements.Entities;
+@using FiyiRequirements.Areas.FiyiRequirements.DTOs;
+@inject RequirementFileRepository requirementfileRepository;
+
+@if (RequirementFileId == 0)
+{
+    <PageTitle>Add requirementfile - FiyiRequirements</PageTitle>
+}
+else
+{
+    <PageTitle>Edit requirementfile - FiyiRequirements</PageTitle>
+}
+
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+
+<div class="main-content position-relative max-height-vh-100 h-100">
+    <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
+    <div class="container-fluid px-2 px-md-4">
+        <div class="page-header min-height-300 border-radius-xl mt-4"
+             style="background-image: url('assets/img/illustrations/Landscape2.jpg');">
+            <span class="mask bg-gradient-primary opacity-6"></span>
+        </div>
+        <div class="card card-body mx-3 mx-md-4 mt-n6">
+            <div class="card-header mb-0 pb-0 bg-white">
+                <h1 class="mb-3">
+                    @if(RequirementFileId == 0)
+                    {
+                        <span>Add requirementfile</span>
+                    }
+                    else
+                    {
+                        <span>Edit requirementfile</span>
+                    }
+                </h1>
+                <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementFilePage">
+                    <span class="fas fa-chevron-left"></span>
+                    &nbsp;Go back
+                </NavLink>
+            </div>
+            <div class="card-body px-0">
+                <form method="post" @onsubmit="Submit"
+                      @formname="requirementfile-form" class="mb-4">
+                    <AntiforgeryToken />
+                    <!--Active-->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="strict-search"
+                               @bind="RequirementFile!.Active"
+                               id="active" />
+                        <label class="form-check-label"
+                               for="active">
+                            Active
+                        </label>
+                    </div>
+                    <!--RequirementId-->
+                    <div class="mb-3">
+                        <label for="requirementid"
+                               class="input-group input-group-static">
+                            RequirementId
+                        </label>
+                        <select id="requirementid"
+                            class="form-control"
+                            @bind=RequirementFile.RequirementId>
+                        </select>
+                    </div>
+                    <!--FilePath-->
+                    <div class="mb-3">
+                        <label for="filepath"
+                               class="input-group input-group-static">
+                            FilePath
+                        </label>
+                        <InputFile type="file"
+                               id="filepath"
+                               class="form-control"
+                               required
+                               OnChange="@UploadFilePath" />
+                        @{
+                            var ProgressCssForFilePath = "progress" + (DisplayProgressForFilePath ? "" : "d-none");
+                            var ProgressWidthStyleForFilePath = ProgressPercentForFilePath + "%";
+                        }
+                        <!--Progress bar-->
+                        <div class="@ProgressCssForFilePath">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated @ProgressBarColourForFilePath"
+                                 role="progressbar" style="width:@ProgressWidthStyleForFilePath"
+                                 area-valuenow="@ProgressPercentForFilePath" 
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr />
+                    <button id="btn-submit" type="submit"
+                            class="btn bg-gradient-primary">
+                        <i class="fas fa-pen"></i>
+                        @if (RequirementFileId == 0)
+                        {
+                            <span>Add</span>
+                        }
+                        else
+                        {
+                            <span>Edit</span>
+                        }
+                    </button>
+                    <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementFilePage">
+                        <span class="fas fa-chevron-left"></span>
+                        &nbsp;Go back
+                    </NavLink>
+                </form>
+                @((MarkupString)MessageForForm)
+            </div>
+        </div>
+    </div>
+
+    <FiyiRequirements.Components.Layout.FooterDashboard></FiyiRequirements.Components.Layout.FooterDashboard>
+</div>
+
+@code {
+    #region Properties
+    public List<Menu> lstMenuResult { get; set; } = [];
+
+    public List<Role> lstRole { get; set; } = [];
+
+    [Parameter]
+    public int RequirementFileId { get; set; }
+
+    public string MessageForForm { get; set; } = "";
+
+    [SupplyParameterFromForm]
+    public RequirementFile RequirementFile { get; set; } = new();
+
+    public User User { get; set; } = new();
+
+    //Progress bar for FilePath
+    public bool DisplayProgressForFilePath { get; set; } = false;
+    public int ProgressPercentForFilePath { get; set; } = 0;
+    public string ProgressTextForFilePath { get; set; } = "";
+    public string ProgressBarColourForFilePath { get; set; } = "bg-info";
+    
+    
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            //Look for saved user in shared component, simulates a session
+            User = StateContainer.User == null ? new() : StateContainer.User;
+
+            lstMenuResult = [];
+            RequirementFile = new();
+
+            if (User != null)
+            {
+                if (User.UserId != 0)
+                {
+                    //Logged user
+                    if (User.RoleId != 1) //Only Root can access
+                    {
+                        NavigationManager.NavigateTo("403");
+                    }
+
+                    List<Menu> lstMenu = menuRepository
+                                        .GetAll();
+
+                    lstMenuResult = rolemenuRepository
+                                        .GetAllByRoleId(User.RoleId, lstMenu);
+
+                    lstRole = roleRepository.GetAll();
+
+                    if (RequirementFileId == 0)
+                    {
+                        //Create new RequirementFile
+                        RequirementFile = new();
+                    }
+                    else
+                    {
+                        //Edit RequirementFile
+                        
+                        RequirementFile = requirementfileRepository
+                                    .GetByRequirementFileId(RequirementFileId);
+                    }
+                }
+                else
+                {
+                    //Not logged user
+
+                    //Redirect to...
+                    NavigationManager.NavigateTo("Login");
+                }
+            }
+            else
+            {
+                //Impossible
+            }
+
+            base.OnInitialized();
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            if (RequirementFileId == 0)
+            {
+                //Create new RequirementFile
+                RequirementFile.RequirementFileId = 0;
+
+                RequirementFile.DateTimeCreation = DateTime.Now;
+                RequirementFile.DateTimeLastModification = DateTime.Now;
+
+                requirementfileRepository
+                        .Add(RequirementFile);
+            }
+            else
+            {
+                //Update data
+                RequirementFile.DateTimeLastModification = DateTime.Now;
+
+                requirementfileRepository
+                            .Update(RequirementFile);
+            }
+
+            //Redirect to users page
+            NavigationManager.NavigateTo("FiyiRequirements/RequirementFilePage");
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+        finally
+        {
+            //Re-render the page to show ScannedText
+            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        }
+    }
+
+    private async void UploadFilePath(InputFileChangeEventArgs e)
+    {
+
+        try
+        {
+            DisplayProgressForFilePath = true;
+            ProgressPercentForFilePath = 80;
+            ProgressBarColourForFilePath = "bg-info";
+
+            string path = Path.Combine(
+                Environment.CurrentDirectory,
+                "wwwroot",
+                "Uploads",
+                "FiyiRequirements",
+                "RequirementFile",
+                e.File.Name);
+
+            long MaxFileSize = 1024L * 1024L; //3MB max.
+
+            await using FileStream FileStream = new(path, FileMode.Create);
+            await e.File.OpenReadStream(MaxFileSize).CopyToAsync(FileStream);
+
+            FileStream.Close();
+
+            string Limitator = "\\wwwroot";
+            int StartIndex = path.IndexOf(Limitator);
+            string Result = "";
+
+            if (StartIndex != -1)
+            {
+                Result = path.Substring(StartIndex + Limitator.Length);
+            }
+
+            RequirementFile!.FilePath = Result;
+
+            ProgressPercentForFilePath = 100;
+            ProgressBarColourForFilePath = "bg-success";
+            DisplayProgressForFilePath = false;
+        }
+        catch (Exception ex)
+        {
+            MessageForForm = $@"There was a mistake. Try again.
+                             Error message: {ex.Message}";
+
+            ProgressPercentForFilePath = 100;
+            ProgressBarColourForFilePath = "bg-danger";
+        }
+        finally
+        {
+            //Re-render the page to show ScannedText
+            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        }
+    }
+
+    
+}
+

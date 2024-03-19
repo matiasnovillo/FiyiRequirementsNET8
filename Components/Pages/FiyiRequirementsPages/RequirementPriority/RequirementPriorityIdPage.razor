@@ -1,0 +1,269 @@
+
+@page "/FiyiRequirements/RequirementPriorityPage/{RequirementPriorityId:int}"
+
+@using FiyiRequirements.Areas.FiyiRequirements.Repositories;
+@using FiyiRequirements.Areas.FiyiRequirements.Entities;
+@using FiyiRequirements.Areas.FiyiRequirements.DTOs;
+@inject RequirementPriorityRepository requirementpriorityRepository;
+
+@if (RequirementPriorityId == 0)
+{
+    <PageTitle>Add requirementpriority - FiyiRequirements</PageTitle>
+}
+else
+{
+    <PageTitle>Edit requirementpriority - FiyiRequirements</PageTitle>
+}
+
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+
+<div class="main-content position-relative max-height-vh-100 h-100">
+    <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
+    <div class="container-fluid px-2 px-md-4">
+        <div class="page-header min-height-300 border-radius-xl mt-4"
+             style="background-image: url('assets/img/illustrations/Landscape2.jpg');">
+            <span class="mask bg-gradient-primary opacity-6"></span>
+        </div>
+        <div class="card card-body mx-3 mx-md-4 mt-n6">
+            <div class="card-header mb-0 pb-0 bg-white">
+                <h1 class="mb-3">
+                    @if(RequirementPriorityId == 0)
+                    {
+                        <span>Add requirementpriority</span>
+                    }
+                    else
+                    {
+                        <span>Edit requirementpriority</span>
+                    }
+                </h1>
+                <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementPriorityPage">
+                    <span class="fas fa-chevron-left"></span>
+                    &nbsp;Go back
+                </NavLink>
+            </div>
+            <div class="card-body px-0">
+                <form method="post" @onsubmit="Submit"
+                      @formname="requirementpriority-form" class="mb-4">
+                    <AntiforgeryToken />
+                    <!--Active-->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="strict-search"
+                               @bind="RequirementPriority!.Active"
+                               id="active" />
+                        <label class="form-check-label"
+                               for="active">
+                            Active
+                        </label>
+                    </div>
+                    <!--Name-->
+                    <div class="mb-3">
+                        <label for="name"
+                               class="input-group input-group-static">
+                            Name
+                        </label>
+                        <input type="text"
+                               id="name"
+                               class="form-control"
+                               required
+                               @bind="RequirementPriority!.Name" />
+                    </div>
+                    <!--Description-->
+                    <div class="mb-3">
+                        <label for="description"
+                               class="input-group input-group-static">
+                            Description
+                        </label>
+                        <textarea rows="10"
+                            class="form-control"
+                            @bind="RequirementPriority!.Description"
+                            
+                            id="description">
+                        </textarea>
+                    </div>
+                    
+                    <hr />
+                    <button id="btn-submit" type="submit"
+                            class="btn bg-gradient-primary">
+                        <i class="fas fa-pen"></i>
+                        @if (RequirementPriorityId == 0)
+                        {
+                            <span>Add</span>
+                        }
+                        else
+                        {
+                            <span>Edit</span>
+                        }
+                    </button>
+                    <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementPriorityPage">
+                        <span class="fas fa-chevron-left"></span>
+                        &nbsp;Go back
+                    </NavLink>
+                </form>
+                @((MarkupString)MessageForForm)
+            </div>
+        </div>
+    </div>
+
+    <FiyiRequirements.Components.Layout.FooterDashboard></FiyiRequirements.Components.Layout.FooterDashboard>
+</div>
+
+@code {
+    #region Properties
+    public List<Menu> lstMenuResult { get; set; } = [];
+
+    public List<Role> lstRole { get; set; } = [];
+
+    [Parameter]
+    public int RequirementPriorityId { get; set; }
+
+    public string MessageForForm { get; set; } = "";
+
+    [SupplyParameterFromForm]
+    public RequirementPriority RequirementPriority { get; set; } = new();
+
+    public User User { get; set; } = new();
+
+    
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            //Look for saved user in shared component, simulates a session
+            User = StateContainer.User == null ? new() : StateContainer.User;
+
+            lstMenuResult = [];
+            RequirementPriority = new();
+
+            if (User != null)
+            {
+                if (User.UserId != 0)
+                {
+                    //Logged user
+                    if (User.RoleId != 1) //Only Root can access
+                    {
+                        NavigationManager.NavigateTo("403");
+                    }
+
+                    List<Menu> lstMenu = menuRepository
+                                        .GetAll();
+
+                    lstMenuResult = rolemenuRepository
+                                        .GetAllByRoleId(User.RoleId, lstMenu);
+
+                    lstRole = roleRepository.GetAll();
+
+                    if (RequirementPriorityId == 0)
+                    {
+                        //Create new RequirementPriority
+                        RequirementPriority = new();
+                    }
+                    else
+                    {
+                        //Edit RequirementPriority
+                        
+                        RequirementPriority = requirementpriorityRepository
+                                    .GetByRequirementPriorityId(RequirementPriorityId);
+                    }
+                }
+                else
+                {
+                    //Not logged user
+
+                    //Redirect to...
+                    NavigationManager.NavigateTo("Login");
+                }
+            }
+            else
+            {
+                //Impossible
+            }
+
+            base.OnInitialized();
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            if (RequirementPriorityId == 0)
+            {
+                //Create new RequirementPriority
+                RequirementPriority.RequirementPriorityId = 0;
+
+                RequirementPriority.DateTimeCreation = DateTime.Now;
+                RequirementPriority.DateTimeLastModification = DateTime.Now;
+
+                requirementpriorityRepository
+                        .Add(RequirementPriority);
+            }
+            else
+            {
+                //Update data
+                RequirementPriority.DateTimeLastModification = DateTime.Now;
+
+                requirementpriorityRepository
+                            .Update(RequirementPriority);
+            }
+
+            //Redirect to users page
+            NavigationManager.NavigateTo("FiyiRequirements/RequirementPriorityPage");
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+        finally
+        {
+            //Re-render the page to show ScannedText
+            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        }
+    }
+
+    
+}
+
