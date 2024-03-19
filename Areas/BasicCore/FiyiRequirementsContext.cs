@@ -4,10 +4,11 @@ using FiyiRequirements.Areas.CMSCore.Entities.EntitiesConfiguration;
 using FiyiRequirements.Areas.BasicCore.Entities.EntitiesConfiguration;
 using FiyiRequirements.Areas.FiyiRequirements.Entities;
 using FiyiRequirements.Areas.FiyiRequirements.Entities.EntitiesConfiguration;
+using FiyiRequirements.Areas.BasicCore.Entities;
 
-namespace FiyiRequirements.Areas.BasicCore.Entities.Configuration
+namespace FiyiRequirements.Areas.BasicCore
 {
-    public class EFCoreContext : DbContext
+    public class FiyiRequirementsContext : DbContext
     {
         protected IConfiguration _configuration { get; }
 
@@ -26,7 +27,7 @@ namespace FiyiRequirements.Areas.BasicCore.Entities.Configuration
         public DbSet<RequirementPriority> RequirementPriority { get; set; }
         public DbSet<RequirementState> RequirementState { get; set; }
 
-        public EFCoreContext(IConfiguration configuration)
+        public FiyiRequirementsContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -204,8 +205,8 @@ namespace FiyiRequirements.Areas.BasicCore.Entities.Configuration
                     Active = true,
                     DateTimeCreation = DateTime.Now,
                     DateTimeLastModification = DateTime.Now,
-                    UserCreationId= 1,
-                    UserLastModificationId= 1
+                    UserCreationId = 1,
+                    UserLastModificationId = 1
                 });
 
                 modelBuilder.Entity<Menu>().HasData(new Menu

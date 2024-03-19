@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using FiyiRequirements.Areas.BasicCore.Entities;
-using FiyiRequirements.Areas.BasicCore.Entities.Configuration;
 using FiyiRequirements.Areas.BasicCore.DTOs;
 using FiyiRequirements.Areas.BasicCore.Interfaces;
 using System.Data;
@@ -21,9 +20,9 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
 {
     public class FailureRepository : IFailureRepository
     {
-        protected readonly EFCoreContext _context;
+        protected readonly FiyiRequirementsContext _context;
 
-        public FailureRepository(EFCoreContext context)
+        public FailureRepository(FiyiRequirementsContext context)
         {
             _context = context;
         }

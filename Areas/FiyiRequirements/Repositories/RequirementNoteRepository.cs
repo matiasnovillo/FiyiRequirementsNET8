@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using FiyiRequirements.Areas.FiyiRequirements.Entities;
-using FiyiRequirements.Areas.BasicCore.Entities.Configuration;
 using FiyiRequirements.Areas.FiyiRequirements.DTOs;
 using FiyiRequirements.Areas.FiyiRequirements.Interfaces;
 using System.Data;
+using FiyiRequirements.Areas.BasicCore;
 
 /*
  * GUID:e6c09dfe-3a3e-461b-b3f9-734aee05fc7b
@@ -21,9 +21,9 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
 {
     public class RequirementNoteRepository : IRequirementNoteRepository
     {
-        protected readonly EFCoreContext _context;
+        protected readonly FiyiRequirementsContext _context;
 
-        public RequirementNoteRepository(EFCoreContext context)
+        public RequirementNoteRepository(FiyiRequirementsContext context)
         {
             _context = context;
         }

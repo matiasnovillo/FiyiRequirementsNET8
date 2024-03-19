@@ -2,15 +2,15 @@
 using System.Text.RegularExpressions;
 using FiyiRequirements.Areas.CMSCore.DTOs;
 using FiyiRequirements.Areas.CMSCore.Entities;
-using FiyiRequirements.Areas.BasicCore.Entities.Configuration;
+using FiyiRequirements.Areas.BasicCore;
 
 namespace FiyiRequirements.Areas.CMSCore.Repositories
 {
     public class RoleMenuRepository
     {
-        protected readonly EFCoreContext _context;
+        protected readonly FiyiRequirementsContext _context;
 
-        public RoleMenuRepository(EFCoreContext context)
+        public RoleMenuRepository(FiyiRequirementsContext context)
         {
             _context = context;
         }

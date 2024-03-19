@@ -1,9 +1,9 @@
-using FiyiRequirements.Areas.BasicCore.Entities.Configuration;
 using FiyiRequirements.Areas.BasicCore.Repositories;
 using FiyiRequirements.Areas.CMSCore.Repositories;
 using FiyiRequirements.Components.Shared;
 using FiyiRequirements.Components;
 using FiyiRequirements.Areas.FiyiRequirements.Repositories;
+using FiyiRequirements.Areas.BasicCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddDbContext<EFCoreContext>(ServiceLifetime.Scoped);
+builder.Services.AddDbContext<FiyiRequirementsContext>(ServiceLifetime.Scoped);
 
 //Set access to repositories
 builder.Services.AddScoped<UserRepository>();

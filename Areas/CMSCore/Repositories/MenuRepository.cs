@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using FiyiRequirements.Areas.CMSCore.Entities;
-using FiyiRequirements.Areas.BasicCore.Entities.Configuration;
 using FiyiRequirements.Areas.CMSCore.DTOs;
 using FiyiRequirements.Areas.CMSCore.Interfaces;
 using System.Data;
+using FiyiRequirements.Areas.BasicCore;
 
 /*
  * GUID:e6c09dfe-3a3e-461b-b3f9-734aee05fc7b
@@ -21,9 +21,9 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
 {
     public class MenuRepository : IMenuRepository
     {
-        protected readonly EFCoreContext _context;
+        protected readonly FiyiRequirementsContext _context;
 
-        public MenuRepository(EFCoreContext context)
+        public MenuRepository(FiyiRequirementsContext context)
         {
             _context = context;
         }
