@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FiyiRequirements.Migrations
 {
     [DbContext(typeof(FiyiRequirementsContext))]
-    [Migration("20240129015010_CLS1")]
-    partial class CLS1
+    [Migration("20240319235448_FR1")]
+    partial class FR1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,8 +152,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 1,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8553),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8554),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9597),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9598),
                             IconURLPath = "",
                             MenuFatherId = 0,
                             Name = "BasicCore",
@@ -166,8 +166,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 2,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8571),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8572),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9615),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9616),
                             IconURLPath = "",
                             MenuFatherId = 1,
                             Name = "Failure",
@@ -180,8 +180,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 3,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8585),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8585),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9632),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9632),
                             IconURLPath = "",
                             MenuFatherId = 1,
                             Name = "Parameter",
@@ -194,8 +194,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 4,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8598),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8598),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9647),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9647),
                             IconURLPath = "",
                             MenuFatherId = 0,
                             Name = "BasicCulture",
@@ -208,8 +208,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 5,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8611),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8612),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9662),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9662),
                             IconURLPath = "",
                             MenuFatherId = 4,
                             Name = "City",
@@ -222,8 +222,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 6,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8625),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8626),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9678),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9679),
                             IconURLPath = "",
                             MenuFatherId = 4,
                             Name = "State",
@@ -236,8 +236,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 7,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8639),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8640),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9692),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9693),
                             IconURLPath = "",
                             MenuFatherId = 4,
                             Name = "Country",
@@ -250,8 +250,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 8,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8652),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8653),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9707),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9708),
                             IconURLPath = "",
                             MenuFatherId = 4,
                             Name = "Planet",
@@ -264,8 +264,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 9,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8665),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8666),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9722),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9722),
                             IconURLPath = "",
                             MenuFatherId = 4,
                             Name = "Sex",
@@ -278,8 +278,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 10,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8680),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8681),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9738),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9738),
                             IconURLPath = "",
                             MenuFatherId = 0,
                             Name = "CMSCore",
@@ -292,8 +292,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 11,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8693),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8694),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9752),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9753),
                             IconURLPath = "",
                             MenuFatherId = 10,
                             Name = "User",
@@ -306,8 +306,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 12,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8706),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8707),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9767),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9768),
                             IconURLPath = "",
                             MenuFatherId = 10,
                             Name = "Role",
@@ -320,8 +320,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 13,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8719),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8720),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9781),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9782),
                             IconURLPath = "",
                             MenuFatherId = 10,
                             Name = "Menu",
@@ -334,8 +334,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 14,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8732),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8733),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9796),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9797),
                             IconURLPath = "",
                             MenuFatherId = 10,
                             Name = "Permission",
@@ -348,8 +348,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 15,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8745),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8746),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9812),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9812),
                             IconURLPath = "",
                             MenuFatherId = 0,
                             Name = "FiyiRequirements",
@@ -362,8 +362,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 16,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8758),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8759),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9826),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9826),
                             IconURLPath = "",
                             MenuFatherId = 15,
                             Name = "BlogPost",
@@ -376,8 +376,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 17,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8772),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8772),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9840),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9840),
                             IconURLPath = "",
                             MenuFatherId = 15,
                             Name = "Perfil",
@@ -390,8 +390,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 18,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8814),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8814),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9855),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9856),
                             IconURLPath = "",
                             MenuFatherId = 15,
                             Name = "Agenda",
@@ -404,22 +404,8 @@ namespace FiyiRequirements.Migrations
                         {
                             MenuId = 19,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8827),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8827),
-                            IconURLPath = "",
-                            MenuFatherId = 15,
-                            Name = "TitulosYSubtitulos",
-                            Order = 0,
-                            URLPath = "/FiyiRequirements/TituloYSubtituloParaTemasDeInteresPage",
-                            UserCreationId = 1,
-                            UserLastModificationId = 1
-                        },
-                        new
-                        {
-                            MenuId = 20,
-                            Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8840),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8840),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9870),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9870),
                             IconURLPath = "",
                             MenuFatherId = 15,
                             Name = "CarouselTemasDeInteres",
@@ -430,10 +416,10 @@ namespace FiyiRequirements.Migrations
                         },
                         new
                         {
-                            MenuId = 21,
+                            MenuId = 20,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8853),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8853),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9884),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9885),
                             IconURLPath = "",
                             MenuFatherId = 15,
                             Name = "MarketplaceServices",
@@ -444,10 +430,10 @@ namespace FiyiRequirements.Migrations
                         },
                         new
                         {
-                            MenuId = 22,
+                            MenuId = 21,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8867),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8867),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9899),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9900),
                             IconURLPath = "",
                             MenuFatherId = 15,
                             Name = "Estadisticas",
@@ -493,8 +479,8 @@ namespace FiyiRequirements.Migrations
                         {
                             RoleId = 1,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8441),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8441),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9520),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9521),
                             Name = "Root",
                             UserCreationId = 1,
                             UserLastModificationId = 1
@@ -503,8 +489,8 @@ namespace FiyiRequirements.Migrations
                         {
                             RoleId = 2,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8457),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8458),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9565),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9566),
                             Name = "Administrator",
                             UserCreationId = 1,
                             UserLastModificationId = 1
@@ -513,8 +499,8 @@ namespace FiyiRequirements.Migrations
                         {
                             RoleId = 3,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8535),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8536),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9580),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9580),
                             Name = "Client",
                             UserCreationId = 1,
                             UserLastModificationId = 1
@@ -595,8 +581,8 @@ namespace FiyiRequirements.Migrations
                         {
                             UserId = 1,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8267),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8277),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9394),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9405),
                             Email = "novillo.matias1@gmail.com",
                             Password = "Pq5FM4q7dDtlZBGcn0w8P0XjnEPDlTCcLUY5/bWVcuVJ4/kXRyHp62hPgry0R/ur+kEspHc+HK6XqqvA8OLXLw==",
                             RoleId = 1,
@@ -607,8 +593,8 @@ namespace FiyiRequirements.Migrations
                         {
                             UserId = 2,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8305),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8306),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9436),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9437),
                             Email = "kalebem83@gmail.com",
                             Password = "Pq5FM4q7dDtlZBGcn0w8P0XjnEPDlTCcLUY5/bWVcuVJ4/kXRyHp62hPgry0R/ur+kEspHc+HK6XqqvA8OLXLw==",
                             RoleId = 2,
@@ -619,8 +605,8 @@ namespace FiyiRequirements.Migrations
                         {
                             UserId = 3,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8348),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8349),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9454),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9454),
                             Email = "carlos.e.gariglio@gmail.com",
                             Password = "Pq5FM4q7dDtlZBGcn0w8P0XjnEPDlTCcLUY5/bWVcuVJ4/kXRyHp62hPgry0R/ur+kEspHc+HK6XqqvA8OLXLw==",
                             RoleId = 2,
@@ -631,8 +617,8 @@ namespace FiyiRequirements.Migrations
                         {
                             UserId = 4,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8364),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8364),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9471),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9471),
                             Email = "martinlermer@hotmail.com",
                             Password = "Pq5FM4q7dDtlZBGcn0w8P0XjnEPDlTCcLUY5/bWVcuVJ4/kXRyHp62hPgry0R/ur+kEspHc+HK6XqqvA8OLXLw==",
                             RoleId = 2,
@@ -643,8 +629,8 @@ namespace FiyiRequirements.Migrations
                         {
                             UserId = 5,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8378),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8378),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9487),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9487),
                             Email = "paolalocucion@yahoo.com.ar",
                             Password = "Pq5FM4q7dDtlZBGcn0w8P0XjnEPDlTCcLUY5/bWVcuVJ4/kXRyHp62hPgry0R/ur+kEspHc+HK6XqqvA8OLXLw==",
                             RoleId = 2,
@@ -655,8 +641,8 @@ namespace FiyiRequirements.Migrations
                         {
                             UserId = 6,
                             Active = (byte)1,
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8394),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8395),
+                            DateTimeCreation = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9504),
+                            DateTimeLastModification = new DateTime(2024, 3, 19, 20, 54, 47, 731, DateTimeKind.Local).AddTicks(9505),
                             Email = "sinapsiscom@gmail.com",
                             Password = "Pq5FM4q7dDtlZBGcn0w8P0XjnEPDlTCcLUY5/bWVcuVJ4/kXRyHp62hPgry0R/ur+kEspHc+HK6XqqvA8OLXLw==",
                             RoleId = 2,
@@ -665,62 +651,18 @@ namespace FiyiRequirements.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.Agenda", b =>
+            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.Requirement", b =>
                 {
-                    b.Property<int>("AgendaId")
+                    b.Property<int>("RequirementId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AgendaId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("AddressEvent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateTimeCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateTimeLastModification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateTimeOfEvent")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserCreationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserLastModificationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AgendaId");
-
-                    b.ToTable("Agenda");
-                });
-
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.BlogPost", b =>
-                {
-                    b.Property<int>("BlogPostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogPostId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementId"));
 
                     b.Property<byte>("Active")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Body")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateTimeCreation")
@@ -729,169 +671,37 @@ namespace FiyiRequirements.Migrations
                     b.Property<DateTime>("DateTimeLastModification")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
-                        .HasColumnType("varchar(MAX)");
-
-                    b.Property<string>("MainTopic")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<int>("NumberOfComments")
+                    b.Property<int>("RequirementPriorityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfLikes")
+                    b.Property<int>("RequirementStateId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Subtitle")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Tags")
-                        .IsRequired()
-                        .HasColumnType("varchar(8000)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<int>("UserCreationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserLastModificationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BlogPostId");
-
-                    b.ToTable("BlogPost");
-                });
-
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.CarouselTemasDeInteres", b =>
-                {
-                    b.Property<int>("CarouselTemasDeInteresId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarouselTemasDeInteresId"));
-
-                    b.Property<byte>("Active")
-                        .HasColumnType("tinyint");
-
-                    b.Property<DateTime>("DateTimeCreation")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("DateTimeLastModification")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("ImageSlide1")
-                        .IsRequired()
-                        .HasColumnType("varchar(MAX)");
-
-                    b.Property<string>("ImageSlide2")
-                        .IsRequired()
-                        .HasColumnType("varchar(MAX)");
-
-                    b.Property<string>("ImageSlide3")
-                        .IsRequired()
-                        .HasColumnType("varchar(MAX)");
-
-                    b.Property<string>("LinkSlide1")
-                        .IsRequired()
-                        .HasColumnType("varchar(8000)");
-
-                    b.Property<string>("LinkSlide2")
-                        .IsRequired()
-                        .HasColumnType("varchar(8000)");
-
-                    b.Property<string>("LinkSlide3")
-                        .IsRequired()
-                        .HasColumnType("varchar(8000)");
-
-                    b.Property<int>("UserCreationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserLastModificationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CarouselTemasDeInteresId");
-
-                    b.ToTable("CarouselTemasDeInteres");
-                });
-
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.EstadisticaPaginasMasVisitadas", b =>
-                {
-                    b.Property<int>("EstadisticaPaginasMasVisitadasId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadisticaPaginasMasVisitadasId"));
-
-                    b.Property<byte>("Active")
-                        .HasColumnType("tinyint");
-
-                    b.Property<DateTime>("DateTimeCreation")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("DateTimeLastModification")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("PageName")
-                        .IsRequired()
                         .HasColumnType("varchar(500)");
 
                     b.Property<int>("UserCreationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserLastModificationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EstadisticaPaginasMasVisitadasId");
-
-                    b.ToTable("EstadisticaPaginasMasVisitadas");
-                });
-
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.EstadisticaPostsMasVisitados", b =>
-                {
-                    b.Property<int>("EstadisticaPostsMasVisitadosId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadisticaPostsMasVisitadosId"));
-
-                    b.Property<byte>("Active")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("BlogPostId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTimeCreation")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("DateTimeLastModification")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("UserCreationId")
+                    b.Property<int>("UserEmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserLastModificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("EstadisticaPostsMasVisitadosId");
+                    b.HasKey("RequirementId");
 
-                    b.ToTable("EstadisticaPostsMasVisitados");
+                    b.ToTable("Requirement");
                 });
 
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.EstadisticaServiciosMasVisitados", b =>
+            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementChangehistory", b =>
                 {
-                    b.Property<int>("EstadisticaServiciosMasVisitadosId")
+                    b.Property<int>("RequirementChangehistoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadisticaServiciosMasVisitadosId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementChangehistoryId"));
 
                     b.Property<byte>("Active")
                         .HasColumnType("tinyint");
@@ -902,7 +712,13 @@ namespace FiyiRequirements.Migrations
                     b.Property<DateTime>("DateTimeLastModification")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("MarketPlacePostServiceId")
+                    b.Property<int>("RequirementId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequirementPriorityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequirementStateId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserCreationId")
@@ -911,24 +727,21 @@ namespace FiyiRequirements.Migrations
                     b.Property<int>("UserLastModificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("EstadisticaServiciosMasVisitadosId");
+                    b.HasKey("RequirementChangehistoryId");
 
-                    b.ToTable("EstadisticaServiciosMasVisitados");
+                    b.ToTable("RequirementChangehistory");
                 });
 
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.MarketPlacePostService", b =>
+            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementFile", b =>
                 {
-                    b.Property<int>("MarketPlacePostServiceId")
+                    b.Property<int>("RequirementFileId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarketPlacePostServiceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementFileId"));
 
                     b.Property<byte>("Active")
                         .HasColumnType("tinyint");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("varchar(500)");
 
                     b.Property<DateTime>("DateTimeCreation")
                         .HasColumnType("datetime");
@@ -936,97 +749,104 @@ namespace FiyiRequirements.Migrations
                     b.Property<DateTime>("DateTimeLastModification")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("ImageURL")
+                    b.Property<string>("FilePath")
                         .IsRequired()
                         .HasColumnType("varchar(MAX)");
 
-                    b.Property<string>("MainCategory")
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("MainZone")
-                        .IsRequired()
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<int>("NumberOfComments")
+                    b.Property<int>("RequirementId")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfLikes")
+                    b.Property<int>("UserCreationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PointOfServiceNegative")
+                    b.Property<int>("UserLastModificationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PointOfServicePositive")
+                    b.HasKey("RequirementFileId");
+
+                    b.ToTable("RequirementFile");
+                });
+
+            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementNote", b =>
+                {
+                    b.Property<int>("RequirementNoteId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric(18, 2)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementNoteId"));
 
-                    b.Property<string>("ServiceDescription")
+                    b.Property<byte>("Active")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Body")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("DateTimeCreation")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("DateTimeLastModification")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("RequirementId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(250)");
+                        .HasColumnType("varchar(500)");
 
                     b.Property<int>("UserCreationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserLastModificationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Zone")
-                        .HasColumnType("varchar(500)");
+                    b.HasKey("RequirementNoteId");
 
-                    b.HasKey("MarketPlacePostServiceId");
-
-                    b.ToTable("MarketPlacePostService");
+                    b.ToTable("RequirementNote");
                 });
 
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.MarketPlacePostServiceComment", b =>
+            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementPriority", b =>
                 {
-                    b.Property<int>("MarketPlacePostServiceCommentId")
+                    b.Property<int>("RequirementPriorityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarketPlacePostServiceCommentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementPriorityId"));
 
                     b.Property<byte>("Active")
                         .HasColumnType("tinyint");
 
-                    b.Property<string>("Comment")
+                    b.Property<DateTime>("DateTimeCreation")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("DateTimeLastModification")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("DateTimeCreation")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("DateTimeLastModification")
-                        .HasColumnType("datetime");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(300)");
 
                     b.Property<int>("UserCreationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserLastModificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("MarketPlacePostServiceCommentId");
+                    b.HasKey("RequirementPriorityId");
 
-                    b.ToTable("MarketPlacePostServiceComment");
+                    b.ToTable("RequirementPriority");
                 });
 
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.PostThumbsUpAndDown", b =>
+            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementState", b =>
                 {
-                    b.Property<int>("PostThumbsUpAndDownId")
+                    b.Property<int>("RequirementStateId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostThumbsUpAndDownId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementStateId"));
 
                     b.Property<byte>("Active")
                         .HasColumnType("tinyint");
@@ -1037,58 +857,9 @@ namespace FiyiRequirements.Migrations
                     b.Property<DateTime>("DateTimeLastModification")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("MarketplacePostServiceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThumbsUpOrDown")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserCreationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserLastModificationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostThumbsUpAndDownId");
-
-                    b.ToTable("PostThumbsUpAndDown");
-                });
-
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.TituloYSubtituloParaTemasDeInteres", b =>
-                {
-                    b.Property<int>("TituloYSubtituloParaTemasDeInteresId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TituloYSubtituloParaTemasDeInteresId"));
-
-                    b.Property<byte>("Active")
-                        .HasColumnType("tinyint");
-
-                    b.Property<DateTime>("DateTimeCreation")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("DateTimeLastModification")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("MainTopic")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Subtitle")
-                        .IsRequired()
-                        .HasColumnType("varchar(3000)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("varchar(300)");
 
                     b.Property<int>("UserCreationId")
                         .HasColumnType("int");
@@ -1096,109 +867,9 @@ namespace FiyiRequirements.Migrations
                     b.Property<int>("UserLastModificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("TituloYSubtituloParaTemasDeInteresId");
+                    b.HasKey("RequirementStateId");
 
-                    b.ToTable("TituloYSubtituloParaTemasDeInteres");
-                });
-
-            modelBuilder.Entity("FiyiRequirements.Areas.FiyiRequirements.Entities.UserProfile", b =>
-                {
-                    b.Property<int>("UserProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserProfileId"));
-
-                    b.Property<byte>("Active")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("varchar(800)");
-
-                    b.Property<DateTime>("DateTimeCreation")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("DateTimeLastModification")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<byte>("IsSubscriptedToMensualNews")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("JobTitle")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("MainZone")
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<int>("PointProfileCompletion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PointTrustService")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProfileImage")
-                        .IsRequired()
-                        .HasColumnType("varchar(MAX)");
-
-                    b.Property<string>("ProfileInformation")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Sex")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserCreationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserLastModificationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Zone")
-                        .HasColumnType("varchar(500)");
-
-                    b.HasKey("UserProfileId");
-
-                    b.ToTable("UserProfile");
-
-                    b.HasData(
-                        new
-                        {
-                            UserProfileId = 1,
-                            Active = (byte)1,
-                            Address = "Natania 19. Manzana 126. Casa 1",
-                            BirthDate = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8417),
-                            City = "Cordoba Capital",
-                            DateTimeCreation = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8414),
-                            DateTimeLastModification = new DateTime(2024, 1, 28, 22, 50, 9, 995, DateTimeKind.Local).AddTicks(8415),
-                            FullName = "Matias Alejandro Novillo",
-                            IsSubscriptedToMensualNews = (byte)1,
-                            JobTitle = "Desarrollador web",
-                            PhoneNumber = "+543512329541",
-                            PointProfileCompletion = 15,
-                            PointTrustService = 50,
-                            ProfileImage = "Uploads/FiyiRequirements/UserProfile/1.png",
-                            ProfileInformation = "Hola, soy Matias",
-                            Sex = 1,
-                            UserCreationId = 1,
-                            UserId = 1,
-                            UserLastModificationId = 1
-                        });
+                    b.ToTable("RequirementState");
                 });
 #pragma warning restore 612, 618
         }
