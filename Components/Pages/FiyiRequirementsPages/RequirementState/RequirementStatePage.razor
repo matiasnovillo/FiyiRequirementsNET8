@@ -38,7 +38,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search requirementstate by RequirementStateId..." />
+                               placeholder="Search state by name..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
@@ -344,7 +344,7 @@ else
                                         .GetAllByRoleId(User.RoleId, lstMenu);
 
                     paginatedRequirementStateDTO = requirementstateRepository
-                                                .GetAllByRequirementStateIdPaginated(
+                                                .GetAllByNamePaginated(
                                                     "",
                                                     checkStrict,
                                                     1,
@@ -406,7 +406,7 @@ else
             TextToSearch = args.Value.ToString();
 
             paginatedRequirementStateDTO = requirementstateRepository
-                                        .GetAllByRequirementStateIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,
@@ -448,7 +448,7 @@ else
         if (paginatedRequirementStateDTO.HasPreviousPage)
         {
             paginatedRequirementStateDTO = requirementstateRepository
-                                        .GetAllByRequirementStateIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementStateDTO.PageIndex - 1),
@@ -465,7 +465,7 @@ else
     private async Task OnPageSelected(int pageIndex)
     {
         paginatedRequirementStateDTO = requirementstateRepository
-                                            .GetAllByRequirementStateIdPaginated(
+                                            .GetAllByNamePaginated(
                                                 TextToSearch,
                                                 checkStrict,
                                                 pageIndex,
@@ -483,7 +483,7 @@ else
         if (paginatedRequirementStateDTO.HasNextPage)
         {
             paginatedRequirementStateDTO = requirementstateRepository
-                                        .GetAllByRequirementStateIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementStateDTO.PageIndex + 1),
@@ -512,7 +512,7 @@ else
             requirementstateRepository.DeleteByRequirementStateId(requirementstateId);
 
             paginatedRequirementStateDTO = requirementstateRepository
-                                        .GetAllByRequirementStateIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,

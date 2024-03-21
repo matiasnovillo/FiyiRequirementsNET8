@@ -66,7 +66,7 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedRequirementPriorityDTO GetAllByRequirementPriorityIdPaginated(string textToSearch,
+        public paginatedRequirementPriorityDTO GetAllByNamePaginated(string textToSearch,
             bool strictSearch,
             int pageIndex, 
             int pageSize)
@@ -83,9 +83,9 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
 
                 var paginatedRequirementPriority = _context.RequirementPriority
                         .Where(x => strictSearch ?
-                            words.All(word => x.RequirementPriorityId.ToString().Contains(word)) :
-                            words.Any(word => x.RequirementPriorityId.ToString().Contains(word)))
-                        .OrderBy(p => p.RequirementPriorityId)
+                            words.All(word => x.Name.Contains(word)) :
+                            words.Any(word => x.Name.Contains(word)))
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();

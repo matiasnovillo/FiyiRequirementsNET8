@@ -38,7 +38,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search requirementpriority by RequirementPriorityId..." />
+                               placeholder="Search priority by name..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
@@ -347,7 +347,7 @@ else
                                         .GetAllByRoleId(User.RoleId, lstMenu);
 
                     paginatedRequirementPriorityDTO = requirementpriorityRepository
-                                                .GetAllByRequirementPriorityIdPaginated(
+                                                .GetAllByNamePaginated(
                                                     "",
                                                     checkStrict,
                                                     1,
@@ -409,7 +409,7 @@ else
             TextToSearch = args.Value.ToString();
 
             paginatedRequirementPriorityDTO = requirementpriorityRepository
-                                        .GetAllByRequirementPriorityIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,
@@ -451,7 +451,7 @@ else
         if (paginatedRequirementPriorityDTO.HasPreviousPage)
         {
             paginatedRequirementPriorityDTO = requirementpriorityRepository
-                                        .GetAllByRequirementPriorityIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementPriorityDTO.PageIndex - 1),
@@ -468,7 +468,7 @@ else
     private async Task OnPageSelected(int pageIndex)
     {
         paginatedRequirementPriorityDTO = requirementpriorityRepository
-                                            .GetAllByRequirementPriorityIdPaginated(
+                                            .GetAllByNamePaginated(
                                                 TextToSearch,
                                                 checkStrict,
                                                 pageIndex,
@@ -486,7 +486,7 @@ else
         if (paginatedRequirementPriorityDTO.HasNextPage)
         {
             paginatedRequirementPriorityDTO = requirementpriorityRepository
-                                        .GetAllByRequirementPriorityIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementPriorityDTO.PageIndex + 1),
@@ -515,7 +515,7 @@ else
             requirementpriorityRepository.DeleteByRequirementPriorityId(requirementpriorityId);
 
             paginatedRequirementPriorityDTO = requirementpriorityRepository
-                                        .GetAllByRequirementPriorityIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,
