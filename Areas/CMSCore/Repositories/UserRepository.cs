@@ -77,7 +77,7 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedUserDTO GetAllByUserIdPaginated(string textToSearch,
+        public paginatedUserDTO GetAllByEmailPaginated(string textToSearch,
             bool strictSearch,
             int pageIndex, 
             int pageSize)
@@ -94,9 +94,9 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
 
                 var paginatedUser =  _context.User
                         .Where(x => strictSearch ?
-                            words.All(word => x.UserId.ToString().Contains(word)) :
-                            words.Any(word => x.UserId.ToString().Contains(word)))
-                        .OrderBy(p => p.UserId)
+                            words.All(word => x.Email.ToString().Contains(word)) :
+                            words.Any(word => x.Email.ToString().Contains(word)))
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();

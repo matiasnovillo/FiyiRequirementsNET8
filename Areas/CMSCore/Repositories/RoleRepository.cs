@@ -66,7 +66,7 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedRoleDTO GetAllByRoleIdPaginated(string textToSearch,
+        public paginatedRoleDTO GetAllByNamePaginated(string textToSearch,
             bool strictSearch,
             int pageIndex, 
             int pageSize)
@@ -83,9 +83,9 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
 
                 var paginatedRole = _context.Role
                         .Where(x => strictSearch ?
-                            words.All(word => x.RoleId.ToString().Contains(word)) :
-                            words.Any(word => x.RoleId.ToString().Contains(word)))
-                        .OrderBy(p => p.RoleId)
+                            words.All(word => x.Name.Contains(word)) :
+                            words.Any(word => x.Name.Contains(word)))
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();

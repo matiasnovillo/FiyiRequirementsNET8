@@ -66,7 +66,7 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedMenuDTO GetAllByMenuIdPaginated(string textToSearch,
+        public paginatedMenuDTO GetAllByNameOrURLPathPaginated(string textToSearch,
             bool strictSearch,
             int pageIndex, 
             int pageSize)
@@ -83,9 +83,11 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
 
                 var paginatedMenu = _context.Menu
                         .Where(x => strictSearch ?
-                            words.All(word => x.MenuId.ToString().Contains(word)) :
-                            words.Any(word => x.MenuId.ToString().Contains(word)))
-                        .OrderBy(p => p.MenuId)
+                            words.All(word => x.Name.Contains(word) ||
+                                        x.URLPath.Contains(word)) :
+                            words.Any(word => x.Name.Contains(word) ||
+                                        x.URLPath.Contains(word)))
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();

@@ -36,7 +36,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search parameter by ParameterId..." />
+                               placeholder="Search parameter by name..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
@@ -348,7 +348,7 @@ else
                                             .GetAllByRoleId(User.RoleId, lstMenu);
 
                     paginatedParameterDTO = parameterRepository
-                                                .GetAllByParameterIdPaginated(
+                                                .GetAllByNamePaginated(
                                                     "",
                                                     checkStrict,
                                                     1,
@@ -409,7 +409,7 @@ else
             TextToSearch = args.Value.ToString();
 
             paginatedParameterDTO = parameterRepository
-                                        .GetAllByParameterIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,
@@ -450,7 +450,7 @@ else
         if (paginatedParameterDTO.HasPreviousPage)
         {
             paginatedParameterDTO = parameterRepository
-                                        .GetAllByParameterIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedParameterDTO.PageIndex - 1),
@@ -467,7 +467,7 @@ else
     private void OnPageSelected(int pageIndex)
     {
         paginatedParameterDTO = paginatedParameterDTO = parameterRepository
-                                                        .GetAllByParameterIdPaginated(
+                                                        .GetAllByNamePaginated(
                                                             TextToSearch,
                                                             checkStrict,
                                                             pageIndex,
@@ -485,7 +485,7 @@ else
         if (paginatedParameterDTO.HasNextPage)
         {
             paginatedParameterDTO = parameterRepository
-                                        .GetAllByParameterIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedParameterDTO.PageIndex + 1),
@@ -514,7 +514,7 @@ else
             parameterRepository.DeleteByParameterId(parameterId);
 
             paginatedParameterDTO = parameterRepository
-                                        .GetAllByParameterIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,

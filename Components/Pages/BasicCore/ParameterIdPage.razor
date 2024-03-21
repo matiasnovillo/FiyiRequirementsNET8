@@ -127,7 +127,7 @@ else
 
     public User? User { get; set; }
 
-    
+
     #endregion
 
     protected override void OnInitialized()
@@ -216,7 +216,11 @@ else
             if (ParameterId == 0)
             {
                 //Create new Parameter
-                Parameter.ParameterId = 0;
+                Parameter.Active = true;
+                Parameter.DateTimeCreation = DateTime.Now;
+                Parameter.DateTimeLastModification = DateTime.Now;
+                Parameter.UserCreationId = User.UserId;
+                Parameter.UserLastModificationId = User.UserId;
 
                 parameterRepository
                         .Add(Parameter);
@@ -224,6 +228,9 @@ else
             else
             {
                 //Update data
+                Parameter.DateTimeLastModification = DateTime.Now;
+                Parameter.UserLastModificationId = User.UserId;
+
                 parameterRepository
                             .Update(Parameter);
             }

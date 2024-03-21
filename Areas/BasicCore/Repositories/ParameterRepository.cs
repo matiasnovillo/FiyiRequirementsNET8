@@ -65,7 +65,7 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedParameterDTO GetAllByParameterIdPaginated(string textToSearch,
+        public paginatedParameterDTO GetAllByNamePaginated(string textToSearch,
             bool strictSearch,
             int pageIndex, 
             int pageSize)
@@ -82,9 +82,9 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
 
                 var paginatedParameter = _context.Parameter
                         .Where(x => strictSearch ?
-                            words.All(word => x.ParameterId.ToString().Contains(word)) :
-                            words.Any(word => x.ParameterId.ToString().Contains(word)))
-                        .OrderBy(p => p.ParameterId)
+                            words.All(word => x.Name.Contains(word)) :
+                            words.Any(word => x.Name.Contains(word)))
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();

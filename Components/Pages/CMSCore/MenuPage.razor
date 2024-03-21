@@ -39,7 +39,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search menu by MenuId..." />
+                               placeholder="Search menu by name or URL path..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
@@ -329,7 +329,7 @@
                                             .GetAllByRoleId(User.RoleId, lstMenu);
 
                     paginatedMenuDTO = menuRepository
-                                                .GetAllByMenuIdPaginated(
+                                                .GetAllByNameOrURLPathPaginated(
                                                     "",
                                                     checkStrict,
                                                     1,
@@ -390,7 +390,7 @@
             TextToSearch = args.Value.ToString();
 
             paginatedMenuDTO = menuRepository
-                                        .GetAllByMenuIdPaginated(
+                                        .GetAllByNameOrURLPathPaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,
@@ -431,7 +431,7 @@
         if (paginatedMenuDTO.HasPreviousPage)
         {
             paginatedMenuDTO = menuRepository
-                                        .GetAllByMenuIdPaginated(
+                                        .GetAllByNameOrURLPathPaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedMenuDTO.PageIndex - 1),
@@ -448,7 +448,7 @@
     private void OnPageSelected(int pageIndex)
     {
         paginatedMenuDTO = paginatedMenuDTO = menuRepository
-                                                        .GetAllByMenuIdPaginated(
+                                                        .GetAllByNameOrURLPathPaginated(
                                                             TextToSearch,
                                                             checkStrict,
                                                             pageIndex,
@@ -466,7 +466,7 @@
         if (paginatedMenuDTO.HasNextPage)
         {
             paginatedMenuDTO = menuRepository
-                                        .GetAllByMenuIdPaginated(
+                                        .GetAllByNameOrURLPathPaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedMenuDTO.PageIndex + 1),
@@ -495,7 +495,7 @@
             menuRepository.DeleteByMenuId(menuId);
 
             paginatedMenuDTO = menuRepository
-                                        .GetAllByMenuIdPaginated(
+                                        .GetAllByNameOrURLPathPaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,

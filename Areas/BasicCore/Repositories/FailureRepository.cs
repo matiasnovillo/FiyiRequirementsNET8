@@ -84,7 +84,7 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
                         .Where(x => strictSearch ?
                             words.All(word => x.FailureId.ToString().Contains(word)) :
                             words.Any(word => x.FailureId.ToString().Contains(word)))
-                        .OrderBy(p => p.FailureId)
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();

@@ -39,7 +39,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search role by RoleId..." />
+                               placeholder="Search role by name..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
@@ -317,7 +317,7 @@
                                             .GetAllByRoleId(User.RoleId, lstMenu);
 
                     paginatedRoleDTO = roleRepository
-                                                .GetAllByRoleIdPaginated(
+                                                .GetAllByNamePaginated(
                                                     "",
                                                     checkStrict,
                                                     1,
@@ -378,7 +378,7 @@
             TextToSearch = args.Value.ToString();
 
             paginatedRoleDTO = roleRepository
-                                        .GetAllByRoleIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,
@@ -419,7 +419,7 @@
         if (paginatedRoleDTO.HasPreviousPage)
         {
             paginatedRoleDTO = roleRepository
-                                        .GetAllByRoleIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRoleDTO.PageIndex - 1),
@@ -436,7 +436,7 @@
     private void OnPageSelected(int pageIndex)
     {
         paginatedRoleDTO = paginatedRoleDTO = roleRepository
-                                                        .GetAllByRoleIdPaginated(
+                                                        .GetAllByNamePaginated(
                                                             TextToSearch,
                                                             checkStrict,
                                                             pageIndex,
@@ -454,7 +454,7 @@
         if (paginatedRoleDTO.HasNextPage)
         {
             paginatedRoleDTO = roleRepository
-                                        .GetAllByRoleIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRoleDTO.PageIndex + 1),
@@ -483,7 +483,7 @@
             roleRepository.DeleteByRoleId(roleId);
 
             paginatedRoleDTO = roleRepository
-                                        .GetAllByRoleIdPaginated(
+                                        .GetAllByNamePaginated(
                                             TextToSearch,
                                             checkStrict,
                                             1,
