@@ -26,10 +26,11 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Interfaces
 
         List<Requirement?> GetAll();
 
-        paginatedRequirementDTO GetAllByRequirementIdPaginated(string textToSearch,
+        paginatedRequirementDTO GetAllByTitlePaginatedAndOtherFilters(string textToSearch,
             bool strictSearch,
             int pageIndex,
-            int pageSize);
+            int pageSize,
+            int requirementStateId);
         #endregion
 
         #region Non-Queries

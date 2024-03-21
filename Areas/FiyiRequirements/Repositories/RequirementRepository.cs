@@ -66,10 +66,11 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedRequirementDTO GetAllByRequirementIdPaginated(string textToSearch,
+        public paginatedRequirementDTO GetAllByTitlePaginatedAndOtherFilters(string textToSearch,
             bool strictSearch,
             int pageIndex, 
-            int pageSize)
+            int pageSize,
+            int requirementStateId)
         {
             try
             {
@@ -81,14 +82,33 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
 
                 int TotalRequirement = _context.Requirement.Count();
 
-                var paginatedRequirement = _context.Requirement
+                var paginatedRequirement = _context.Requirement.ToList();
+
+                if (requirementStateId == 0)
+                {
+                    paginatedRequirement = _context.Requirement
                         .Where(x => strictSearch ?
-                            words.All(word => x.RequirementId.ToString().Contains(word)) :
-                            words.Any(word => x.RequirementId.ToString().Contains(word)))
-                        .OrderBy(p => p.RequirementId)
+                            words.All(word => x.Title.ToString().Contains(word)) :
+                            words.Any(word => x.Title.ToString().Contains(word)))
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+                }
+                else
+                {
+                    paginatedRequirement = _context.Requirement
+                                            .Where(x => strictSearch ?
+                                                words.All(word => x.Title.ToString().Contains(word)) :
+                                                words.Any(word => x.Title.ToString().Contains(word)))
+                                            .Where(x => x.RequirementStateId == requirementStateId)
+                                            .OrderByDescending(p => p.DateTimeLastModification)
+                                            .Skip((pageIndex - 1) * pageSize)
+                                            .Take(pageSize)
+                                            .ToList();
+                }
+
+                
 
                 return new paginatedRequirementDTO
                 {

@@ -4,7 +4,11 @@
 @using FiyiRequirements.Areas.FiyiRequirements.Repositories;
 @using FiyiRequirements.Areas.FiyiRequirements.Entities;
 @using FiyiRequirements.Areas.FiyiRequirements.DTOs;
+@using FiyiRequirements.Areas.CMSCore.Repositories;
 @inject RequirementRepository requirementRepository;
+@inject RequirementStateRepository requirementStateRepository;
+@inject RequirementPriorityRepository requirementPriorityRepository;
+@inject UserRepository userRepository;
 
 @if (RequirementId == 0)
 {
@@ -45,18 +49,6 @@ else
                 <form method="post" @onsubmit="Submit"
                       @formname="requirement-form" class="mb-4">
                     <AntiforgeryToken />
-                    <!--Active-->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               name="strict-search"
-                               @bind="Requirement!.Active"
-                               id="active" />
-                        <label class="form-check-label"
-                               for="active">
-                            Active
-                        </label>
-                    </div>
                     <!--Title-->
                     <div class="mb-3">
                         <label for="title"
@@ -140,33 +132,48 @@ else
                     <div class="mb-3">
                         <label for="requirementstateid"
                                class="input-group input-group-static">
-                            RequirementStateId
+                            State
                         </label>
                         <select id="requirementstateid"
                             class="form-control"
                             @bind=Requirement.RequirementStateId>
+                            <option value="0" selected>Seleccionar</option>
+                            @foreach (FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementState state in lstState)
+                            {
+                                <option value="@state.RequirementStateId">@state.Name</option>
+                            }
                         </select>
                     </div>
                     <!--RequirementPriorityId-->
                     <div class="mb-3">
                         <label for="requirementpriorityid"
                                class="input-group input-group-static">
-                            RequirementPriorityId
+                            Priority
                         </label>
                         <select id="requirementpriorityid"
                             class="form-control"
                             @bind=Requirement.RequirementPriorityId>
+                            <option value="0" selected>Seleccionar</option>
+                            @foreach (FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementPriority priority in lstPriority)
+                            {
+                                <option value="@priority.RequirementPriorityId">@priority.Name</option>
+                            }
                         </select>
                     </div>
                     <!--UserEmployeeId-->
                     <div class="mb-3">
                         <label for="useremployeeid"
                                class="input-group input-group-static">
-                            UserEmployeeId
+                            User/Employee
                         </label>
                         <select id="useremployeeid"
                             class="form-control"
                             @bind=Requirement.UserEmployeeId>
+                            <option value="0" selected>Seleccionar</option>
+                            @foreach (FiyiRequirements.Areas.CMSCore.Entities.User employee in lstEmployee)
+                            {
+                                <option value="@employee.UserId">@employee.Email</option>
+                            }
                         </select>
                     </div>
                     
@@ -212,7 +219,11 @@ else
 
     public User User { get; set; } = new();
 
-    
+    public List<FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementState> lstState = [];
+
+    public List<FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementPriority> lstPriority = [];
+
+    public List<FiyiRequirements.Areas.CMSCore.Entities.User> lstEmployee = [];
     #endregion
 
     protected override void OnInitialized()
@@ -243,6 +254,12 @@ else
 
                     lstRole = roleRepository.GetAll();
 
+                    lstState = requirementStateRepository.GetAll();
+
+                    lstPriority = requirementPriorityRepository.GetAll();
+
+                    lstEmployee = userRepository.GetAllByRoleAsRoot();
+
                     if (RequirementId == 0)
                     {
                         //Create new Requirement
@@ -251,7 +268,7 @@ else
                     else
                     {
                         //Edit Requirement
-                        
+
                         Requirement = requirementRepository
                                     .GetByRequirementId(RequirementId);
                     }
@@ -299,10 +316,25 @@ else
     {
         try
         {
+            if (Requirement.Title == "" || 
+            Requirement.UserEmployeeId == 0 ||
+            Requirement.RequirementPriorityId == 0 ||
+            Requirement.RequirementStateId == 0)
+            {
+                MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Por favor, complete todos los datos
+                            </div>";
+                return;
+            }
+
+
             if (RequirementId == 0)
             {
                 //Create new Requirement
                 Requirement.RequirementId = 0;
+                Requirement.Active = true;
+                Requirement.UserCreationId = User.UserId;
+                Requirement.UserLastModificationId = User.UserId;
 
                 Requirement.DateTimeCreation = DateTime.Now;
                 Requirement.DateTimeLastModification = DateTime.Now;
@@ -314,6 +346,7 @@ else
             {
                 //Update data
                 Requirement.DateTimeLastModification = DateTime.Now;
+                Requirement.UserLastModificationId = User.UserId;
 
                 requirementRepository
                             .Update(Requirement);

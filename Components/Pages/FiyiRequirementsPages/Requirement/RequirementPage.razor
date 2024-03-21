@@ -5,6 +5,7 @@
 @using FiyiRequirements.Areas.FiyiRequirements.Entities;
 @using FiyiRequirements.Areas.FiyiRequirements.DTOs;
 @inject RequirementRepository requirementRepository;
+@inject RequirementStateRepository requirementStateRepository;
 
 <PageTitle>Query Requirement - FiyiRequirements</PageTitle>
 
@@ -38,7 +39,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search requirement by RequirementId..." />
+                               placeholder="Search requirement by title..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
@@ -54,6 +55,23 @@
                                     Strict search
                                 </label>
                             </div>
+                        </div>
+                        <h6 class="mt-3">Filters</h6>
+                        <!--RequirementStateId-->
+                        <div class="mb-3">
+                            <label for="requirementstateid"
+                                   class="input-group input-group-static">
+                                State
+                            </label>
+                            <select id="requirementstateid"
+                                    class="form-control"
+                                    @onchange="RequirementStateIdChanged">
+                                <option value="0" selected>Seleccionar</option>
+                                @foreach (FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementState state in lstState)
+                                {
+                                    <option value="@state.RequirementStateId">@state.Name</option>
+                                }
+                            </select>
                         </div>
                         <br />
                         <h6><b>View type</b></h6>
@@ -322,9 +340,13 @@ else
 
     public User User = new();
 
-    public Requirement Requirement = new();
+    public Requirement Requirement { get; set; } = new();
+
+    public int RequirementStateId { get; set; } = 0;
 
     paginatedRequirementDTO paginatedRequirementDTO = new();
+
+    public List<FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementState> lstState = [];
     #endregion
 
     protected override void OnInitialized()
@@ -356,16 +378,19 @@ else
                                         .GetAllByRoleId(User.RoleId, lstMenu);
 
                     paginatedRequirementDTO = requirementRepository
-                                                .GetAllByRequirementIdPaginated(
+                                                .GetAllByTitlePaginatedAndOtherFilters(
                                                     "",
                                                     checkStrict,
                                                     1,
-                                                    15);
+                                                    15,
+                                                    RequirementStateId);
 
                     TotalRows = requirementRepository
                                     .Count();
 
                     ChosenView = "list";
+
+                    lstState = requirementStateRepository.GetAll();
                 }
                 else
                 {
@@ -408,6 +433,53 @@ else
     }
 
     #region Events
+    private async Task RequirementStateIdChanged(ChangeEventArgs args)
+    {
+        try
+        {
+            RequirementStateId = Convert.ToInt32(args.Value);
+
+            //Basic configuration
+            Message = "";
+
+            paginatedRequirementDTO = requirementRepository
+                                        .GetAllByTitlePaginatedAndOtherFilters(
+                                            TextToSearch,
+                                            checkStrict,
+                                            1,
+                                            15,
+                                            RequirementStateId);
+
+            TotalRows = requirementRepository
+                            .Count();
+
+            //Re-render the page
+            await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Failure failure = new()
+                {
+                    Active = true,
+                    DateTimeCreation = DateTime.Now,
+                    DateTimeLastModification = DateTime.Now,
+                    UserCreationId = 1,
+                    UserLastModificationId = 1,
+                    EmergencyLevel = 1,
+                    Comment = "",
+                    Message = ex.Message,
+                    Source = ex.Source,
+                    StackTrace = ex.StackTrace
+                };
+
+            failureRepository.Add(failure);
+
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                            </div>";
+        }
+    }
+
     private async Task SearchText(ChangeEventArgs args)
     {
         try
@@ -418,11 +490,12 @@ else
             TextToSearch = args.Value.ToString();
 
             paginatedRequirementDTO = requirementRepository
-                                        .GetAllByRequirementIdPaginated(
+                                        .GetAllByTitlePaginatedAndOtherFilters(
                                             TextToSearch,
                                             checkStrict,
                                             1,
-                                            15);
+                                            15,
+                                            RequirementStateId);
 
             TotalRows = requirementRepository
                             .Count();
@@ -460,11 +533,12 @@ else
         if (paginatedRequirementDTO.HasPreviousPage)
         {
             paginatedRequirementDTO = requirementRepository
-                                        .GetAllByRequirementIdPaginated(
+                                        .GetAllByTitlePaginatedAndOtherFilters(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementDTO.PageIndex - 1),
-                                            paginatedRequirementDTO.PageSize);
+                                            paginatedRequirementDTO.PageSize,
+                                            RequirementStateId);
         }
 
         TotalRows = requirementRepository
@@ -477,11 +551,12 @@ else
     private async Task OnPageSelected(int pageIndex)
     {
         paginatedRequirementDTO = requirementRepository
-                                            .GetAllByRequirementIdPaginated(
+                                            .GetAllByTitlePaginatedAndOtherFilters(
                                                 TextToSearch,
                                                 checkStrict,
                                                 pageIndex,
-                                                paginatedRequirementDTO.PageSize);
+                                                paginatedRequirementDTO.PageSize,
+                                                RequirementStateId);
 
         TotalRows = requirementRepository
                         .Count();
@@ -495,11 +570,12 @@ else
         if (paginatedRequirementDTO.HasNextPage)
         {
             paginatedRequirementDTO = requirementRepository
-                                        .GetAllByRequirementIdPaginated(
+                                        .GetAllByTitlePaginatedAndOtherFilters(
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementDTO.PageIndex + 1),
-                                            paginatedRequirementDTO.PageSize);
+                                            paginatedRequirementDTO.PageSize,
+                                            RequirementStateId);
         }
 
         TotalRows = requirementRepository
@@ -524,11 +600,12 @@ else
             requirementRepository.DeleteByRequirementId(requirementId);
 
             paginatedRequirementDTO = requirementRepository
-                                        .GetAllByRequirementIdPaginated(
+                                        .GetAllByTitlePaginatedAndOtherFilters(
                                             TextToSearch,
                                             checkStrict,
                                             1,
-                                            15);
+                                            15,
+                                            RequirementStateId);
 
             TotalRows = requirementRepository
                                 .Count();

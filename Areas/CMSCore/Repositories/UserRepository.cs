@@ -66,6 +66,17 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
             catch (Exception) { throw; }
         }
 
+        public List<User> GetAllByRoleAsRoot()
+        {
+            try
+            {
+                return _context.User
+                    .Where(x => x.RoleId == 1) //Only Root
+                    .ToList();
+            }
+            catch (Exception) { throw; }
+        }
+
         public paginatedUserDTO GetAllByUserIdPaginated(string textToSearch,
             bool strictSearch,
             int pageIndex, 
