@@ -8,11 +8,11 @@
 
 @if (RoleId == 0)
 {
-    <PageTitle>Add role - FiyiRequirements</PageTitle>
+    <PageTitle>Agrega rol - FiyiRequirements</PageTitle>
 }
 else
 {
-    <PageTitle>Edit role - FiyiRequirements</PageTitle>
+    <PageTitle>Editar rol - FiyiRequirements</PageTitle>
 }
 
 <FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
@@ -29,16 +29,16 @@ else
                 <h1 class="mb-3">
                     @if(RoleId == 0)
                     {
-                        <span>Add role</span>
+                        <span>Agregar rol</span>
                     }
                     else
                     {
-                        <span>Edit role</span>
+                        <span>Editar rol</span>
                     }
                 </h1>
                 <NavLink class="btn btn-outline-info" href="CMSCore/RolePage">
                     <span class="fas fa-chevron-left"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
             </div>
             <div class="card-body px-0">
@@ -49,7 +49,7 @@ else
                     <div class="mb-3">
                         <label for="name"
                                class="input-group input-group-static">
-                            Name
+                            Nombre
                         </label>
                         <input type="text"
                                id="name"
@@ -64,23 +64,21 @@ else
                         <i class="fas fa-pen"></i>
                         @if (RoleId == 0)
                         {
-                            <span>Add</span>
+                            <span>Agregar</span>
                         }
                         else
                         {
-                            <span>Edit</span>
+                            <span>Editar</span>
                         }
                     </button>
                     <NavLink class="btn btn-outline-info" href="CMSCore/RolePage">
                         <span class="fas fa-chevron-left"></span>
-                        &nbsp;Go back
+                        &nbsp;Volver
                     </NavLink>
                 </form>
-                @if (MessageForForm != "")
+                @if (Message != "")
                 {
-                    <span class="text-danger">
-                        @((MarkupString)MessageForForm)
-                    </span>
+                    @((MarkupString)Message)
                 }
             </div>
         </div>
@@ -98,7 +96,7 @@ else
     [Parameter]
     public int RoleId { get; set; }
 
-    public string MessageForForm { get; set; } = "";
+    public string Message { get; set; } = "";
 
     [SupplyParameterFromForm]
     public Role Role { get; set; } = new();
@@ -182,8 +180,9 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"There was a mistake. Try again.
-                             Error message: {ex.Message}";
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                            Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                         </div>";
         }
     }
 
@@ -233,8 +232,9 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"There was a mistake. Try again.
-                             Error message: {ex.Message}";
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                            Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                         </div>";
         }
         finally
         {

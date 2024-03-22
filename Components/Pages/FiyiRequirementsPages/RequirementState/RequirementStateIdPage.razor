@@ -8,11 +8,11 @@
 
 @if (RequirementStateId == 0)
 {
-    <PageTitle>Add requirementstate - FiyiRequirements</PageTitle>
+    <PageTitle>Agregar estado - FiyiRequirements</PageTitle>
 }
 else
 {
-    <PageTitle>Edit requirementstate - FiyiRequirements</PageTitle>
+    <PageTitle>Editar estado - FiyiRequirements</PageTitle>
 }
 
 <FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
@@ -29,39 +29,27 @@ else
                 <h1 class="mb-3">
                     @if(RequirementStateId == 0)
                     {
-                        <span>Add requirementstate</span>
+                        <span>Agregar estado</span>
                     }
                     else
                     {
-                        <span>Edit requirementstate</span>
+                        <span>Editar estado</span>
                     }
                 </h1>
                 <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementStatePage">
                     <span class="fas fa-chevron-left"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
             </div>
             <div class="card-body px-0">
                 <form method="post" @onsubmit="Submit"
                       @formname="requirementstate-form" class="mb-4">
                     <AntiforgeryToken />
-                    <!--Active-->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               name="strict-search"
-                               @bind="RequirementState!.Active"
-                               id="active" />
-                        <label class="form-check-label"
-                               for="active">
-                            Active
-                        </label>
-                    </div>
                     <!--Name-->
                     <div class="mb-3">
                         <label for="name"
                                class="input-group input-group-static">
-                            Name
+                            Nombre
                         </label>
                         <input type="text"
                                id="name"
@@ -76,19 +64,19 @@ else
                         <i class="fas fa-pen"></i>
                         @if (RequirementStateId == 0)
                         {
-                            <span>Add</span>
+                            <span>Agregar</span>
                         }
                         else
                         {
-                            <span>Edit</span>
+                            <span>Editar</span>
                         }
                     </button>
                     <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementStatePage">
                         <span class="fas fa-chevron-left"></span>
-                        &nbsp;Go back
+                        &nbsp;Volver
                     </NavLink>
                 </form>
-                @((MarkupString)MessageForForm)
+                @((MarkupString)Message)
             </div>
         </div>
     </div>
@@ -105,7 +93,7 @@ else
     [Parameter]
     public int RequirementStateId { get; set; }
 
-    public string MessageForForm { get; set; } = "";
+    public string Message { get; set; } = "";
 
     [SupplyParameterFromForm]
     public RequirementState RequirementState { get; set; } = new();
@@ -189,9 +177,9 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
-                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
-                            </div>";
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                    Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                                </div>";
         }
     }
 
@@ -203,6 +191,9 @@ else
             {
                 //Create new RequirementState
                 RequirementState.RequirementStateId = 0;
+                RequirementState.Active = true;
+                RequirementState.UserCreationId = User.UserId;
+                RequirementState.UserLastModificationId = User.UserId;
 
                 RequirementState.DateTimeCreation = DateTime.Now;
                 RequirementState.DateTimeLastModification = DateTime.Now;
@@ -214,6 +205,7 @@ else
             {
                 //Update data
                 RequirementState.DateTimeLastModification = DateTime.Now;
+                RequirementState.UserLastModificationId = User.UserId;
 
                 requirementstateRepository
                             .Update(RequirementState);
@@ -240,9 +232,9 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
-                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
-                            </div>";
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                    Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                                </div>";
         }
         finally
         {

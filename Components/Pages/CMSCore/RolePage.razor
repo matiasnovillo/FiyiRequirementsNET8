@@ -6,7 +6,7 @@
 @using FiyiRequirements.Areas.CMSCore.DTOs;
 @inject RoleRepository roleRepository;
 
-<PageTitle>Query Role - FiyiRequirements</PageTitle>
+<PageTitle>Buscar roles - FiyiRequirements</PageTitle>
 
 <FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
@@ -20,15 +20,15 @@
         <div class="card card-body mx-3 mx-md-4 mt-n6">
             <div class="card-header mb-0 pb-0 bg-white">
                 <h1 class="mb-3">
-                    Query role
+                    Buscar roles
                 </h1>
                 <NavLink class="btn btn-outline-info" href="Dashboard">
                     <span class="fas fa-chevron-left" aria-hidden="true"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
                 <NavLink class="btn btn-success text-white" href="CMSCore/RolePage/0">
                     <span class="fas fa-plus" aria-hidden="true"></span>
-                    &nbsp;Create role
+                    &nbsp;Crear rol
                 </NavLink>
             </div>
             <div class="card-body px-0">
@@ -39,11 +39,11 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search role by name..." />
+                               placeholder="Buscar rol por nombre..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
-                            <h6><b>Strict or lax search</b></h6>
+                            <h6><b>Búsqueda estricta o laxa</b></h6>
                             <div class="form-check form-switch">
                                 <input class="form-check-input"
                                        type="checkbox"
@@ -52,24 +52,24 @@
                                        id="strict-search" />
                                 <label class="form-check-label"
                                        for="strict-search">
-                                    Strict search
+                                    Búsqueda estricta
                                 </label>
                             </div>
                         </div>
                         <br />
-                        <h6><b>View type</b></h6>
+                        <h6><b>Tipo de vista</b></h6>
                         <div class="btn-group mb-3" role="group" aria-label="btngroup">
                             <button type="button" 
                                 class="btn bg-gradient-primary"
                                 onclick=@(() => ChangeView("table"))>
                                 <i class="fas fa-table"></i>
-                                Table
+                                Tabla
                             </button>
                             <button type="button" 
                                 class="btn bg-gradient-primary"
                                 onclick=@(() => ChangeView("list"))>
                                 <i class="fas fa-th-list"></i>
-                                Cards
+                                Cartas
                             </button>
                         </div>
                     </div>
@@ -81,19 +81,19 @@
                                         @onclick="ConvertToExcel"
                                         class="btn btn-outline-info ml-4 mb-4">
                                     <i class="fas fa-file"></i>
-                                    Export to Excel
+                                    Exportar a Excel
                                 </button>
                                 <button type="button"
                                         @onclick="ConvertToCSV"
                                         class="btn btn-outline-warning mb-4 mx-3">
                                     <i class="fas fa-file"></i>
-                                    Export to CSV
+                                    Exportar a CSV
                                 </button>
                                 <button type="button"
                                         @onclick="ConvertToPDF"
                                         class="btn btn-outline-success mb-4">
                                     <i class="fas fa-file"></i>
-                                    Export to PDF
+                                    Exportar a PDF
                                 </button>
                             </div>
                         </div>
@@ -132,21 +132,21 @@
                     </div>
                 </div>
                 <!--Table-->
-                <h6><b>Number of registers: @TotalRows</b></h6>
+                <h6><b>Nº de roles: @TotalRows</b></h6>
                 @if (ChosenView == "table")
                 {
                     <table class="table table-striped table-hover table-bordered table-responsive mt-4">
                         <thead>
                             <tr>
-                                <th>RoleId</th>
-                                <th>Active</th>
-                                <th>DateTimeCreation</th>
-                                <th>DateTimeLastModification</th>
-                                <th>UserCreationId</th>
-                                <th>UserLastModificationId</th>
-                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Activo</th>
+                                <th>Fecha de creación</th>
+                                <th>Fecha de última modificación</th>
+                                <th>ID del usuario creador</th>
+                                <th>ID del último usuario modificador</th>
+                                <th>Nombre</th>
                                 
-                                <th>Actions</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -156,6 +156,18 @@
                                 {
                                     <tr>
                                         <td>@role?.RoleId</td>
+                                        @if (@role!.Active)
+                                        {
+                                            <td>
+                                                <span class="badge rounded-pill bg-success">Sí</span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <span class="badge rounded-pill bg-danger">No</span>
+                                            </td>
+                                        }
                                         <td>@role?.DateTimeCreation</td>
                                         <td>@role?.DateTimeLastModification</td>
                                         <td>@role?.UserCreationId</td>
@@ -190,12 +202,12 @@
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>RoleId: </b>@role?.RoleId</p>
-                                        <p><b>DateTimeCreation: </b>@role?.DateTimeCreation</p>
-                                        <p><b>DateTimeLastModification: </b>@role?.DateTimeLastModification</p>
-                                        <p><b>UserCreationId: </b>@role?.UserCreationId</p>
-                                        <p><b>UserLastModificationId: </b>@role?.UserLastModificationId</p>
-                                        <p><b>Name: </b>@role?.Name</p>
+                                        <p><b>ID: </b>@role?.RoleId</p>
+                                        <p><b>Fecha de creación: </b>@role?.DateTimeCreation</p>
+                                        <p><b>Fecha de última modificación: </b>@role?.DateTimeLastModification</p>
+                                        <p><b>ID del usuario creador: </b>@role?.UserCreationId</p>
+                                        <p><b>ID del último usuario modificador: </b>@role?.UserLastModificationId</p>
+                                        <p><b>Nombre: </b>@role?.Name</p>
                                         
                                 </div>
                                 <div class="card-footer text-body-secondary">

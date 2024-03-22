@@ -12,11 +12,11 @@
 
 @if (RequirementId == 0)
 {
-    <PageTitle>Add requirement - FiyiRequirements</PageTitle>
+    <PageTitle>Agregar requerimiento - FiyiRequirements</PageTitle>
 }
 else
 {
-    <PageTitle>Edit requirement - FiyiRequirements</PageTitle>
+    <PageTitle>Editar requerimiento - FiyiRequirements</PageTitle>
 }
 
 <FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
@@ -33,16 +33,16 @@ else
                 <h1 class="mb-3">
                     @if(RequirementId == 0)
                     {
-                        <span>Add requirement</span>
+                        <span>Agregar requerimiento</span>
                     }
                     else
                     {
-                        <span>Edit requirement</span>
+                        <span>Editar requerimiento</span>
                     }
                 </h1>
                 <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementPage">
                     <span class="fas fa-chevron-left"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
             </div>
             <div class="card-body px-0">
@@ -53,7 +53,7 @@ else
                     <div class="mb-3">
                         <label for="title"
                                class="input-group input-group-static">
-                            Title
+                            Título
                         </label>
                         <input type="text"
                                id="title"
@@ -66,14 +66,14 @@ else
                     <div class="mb-3">
                         <label for="quill-editor-body"
                                class="input-group input-group-static">
-                            Body
+                            Cuerpo
                         </label>
                         <div id="quill-editor-body">
                         </div>
                         <button id="button-quill-conversion-body"
                         type="button"
                         class="btn btn-outline-primary my-2">
-                            Convert to HTML
+                            Convertir a HTML
                         </button>
                         <input type="text"
                                id="quill-result-body"
@@ -132,7 +132,7 @@ else
                     <div class="mb-3">
                         <label for="requirementstateid"
                                class="input-group input-group-static">
-                            State
+                            Estado
                         </label>
                         <select id="requirementstateid"
                             class="form-control"
@@ -148,7 +148,7 @@ else
                     <div class="mb-3">
                         <label for="requirementpriorityid"
                                class="input-group input-group-static">
-                            Priority
+                            Prioridad
                         </label>
                         <select id="requirementpriorityid"
                             class="form-control"
@@ -164,7 +164,7 @@ else
                     <div class="mb-3">
                         <label for="useremployeeid"
                                class="input-group input-group-static">
-                            User/Employee
+                            Usuario/Empleado a asignar
                         </label>
                         <select id="useremployeeid"
                             class="form-control"
@@ -183,19 +183,19 @@ else
                         <i class="fas fa-pen"></i>
                         @if (RequirementId == 0)
                         {
-                            <span>Add</span>
+                            <span>Agregar</span>
                         }
                         else
                         {
-                            <span>Edit</span>
+                            <span>Editar</span>
                         }
                     </button>
                     <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementPage">
                         <span class="fas fa-chevron-left"></span>
-                        &nbsp;Go back
+                        &nbsp;Volver
                     </NavLink>
                 </form>
-                @((MarkupString)MessageForForm)
+                @((MarkupString)Message)
             </div>
         </div>
     </div>
@@ -212,7 +212,7 @@ else
     [Parameter]
     public int RequirementId { get; set; }
 
-    public string MessageForForm { get; set; } = "";
+    public string Message { get; set; } = "";
 
     [SupplyParameterFromForm]
     public Requirement Requirement { get; set; } = new();
@@ -306,9 +306,9 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
-                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
-                            </div>";
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                    Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                                </div>";
         }
     }
 
@@ -321,9 +321,9 @@ else
             Requirement.RequirementPriorityId == 0 ||
             Requirement.RequirementStateId == 0)
             {
-                MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
-                                Por favor, complete todos los datos
-                            </div>";
+                Message = $@"<div class=""alert alert-info text-white font-weight-bold"" role=""alert"">
+                                    Complete todos los datos, por favor.
+                                </div>";
                 return;
             }
 
@@ -373,9 +373,9 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
-                                Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
-                            </div>";
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+                                    Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
+                                </div>";
         }
         finally
         {
