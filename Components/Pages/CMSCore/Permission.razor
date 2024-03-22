@@ -12,7 +12,7 @@
 
 <PageTitle>Permisos - FiyiRequirements</PageTitle>
 
-<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstAllMenuByRoleIdNavBarVerticalDashboard"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
 <div class="main-content position-relative max-height-vh-100 h-100">
     <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
@@ -114,7 +114,7 @@
 
     public List<Menu> lstAllMenuByRoleId { get; set; }
 
-    public List<Menu> lstAllMenuByRoleIdNavBarVerticalDashboard { get; set; }
+    public List<folderForDashboard> lstFoldersAndPages = new();
 
     public List<Role> lstAllRole { get; set; }
     #endregion
@@ -142,8 +142,8 @@
                 lstAllMenuByRoleId = rolemenuRepository
                                             .GetAllByRoleId(User.RoleId, lstMenu);
 
-                lstAllMenuByRoleIdNavBarVerticalDashboard = rolemenuRepository
-                                                                .GetAllByRoleId(User.RoleId, lstMenu);
+                lstFoldersAndPages = rolemenuRepository
+                                            .GetAllPagesAndFoldersForDashboardByRoleId(User.RoleId);
 
                 lstAllRole = roleRepository
                                 .GetAll();

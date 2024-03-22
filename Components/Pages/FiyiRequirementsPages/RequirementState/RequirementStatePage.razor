@@ -8,7 +8,7 @@
 
 <PageTitle>Buscar estados - FiyiRequirements</PageTitle>
 
-<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
 <div class="main-content position-relative max-height-vh-100 h-100">
     <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
@@ -288,7 +288,7 @@
 
 @code {
     #region Properties
-    public List<Menu> lstMenuResult { get; set; } = [];
+    public List<folderForDashboard> lstFoldersAndPages = new();
 
     public int TotalRows { get; set; } = 0;
 
@@ -322,7 +322,7 @@
             //Look for saved user in shared component, simulates a session
             User = StateContainer.User == null ? new() : StateContainer.User;
 
-            lstMenuResult = [];
+            lstFoldersAndPages = [];
 
             paginatedRequirementStateDTO = new();
             paginatedRequirementStateDTO.lstRequirementState = [];
@@ -340,8 +340,8 @@
                     List<Menu> lstMenu = menuRepository
                                             .GetAll();
 
-                    lstMenuResult = rolemenuRepository
-                                        .GetAllByRoleId(User.RoleId, lstMenu);
+                    lstFoldersAndPages = rolemenuRepository
+                                             .GetAllPagesAndFoldersForDashboardByRoleId(User.RoleId);
 
                     paginatedRequirementStateDTO = requirementstateRepository
                                                 .GetAllByNamePaginated(

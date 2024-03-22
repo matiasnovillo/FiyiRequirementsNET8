@@ -15,7 +15,7 @@ else
     <PageTitle>Editar estado - FiyiRequirements</PageTitle>
 }
 
-<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
 <div class="main-content position-relative max-height-vh-100 h-100">
     <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
@@ -86,7 +86,7 @@ else
 
 @code {
     #region Properties
-    public List<Menu> lstMenuResult { get; set; } = [];
+    public List<folderForDashboard> lstFoldersAndPages = new();
 
     public List<Role> lstRole { get; set; } = [];
 
@@ -110,7 +110,7 @@ else
             //Look for saved user in shared component, simulates a session
             User = StateContainer.User == null ? new() : StateContainer.User;
 
-            lstMenuResult = [];
+            lstFoldersAndPages = [];
             RequirementState = new();
 
             if (User != null)
@@ -126,8 +126,8 @@ else
                     List<Menu> lstMenu = menuRepository
                                         .GetAll();
 
-                    lstMenuResult = rolemenuRepository
-                                        .GetAllByRoleId(User.RoleId, lstMenu);
+                    lstFoldersAndPages = rolemenuRepository
+                                            .GetAllPagesAndFoldersForDashboardByRoleId(User.RoleId);
 
                     lstRole = roleRepository.GetAll();
 

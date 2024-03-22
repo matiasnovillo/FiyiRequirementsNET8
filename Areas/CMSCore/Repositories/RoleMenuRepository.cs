@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using FiyiRequirements.Areas.CMSCore.DTOs;
 using FiyiRequirements.Areas.CMSCore.Entities;
 using FiyiRequirements.Areas.BasicCore;
+using FiyiRequirements.Areas.BasicCore.DTOs;
 
 namespace FiyiRequirements.Areas.CMSCore.Repositories
 {
@@ -106,6 +107,50 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
                 return lstMenuResult;
             }
             catch (Exception) { throw; }
+        }
+
+        public List<folderForDashboard> GetAllPagesAndFoldersForDashboardByRoleId(int roleId)
+        {
+            try
+            {
+                List<itemForFolderForDashboard> menuItems = [];
+
+                List<Menu> lstMenu = (from rm in _context.RoleMenu
+                                      where rm.RoleId == roleId
+                                      join m in _context.Menu on rm.MenuId equals m.MenuId
+                                      select m)
+                                          .OrderBy(x => x.Order)
+                                          .ToList();
+
+                foreach (Menu menu in lstMenu)
+                {
+                    itemForFolderForDashboard item = new itemForFolderForDashboard
+                    {
+                        MenuId = menu.MenuId,
+                        Name = menu.Name,
+                        MenuFatherId = menu.MenuFatherId,
+                        Order = menu.Order,
+                        URLPath = menu.URLPath,
+                        IconURLPath = menu.IconURLPath,
+                        Active = menu.Active,
+                        UserCreationId = menu.UserCreationId,
+                        UserLastModificationId = menu.UserLastModificationId,
+                        DateTimeCreation = menu.DateTimeCreation,
+                        DateTimeLastModification = menu.DateTimeLastModification
+                    };
+                    menuItems.Add(item);
+                }
+
+                var foldersAndPages = menuItems.Where(item => item.MenuFatherId == 0).Select(folder => new folderForDashboard
+                {
+                    Folder = folder,
+                    Pages = menuItems.Where(page => page.MenuFatherId == folder.MenuId).ToList()
+                }).ToList();
+
+                return foldersAndPages;
+            }
+            catch (Exception) { throw; }
+            
         }
 
         public List<MenuWithStateDTO> GetAllWithStateByRoleId(int roleId, List<Menu> lstMenu)
