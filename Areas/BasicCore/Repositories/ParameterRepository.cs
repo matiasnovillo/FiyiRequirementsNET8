@@ -4,6 +4,9 @@ using FiyiRequirements.Areas.BasicCore.Entities;
 using FiyiRequirements.Areas.BasicCore.DTOs;
 using FiyiRequirements.Areas.BasicCore.Interfaces;
 using System.Data;
+using DocumentFormat.OpenXml.Spreadsheet;
+using FiyiRequirements.Areas.CMSCore.Entities;
+using Parameter = FiyiRequirements.Areas.BasicCore.Entities.Parameter;
 
 /*
  * GUID:e6c09dfe-3a3e-461b-b3f9-734aee05fc7b
@@ -80,7 +83,12 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
 
                 int TotalParameter = _context.Parameter.Count();
 
-                var paginatedParameter = _context.Parameter
+                var query = from parametro in _context.Parameter
+                            join user in _context.User on parametro.UserCreationId equals user.UserId
+                            select new { Parametro = parametro, User = user };
+
+                // Extraemos los resultados en listas separadas
+                List<Parameter> lstParameter = query.Select(result => result.Parametro)
                         .Where(x => strictSearch ?
                             words.All(word => x.Name.Contains(word)) :
                             words.Any(word => x.Name.Contains(word)))
@@ -88,10 +96,12 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+                List<User> lstUser = query.Select(result => result.User).ToList();
 
                 return new paginatedParameterDTO
                 {
-                    lstParameter = paginatedParameter,
+                    lstParameter = lstParameter,
+                    lstUser = lstUser,
                     TotalItems = TotalParameter,
                     PageIndex = pageIndex,
                     PageSize = pageSize

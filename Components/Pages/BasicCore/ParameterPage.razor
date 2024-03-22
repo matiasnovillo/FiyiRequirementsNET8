@@ -139,8 +139,8 @@
                                 <th>Activo</th>
                                 <th>Fecha de creación</th>
                                 <th>Fecha de última modificación</th>
-                                <th>ID del usuario creador</th>
-                                <th>ID del último usuario modificador</th>
+                                <th>Usuario creador</th>
+                                <th>Usuario modificador</th>
                                 <th>Nombre</th>
                                 <th>Valor</th>
                                 <th>Privado</th>
@@ -151,11 +151,11 @@
                         <tbody>
                             @if (paginatedParameterDTO != null)
                             {
-                                @foreach (Parameter? parameter in paginatedParameterDTO.lstParameter)
+                                @for(int i = 0; i < paginatedParameterDTO.lstParameter.Count(); i++)
                                 {
                                     <tr>
-                                        <td>@parameter?.ParameterId</td>
-                                        @if (@parameter!.Active)
+                                        <td>@paginatedParameterDTO.lstParameter[i]?.ParameterId</td>
+                                        @if (@paginatedParameterDTO.lstParameter[i]!.Active)
                                         {
                                             <td>
                                                 <span class="badge rounded-pill bg-success">Sí</span>
@@ -167,13 +167,13 @@
                                                 <span class="badge rounded-pill bg-danger">No</span>
                                             </td>
                                         }
-                                        <td>@parameter?.DateTimeCreation</td> 
-                                        <td>@parameter?.DateTimeLastModification</td>
-                                        <td>@parameter?.UserCreationId</td>
-                                        <td>@parameter?.UserLastModificationId</td>
-                                        <td>@parameter?.Name</td>
-                                        <td>@parameter?.Value</td>
-                                        @if (@parameter!.IsPrivate)
+                                        <td>@paginatedParameterDTO.lstParameter[i]?.DateTimeCreation</td>
+                                        <td>@paginatedParameterDTO.lstParameter[i]?.DateTimeLastModification</td>
+                                        <td>@paginatedParameterDTO.lstUser[i]?.Email</td>
+                                        <td>@paginatedParameterDTO.lstUser[i]?.Email</td>
+                                        <td>@paginatedParameterDTO.lstParameter[i]?.Name</td>
+                                        <td>@paginatedParameterDTO.lstParameter[i]?.Value</td>
+                                        @if (@paginatedParameterDTO.lstParameter[i]!.IsPrivate)
                                         {
                                             <td>
                                                 <span class="badge rounded-pill bg-success">ON</span>
@@ -188,13 +188,13 @@
                                         <td>
                                             <div class="nav-item">
                                                 <button class="btn btn-sm btn-outline-danger"
-                                                        onclick=@(() => Delete(parameter!.ParameterId))>
+                                                        onclick=@(() => Delete(paginatedParameterDTO.lstParameter[i]!.ParameterId))>
                                                     <span class="fas fa-trash" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="nav-item mt-2">
                                                 <a class="btn btn-sm btn-outline-info"
-                                                   href="BasicCore/ParameterPage/@parameter?.ParameterId">
+                                                   href="BasicCore/ParameterPage/@paginatedParameterDTO.lstParameter[i]?.ParameterId">
                                                     <span class="fas fa-pen" aria-hidden="true"></span>
                                                 </a>
                                             </div>
@@ -209,18 +209,18 @@
                 {
                     @if (paginatedParameterDTO != null)      
                     {
-                        @foreach (Parameter? parameter in paginatedParameterDTO.lstParameter)
+                        @for (int i = 0; i < paginatedParameterDTO.lstParameter.Count(); i++)
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>ID: </b>@parameter?.ParameterId</p>
-                                        <p><b>Fecha de creación: </b>@parameter?.DateTimeCreation</p>
-                                        <p><b>Fecha de última modificación: </b>@parameter?.DateTimeLastModification</p>
-                                        <p><b>ID del usuario creador: </b>@parameter?.UserCreationId</p>
-                                        <p><b>ID del último usuario modificador: </b>@parameter?.UserLastModificationId</p>
-                                        <p><b>Nombre: </b>@parameter?.Name</p>
-                                        <div><b>Valor: </b>@parameter?.Value</div>
-                                        @if (@parameter!.IsPrivate)
+                                    <p><b>ID: </b>@paginatedParameterDTO.lstParameter[i]?.ParameterId</p>
+                                        <p><b>Fecha de creación: </b>@paginatedParameterDTO.lstParameter[i]?.DateTimeCreation</p>
+                                    <p><b>Fecha de última modificación: </b>@paginatedParameterDTO.lstParameter[i]?.DateTimeLastModification</p>
+                                    <p><b>Usuario creador: </b>@paginatedParameterDTO.lstUser[i]?.Email</p>
+                                    <p><b>Usuario modificador: </b>@paginatedParameterDTO.lstUser[i]?.Email</p>
+                                    <p><b>Nombre: </b>@paginatedParameterDTO.lstParameter[i]?.Name</p>
+                                    <div><b>Valor: </b>@paginatedParameterDTO.lstParameter[i]?.Value</div>
+                                    @if (@paginatedParameterDTO.lstParameter[i]!.IsPrivate)
                                         {
                                             <p>
                                                 <b>¿Privado?: </b>
@@ -246,11 +246,11 @@
                                         </div>
                                         <div class="col-2">
                                             <button class="btn btn-lg btn-outline-danger"
-                                                    onclick=@(() => Delete(parameter!.ParameterId))>
+                                                    onclick=@(() => Delete(paginatedParameterDTO.lstParameter[i]!.ParameterId))>
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="BasicCore/ParameterPage/@parameter?.ParameterId">
+                                               href="BasicCore/ParameterPage/@paginatedParameterDTO.lstParameter[i]?.ParameterId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>
