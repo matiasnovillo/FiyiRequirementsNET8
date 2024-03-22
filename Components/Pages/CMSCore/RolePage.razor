@@ -152,11 +152,11 @@
                         <tbody>
                             @if (paginatedRoleDTO != null)
                             {
-                                @foreach (Role? role in paginatedRoleDTO.lstRole)
+                                @for (int i = 0; i < paginatedRoleDTO.lstRole.Count(); i++)
                                 {
                                     <tr>
-                                        <td>@role?.RoleId</td>
-                                        @if (@role!.Active)
+                                        <td>@paginatedRoleDTO.lstRole[i]?.RoleId</td>
+                                        @if (@paginatedRoleDTO.lstRole[i]!.Active)
                                         {
                                             <td>
                                                 <span class="badge rounded-pill bg-success">Sí</span>
@@ -168,22 +168,22 @@
                                                 <span class="badge rounded-pill bg-danger">No</span>
                                             </td>
                                         }
-                                        <td>@role?.DateTimeCreation</td>
-                                        <td>@role?.DateTimeLastModification</td>
-                                        <td>@role?.UserCreationId</td>
-                                        <td>@role?.UserLastModificationId</td>
-                                        <td>@role?.Name</td>
+                                        <td>@paginatedRoleDTO.lstRole[i]?.DateTimeCreation</td>
+                                        <td>@paginatedRoleDTO.lstRole[i]?.DateTimeLastModification</td>
+                                        <td>@paginatedRoleDTO.lstUserCreation[i]?.Email</td>
+                                        <td>@paginatedRoleDTO.lstUserLastModification[i]?.Email</td>
+                                        <td>@paginatedRoleDTO.lstRole[i]?.Name</td>
                                         
                                         <td>
                                             <div class="nav-item">
                                                 <button class="btn btn-sm btn-outline-danger"
-                                                        onclick=@(() => Delete(role!.RoleId))>
+                                                        onclick=@(() => Delete(paginatedRoleDTO.lstRole[i]!.RoleId))>
                                                     <span class="fas fa-trash" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="nav-item mt-2">
                                                 <a class="btn btn-sm btn-outline-info"
-                                                   href="CMSCore/RolePage/@role?.RoleId">
+                                                   href="CMSCore/RolePage/@paginatedRoleDTO.lstRole[i]?.RoleId">
                                                     <span class="fas fa-pen" aria-hidden="true"></span>
                                                 </a>
                                             </div>
@@ -198,16 +198,16 @@
                 {
                     @if (paginatedRoleDTO != null)      
                     {
-                        @foreach (Role? role in paginatedRoleDTO.lstRole)
+                        @for (int i = 0; i < paginatedRoleDTO.lstRole.Count(); i++)
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>ID: </b>@role?.RoleId</p>
-                                        <p><b>Fecha de creación: </b>@role?.DateTimeCreation</p>
-                                        <p><b>Fecha de última modificación: </b>@role?.DateTimeLastModification</p>
-                                        <p><b>ID del usuario creador: </b>@role?.UserCreationId</p>
-                                        <p><b>ID del último usuario modificador: </b>@role?.UserLastModificationId</p>
-                                        <p><b>Nombre: </b>@role?.Name</p>
+                                    <p><b>ID: </b>@paginatedRoleDTO.lstRole[i]?.RoleId</p>
+                                    <p><b>Fecha de creación: </b>@paginatedRoleDTO.lstRole[i]?.DateTimeCreation</p>
+                                    <p><b>Fecha de última modificación: </b>@paginatedRoleDTO.lstRole[i]?.DateTimeLastModification</p>
+                                    <p><b>Usuario creador: </b>@paginatedRoleDTO.lstUserCreation[i]?.Email</p>
+                                    <p><b>Último usuario modificador: </b>@paginatedRoleDTO.lstUserLastModification[i]?.Email</p>
+                                    <p><b>Nombre: </b>@paginatedRoleDTO.lstRole[i]?.Name</p>
                                         
                                 </div>
                                 <div class="card-footer text-body-secondary">
@@ -217,11 +217,11 @@
                                         </div>
                                         <div class="col-2">
                                             <button class="btn btn-lg btn-outline-danger"
-                                                    onclick=@(() => Delete(role!.RoleId))>
+                                                    onclick=@(() => Delete(paginatedRoleDTO.lstRole[i]!.RoleId))>
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="CMSCore/RolePage/@role?.RoleId">
+                                               href="CMSCore/RolePage/@paginatedRoleDTO.lstRole[i]?.RoleId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>

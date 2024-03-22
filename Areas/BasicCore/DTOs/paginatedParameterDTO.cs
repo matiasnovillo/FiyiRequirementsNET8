@@ -17,7 +17,8 @@ namespace FiyiRequirements.Areas.BasicCore.DTOs
     public class paginatedParameterDTO
     {
         public List<Parameter?> lstParameter { get; set; }
-        public List<User?> lstUser { get; set; }
+        public List<User?> lstUserCreation { get; set; }
+        public List<User?> lstUserLastModification { get; set; }
         public int TotalItems { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

@@ -139,11 +139,11 @@
                                 <th>Activo</th>
                                 <th>Fecha de creación</th>
                                 <th>Fecha de última modificación</th>
-                                <th>ID del usuario creador</th>
-                                <th>ID del último usuario modificador</th>
+                                <th>Usuario creador</th>
+                                <th>Último usuario modificador</th>
                                 <th>Email</th>
                                 <th>Contraseña</th>
-                                <th>ID del rol</th>
+                                <th>Rol</th>
                                 
                                 <th>Acciones</th>
                             </tr>
@@ -151,11 +151,11 @@
                         <tbody>
                             @if (paginatedUserDTO != null)
                             {
-                                @foreach (User? user in paginatedUserDTO.lstUser)
+                                @for (int i = 0; i < paginatedUserDTO.lstUser.Count(); i++)
                                 {
                                     <tr>
-                                        <td>@user?.UserId</td>
-                                        @if (@user!.Active)
+                                        <td>@paginatedUserDTO.lstUser[i]?.UserId</td>
+                                        @if (@paginatedUserDTO.lstUser[i]!.Active)
                                         {
                                             <td>
                                                 <span class="badge rounded-pill bg-success">Sí</span>
@@ -167,29 +167,29 @@
                                                 <span class="badge rounded-pill bg-danger">No</span>
                                             </td>
                                         }
-                                        <td>@user?.DateTimeCreation</td>
-                                        <td>@user?.DateTimeLastModification</td>
-                                        <td>@user?.UserCreationId</td>
-                                        <td>@user?.UserLastModificationId</td>
+                                        <td>@paginatedUserDTO.lstUser[i]?.DateTimeCreation</td>
+                                        <td>@paginatedUserDTO.lstUser[i]?.DateTimeLastModification</td>
+                                        <td>@paginatedUserDTO.lstUserCreation[i]?.Email</td>
+                                        <td>@paginatedUserDTO.lstUserLastModification[i]?.Email</td>
                                         <td>
                                             <a class="nav-link text-info"
-                                               href="mailto:@user?.Email">
+                                               href="mailto:@paginatedUserDTO.lstUser[i]?.Email">
                                                 <b class="fas fa-envelope"></b>
-                                                @user?.Email
+                                                @paginatedUserDTO.lstUser[i]?.Email
                                             </a>
                                         </td>
-                                        <td>@user?.Password</td>
-                                        <td>@user?.RoleId</td>
+                                        <td>@paginatedUserDTO.lstUser[i]?.Password</td>
+                                        <td>@paginatedUserDTO.lstRole[i]?.Name</td>
                                         <td>
                                             <div class="nav-item">
                                                 <button class="btn btn-sm btn-outline-danger"
-                                                        onclick=@(() => Delete(user!.UserId))>
+                                                        onclick=@(() => Delete(paginatedUserDTO.lstUser[i]!.UserId))>
                                                     <span class="fas fa-trash" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="nav-item mt-2">
                                                 <a class="btn btn-sm btn-outline-info"
-                                                   href="CMSCore/UserPage/@user?.UserId">
+                                                   href="CMSCore/UserPage/@paginatedUserDTO.lstUser[i]?.UserId">
                                                     <span class="fas fa-pen" aria-hidden="true"></span>
                                                 </a>
                                             </div>
@@ -204,23 +204,23 @@
                 {
                     @if (paginatedUserDTO != null)      
                     {
-                        @foreach (User? user in paginatedUserDTO.lstUser)
+                        @for (int i = 0; i < paginatedUserDTO.lstUser.Count(); i++)
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>ID: </b>@user?.UserId</p>
-                                        <p><b>Fecha de creación: </b>@user?.DateTimeCreation</p>
-                                        <p><b>Fecha de última modificación: </b>@user?.DateTimeLastModification</p>
-                                        <p><b>ID del usuario creador: </b>@user?.UserCreationId</p>
-                                        <p><b>ID del último usuario modificador: </b>@user?.UserLastModificationId</p>
+                                    <p><b>ID: </b>@paginatedUserDTO.lstUser[i]?.UserId</p>
+                                    <p><b>Fecha de creación: </b>@paginatedUserDTO.lstUser[i]?.DateTimeCreation</p>
+                                    <p><b>Fecha de última modificación: </b>@paginatedUserDTO.lstUser[i]?.DateTimeLastModification</p>
+                                    <p><b>Usuario creador: </b>@paginatedUserDTO.lstUserCreation[i]?.Email</p>
+                                    <p><b>Último usuario modificador: </b>@paginatedUserDTO.lstUserLastModification[i]?.Email</p>
                                         <a class="nav-link text-info px-0"
-                                            href="mailto:@user?.Email">
+                                       href="mailto:@paginatedUserDTO.lstUser[i]?.Email">
                                             <b>Email: </b>
                                             <b class="fas fa-envelope"></b>
-                                            @user?.Email
+                                        @paginatedUserDTO.lstUser[i]?.Email
                                         </a>
-                                        <p><b>Contraseña: </b>@user?.Password</p>
-                                        <p><b>ID del rol: </b>@user?.RoleId</p>
+                                    <p><b>Contraseña: </b>@paginatedUserDTO.lstUser[i]?.Password</p>
+                                    <p><b>Rol: </b>@paginatedUserDTO.lstRole[i]?.Name</p>
                                         
                                 </div>
                                 <div class="card-footer text-body-secondary">
@@ -230,11 +230,11 @@
                                         </div>
                                         <div class="col-2">
                                             <button class="btn btn-lg btn-outline-danger"
-                                                    onclick=@(() => Delete(user!.UserId))>
+                                                    onclick=@(() => Delete(paginatedUserDTO.lstUser[i]!.UserId))>
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="CMSCore/UserPage/@user?.UserId">
+                                               href="CMSCore/UserPage/@paginatedUserDTO.lstUser[i]?.UserId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>

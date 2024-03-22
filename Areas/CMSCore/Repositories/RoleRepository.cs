@@ -81,7 +81,13 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
 
                 int TotalRole = _context.Role.Count();
 
-                var paginatedRole = _context.Role
+                var query = from role in _context.Role
+                            join userCreation in _context.User on role.UserCreationId equals userCreation.UserId
+                            join userLastModification in _context.User on role.UserLastModificationId equals userLastModification.UserId
+                            select new { Role = role, UserCreation = userCreation, UserLastModification = userLastModification };
+
+                // Extraemos los resultados en listas separadas
+                List<Role> lstRole = query.Select(result => result.Role)
                         .Where(x => strictSearch ?
                             words.All(word => x.Name.Contains(word)) :
                             words.Any(word => x.Name.Contains(word)))
@@ -89,10 +95,14 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+                List<User> lstUserCreation = query.Select(result => result.UserCreation).ToList();
+                List<User> lstUserLastModification = query.Select(result => result.UserLastModification).ToList();
 
                 return new paginatedRoleDTO
                 {
-                    lstRole = paginatedRole,
+                    lstRole = lstRole,
+                    lstUserCreation = lstUserCreation,
+                    lstUserLastModification = lstUserLastModification,
                     TotalItems = TotalRole,
                     PageIndex = pageIndex,
                     PageSize = pageSize

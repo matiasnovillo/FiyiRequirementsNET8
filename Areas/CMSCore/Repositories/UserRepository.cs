@@ -92,18 +92,31 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
 
                 int TotalUser =  _context.User.Count();
 
-                var paginatedUser =  _context.User
+                var query = from user in _context.User
+                            join userCreation in _context.User on user.UserCreationId equals userCreation.UserId
+                            join userLastModification in _context.User on user.UserLastModificationId equals userLastModification.UserId
+                            join role in _context.Role on user.RoleId equals role.RoleId
+                            select new { User = user, UserCreation = userCreation, UserLastModification = userLastModification, Role = role };
+
+                // Extraemos los resultados en listas separadas
+                List<User> lstUser = query.Select(result => result.User)
                         .Where(x => strictSearch ?
-                            words.All(word => x.Email.ToString().Contains(word)) :
-                            words.Any(word => x.Email.ToString().Contains(word)))
+                            words.All(word => x.Email.Contains(word)) :
+                            words.Any(word => x.Email.Contains(word)))
                         .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+                List<User> lstUserCreation = query.Select(result => result.UserCreation).ToList();
+                List<User> lstUserLastModification = query.Select(result => result.UserLastModification).ToList();
+                List<Role> lstRole = query.Select(result => result.Role).ToList();
 
                 return new paginatedUserDTO
                 {
-                    lstUser = paginatedUser,
+                    lstUser = lstUser,
+                    lstUserCreation = lstUserCreation,
+                    lstUserLastModification = lstUserLastModification,
+                    lstRole = lstRole,
                     TotalItems = TotalUser,
                     PageIndex = pageIndex,
                     PageSize = pageSize

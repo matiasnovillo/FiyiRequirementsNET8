@@ -142,8 +142,8 @@
                                 <th>Activo</th>
                                 <th>Fecha de creación</th>
                                 <th>Fecha de última modificación</th>
-                                <th>ID del usuario creador</th>
-                                <th>ID del último usuario modificador</th>
+                                <th>Usuario creador</th>
+                                <th>Último usuario modificador</th>
                                 <th>Nombre</th>
                                 <th>ID del menú padre</th>
                                 <th>Orden</th>
@@ -156,11 +156,11 @@
                         <tbody>
                             @if (paginatedMenuDTO != null)
                             {
-                                @foreach (Menu? menu in paginatedMenuDTO.lstMenu)
+                                @for (int i = 0; i < paginatedMenuDTO.lstMenu.Count(); i++)
                                 {
                                     <tr>
-                                        <td>@menu?.MenuId</td>
-                                        @if (@menu!.Active)
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.MenuId</td>
+                                        @if (@paginatedMenuDTO.lstMenu[i]!.Active)
                                         {
                                             <td>
                                                 <span class="badge rounded-pill bg-success">Sí</span>
@@ -172,26 +172,26 @@
                                                 <span class="badge rounded-pill bg-danger">No</span>
                                             </td>
                                         }
-                                        <td>@menu?.DateTimeCreation</td>
-                                        <td>@menu?.DateTimeLastModification</td>
-                                        <td>@menu?.UserCreationId</td>
-                                        <td>@menu?.UserLastModificationId</td>
-                                        <td>@menu?.Name</td>
-                                        <td>@menu?.MenuFatherId</td>
-                                        <td>@menu?.Order</td>
-                                        <td>@menu?.URLPath</td>
-                                        <td>@menu?.IconURLPath</td>
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.DateTimeCreation</td>
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.DateTimeLastModification</td>
+                                        <td>@paginatedMenuDTO.lstUserCreation[i]?.Email</td>
+                                        <td>@paginatedMenuDTO.lstUserLastModification[i]?.Email</td>
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.Name</td>
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.MenuFatherId</td>
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.Order</td>
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.URLPath</td>
+                                        <td>@paginatedMenuDTO.lstMenu[i]?.IconURLPath</td>
                                         
                                         <td>
                                             <div class="nav-item">
                                                 <button class="btn btn-sm btn-outline-danger"
-                                                        onclick=@(() => Delete(menu!.MenuId))>
+                                                        onclick=@(() => Delete(paginatedMenuDTO.lstMenu[i]!.MenuId))>
                                                     <span class="fas fa-trash" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="nav-item mt-2">
                                                 <a class="btn btn-sm btn-outline-info"
-                                                   href="CMSCore/MenuPage/@menu?.MenuId">
+                                                   href="CMSCore/MenuPage/@paginatedMenuDTO.lstMenu[i]?.MenuId">
                                                     <span class="fas fa-pen" aria-hidden="true"></span>
                                                 </a>
                                             </div>
@@ -206,20 +206,20 @@
                 {
                     @if (paginatedMenuDTO != null)      
                     {
-                        @foreach (Menu? menu in paginatedMenuDTO.lstMenu)
+                        @for (int i = 0; i < paginatedMenuDTO.lstMenu.Count(); i++)
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>ID: </b>@menu?.MenuId</p>
-                                        <p><b>Fecha de creación: </b>@menu?.DateTimeCreation</p>
-                                        <p><b>Fecha de última modificación: </b>@menu?.DateTimeLastModification</p>
-                                        <p><b>ID del usuario creador: </b>@menu?.UserCreationId</p>
-                                        <p><b>ID del último usuario modificador: </b>@menu?.UserLastModificationId</p>
-                                        <p><b>Nombre: </b>@menu?.Name</p>
-                                        <p><b>ID del menú padre: </b>@menu?.MenuFatherId</p>
-                                        <p><b>Orden: </b>@menu?.Order</p>
-                                        <p><b>URL: </b>@menu?.URLPath</p>
-                                        <p><b>Icono para la URL: </b>@menu?.IconURLPath</p>
+                                    <p><b>ID: </b>@paginatedMenuDTO.lstMenu[i]?.MenuId</p>
+                                    <p><b>Fecha de creación: </b>@paginatedMenuDTO.lstMenu[i]?.DateTimeCreation</p>
+                                    <p><b>Fecha de última modificación: </b>@paginatedMenuDTO.lstMenu[i]?.DateTimeLastModification</p>
+                                    <p><b>Usuario creador: </b>@paginatedMenuDTO.lstUserCreation[i]?.Email</p>
+                                    <p><b>Último usuario modificador: </b>@paginatedMenuDTO.lstUserLastModification[i]?.Email</p>
+                                    <p><b>Nombre: </b>@paginatedMenuDTO.lstMenu[i]?.Name</p>
+                                    <p><b>ID del menú padre: </b>@paginatedMenuDTO.lstMenu[i]?.MenuFatherId</p>
+                                    <p><b>Orden: </b>@paginatedMenuDTO.lstMenu[i]?.Order</p>
+                                    <p><b>URL: </b>@paginatedMenuDTO.lstMenu[i]?.URLPath</p>
+                                    <p><b>Icono para la URL: </b>@paginatedMenuDTO.lstMenu[i]?.IconURLPath</p>
                                         
                                 </div>
                                 <div class="card-footer text-body-secondary">
@@ -229,11 +229,11 @@
                                         </div>
                                         <div class="col-2">
                                             <button class="btn btn-lg btn-outline-danger"
-                                                    onclick=@(() => Delete(menu!.MenuId))>
+                                                    onclick=@(() => Delete(paginatedMenuDTO.lstMenu[i]!.MenuId))>
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="CMSCore/MenuPage/@menu?.MenuId">
+                                               href="CMSCore/MenuPage/@paginatedMenuDTO.lstMenu[i]?.MenuId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>

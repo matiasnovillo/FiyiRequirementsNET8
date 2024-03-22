@@ -81,20 +81,28 @@ namespace FiyiRequirements.Areas.CMSCore.Repositories
 
                 int TotalMenu = _context.Menu.Count();
 
-                var paginatedMenu = _context.Menu
+                var query = from menu in _context.Menu
+                            join userCreation in _context.User on menu.UserCreationId equals userCreation.UserId
+                            join userLastModification in _context.User on menu.UserLastModificationId equals userLastModification.UserId
+                            select new { Menu = menu, UserCreation = userCreation, UserLastModification = userLastModification };
+
+                // Extraemos los resultados en listas separadas
+                List<Menu> lstMenu = query.Select(result => result.Menu)
                         .Where(x => strictSearch ?
-                            words.All(word => x.Name.Contains(word) ||
-                                        x.URLPath.Contains(word)) :
-                            words.Any(word => x.Name.Contains(word) ||
-                                        x.URLPath.Contains(word)))
+                            words.All(word => x.Name.Contains(word)) :
+                            words.Any(word => x.Name.Contains(word)))
                         .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+                List<User> lstUserCreation = query.Select(result => result.UserCreation).ToList();
+                List<User> lstUserLastModification = query.Select(result => result.UserLastModification).ToList();
 
                 return new paginatedMenuDTO
                 {
-                    lstMenu = paginatedMenu,
+                    lstMenu = lstMenu,
+                    lstUserCreation = lstUserCreation,
+                    lstUserLastModification = lstUserLastModification,
                     TotalItems = TotalMenu,
                     PageIndex = pageIndex,
                     PageSize = pageSize

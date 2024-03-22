@@ -139,8 +139,8 @@
                                 <th>Activo</th>
                                 <th>Fecha de creación</th>
                                 <th>Fecha de última modificación</th>
-                                <th>ID del usuario creador</th>
-                                <th>ID del último usuario modificador</th>
+                                <th>Usuario creador</th>
+                                <th>Último usuario modificador</th>
                                 <th>Mensaje</th>
                                 <th>Nivel de emergencia</th>
                                 <th>Stack de llamadas</th>
@@ -153,11 +153,11 @@
                         <tbody>
                             @if (paginatedFailureDTO != null)
                             {
-                                @foreach (Failure? failure in paginatedFailureDTO.lstFailure)
+                                @for (int i = 0; i < paginatedFailureDTO.lstFailure.Count(); i++)
                                 {
                                     <tr>
-                                        <td>@failure?.FailureId</td>
-                                        @if (@failure!.Active)
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.FailureId</td>
+                                        @if (@paginatedFailureDTO.lstFailure[i]!.Active)
                                         {
                                             <td>
                                                 <span class="badge rounded-pill bg-success">Sí</span>
@@ -169,26 +169,26 @@
                                                 <span class="badge rounded-pill bg-danger">No</span>
                                             </td>
                                         }
-                                        <td>@failure?.DateTimeCreation</td>
-                                        <td>@failure?.DateTimeLastModification</td>
-                                        <td>@failure?.UserCreationId</td>
-                                        <td>@failure?.UserLastModificationId</td>
-                                        <td>@failure?.Message</td>
-                                        <td>@failure?.EmergencyLevel</td>
-                                        <td>@failure?.StackTrace</td>
-                                        <td>@failure?.Source</td>
-                                        <td>@failure?.Comment</td>
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.DateTimeCreation</td>
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.DateTimeLastModification</td>
+                                        <td>@paginatedFailureDTO.lstUserCreation[i]?.Email</td>
+                                        <td>@paginatedFailureDTO.lstUserLastModification[i]?.Email</td>
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.Message</td>
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.EmergencyLevel</td>
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.StackTrace</td>
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.Source</td>
+                                        <td>@paginatedFailureDTO.lstFailure[i]?.Comment</td>
                                         
                                         <td>
                                             <div class="nav-item">
                                                 <button class="btn btn-sm btn-outline-danger"
-                                                        onclick=@(() => Delete(failure!.FailureId))>
+                                                        onclick=@(() => Delete(paginatedFailureDTO.lstFailure[i]!.FailureId))>
                                                     <span class="fas fa-trash" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="nav-item mt-2">
                                                 <a class="btn btn-sm btn-outline-info"
-                                                   href="BasicCore/FailurePage/@failure?.FailureId">
+                                                   href="BasicCore/FailurePage/@paginatedFailureDTO.lstFailure[i]?.FailureId">
                                                     <span class="fas fa-pen" aria-hidden="true"></span>
                                                 </a>
                                             </div>
@@ -203,20 +203,20 @@
                 {
                     @if (paginatedFailureDTO != null)      
                     {
-                        @foreach (Failure? failure in paginatedFailureDTO.lstFailure)
+                        @for (int i = 0; i < paginatedFailureDTO.lstFailure.Count(); i++)
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>ID: </b>@failure?.FailureId</p>
-                                        <p><b>Fecha de creación: </b>@failure?.DateTimeCreation</p>
-                                        <p><b>Fecha de última modificación: </b>@failure?.DateTimeLastModification</p>
-                                        <p><b>ID del usuario creador: </b>@failure?.UserCreationId</p>
-                                        <p><b>ID del último usuario modificador: </b>@failure?.UserLastModificationId</p>
-                                        <div><b>Mensaje: </b>@failure?.Message</div>
-                                        <p><b>Nivel de emergencia: </b>@failure?.EmergencyLevel</p>
-                                        <div><b>Stack de llamadas: </b>@failure?.StackTrace</div>
-                                        <div><b>Fuente: </b>@failure?.Source</div>
-                                        <div><b>Comentario: </b>@failure?.Comment</div>
+                                    <p><b>ID: </b>@paginatedFailureDTO.lstFailure[i]?.FailureId</p>
+                                    <p><b>Fecha de creación: </b>@paginatedFailureDTO.lstFailure[i]?.DateTimeCreation</p>
+                                    <p><b>Fecha de última modificación: </b>@paginatedFailureDTO.lstFailure[i]?.DateTimeLastModification</p>
+                                    <p><b>Usuario creador: </b>@paginatedFailureDTO.lstUserCreation[i]?.Email</p>
+                                    <p><b>Último usuario modificador: </b>@paginatedFailureDTO.lstUserLastModification[i]?.Email</p>
+                                    <div><b>Mensaje: </b>@paginatedFailureDTO.lstFailure[i]?.Message</div>
+                                    <p><b>Nivel de emergencia: </b>@paginatedFailureDTO.lstFailure[i]?.EmergencyLevel</p>
+                                    <div><b>Stack de llamadas: </b>@paginatedFailureDTO.lstFailure[i]?.StackTrace</div>
+                                    <div><b>Fuente: </b>@paginatedFailureDTO.lstFailure[i]?.Source</div>
+                                    <div><b>Comentario: </b>@paginatedFailureDTO.lstFailure[i]?.Comment</div>
                                 </div>
                                 <div class="card-footer text-body-secondary">
                                     <div class="row">
@@ -225,11 +225,11 @@
                                         </div>
                                         <div class="col-2">
                                             <button class="btn btn-lg btn-outline-danger"
-                                                    onclick=@(() => Delete(failure!.FailureId))>
+                                                    onclick=@(() => Delete(@paginatedFailureDTO.lstFailure[i]!.FailureId))>
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="BasicCore/FailurePage/@failure?.FailureId">
+                                               href="BasicCore/FailurePage/@paginatedFailureDTO.lstFailure[i]?.FailureId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>

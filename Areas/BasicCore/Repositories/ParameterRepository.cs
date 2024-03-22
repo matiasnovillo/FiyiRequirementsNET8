@@ -84,8 +84,9 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
                 int TotalParameter = _context.Parameter.Count();
 
                 var query = from parametro in _context.Parameter
-                            join user in _context.User on parametro.UserCreationId equals user.UserId
-                            select new { Parametro = parametro, User = user };
+                            join userCreation in _context.User on parametro.UserCreationId equals userCreation.UserId
+                            join userLastModification in _context.User on parametro.UserLastModificationId equals userLastModification.UserId
+                            select new { Parametro = parametro, UserCreation = userCreation, UserLastModification = userLastModification };
 
                 // Extraemos los resultados en listas separadas
                 List<Parameter> lstParameter = query.Select(result => result.Parametro)
@@ -96,12 +97,14 @@ namespace FiyiRequirements.Areas.BasicCore.Repositories
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
-                List<User> lstUser = query.Select(result => result.User).ToList();
+                List<User> lstUserCreation = query.Select(result => result.UserCreation).ToList();
+                List<User> lstUserLastModification = query.Select(result => result.UserLastModification).ToList();
 
                 return new paginatedParameterDTO
                 {
                     lstParameter = lstParameter,
-                    lstUser = lstUser,
+                    lstUserCreation = lstUserCreation,
+                    lstUserLastModification = lstUserLastModification,
                     TotalItems = TotalParameter,
                     PageIndex = pageIndex,
                     PageSize = pageSize

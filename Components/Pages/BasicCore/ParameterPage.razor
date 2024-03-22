@@ -169,8 +169,8 @@
                                         }
                                         <td>@paginatedParameterDTO.lstParameter[i]?.DateTimeCreation</td>
                                         <td>@paginatedParameterDTO.lstParameter[i]?.DateTimeLastModification</td>
-                                        <td>@paginatedParameterDTO.lstUser[i]?.Email</td>
-                                        <td>@paginatedParameterDTO.lstUser[i]?.Email</td>
+                                        <td>@paginatedParameterDTO.lstUserCreation[i]?.Email</td>
+                                        <td>@paginatedParameterDTO.lstUserLastModification[i]?.Email</td>
                                         <td>@paginatedParameterDTO.lstParameter[i]?.Name</td>
                                         <td>@paginatedParameterDTO.lstParameter[i]?.Value</td>
                                         @if (@paginatedParameterDTO.lstParameter[i]!.IsPrivate)
@@ -216,8 +216,8 @@
                                     <p><b>ID: </b>@paginatedParameterDTO.lstParameter[i]?.ParameterId</p>
                                         <p><b>Fecha de creación: </b>@paginatedParameterDTO.lstParameter[i]?.DateTimeCreation</p>
                                     <p><b>Fecha de última modificación: </b>@paginatedParameterDTO.lstParameter[i]?.DateTimeLastModification</p>
-                                    <p><b>Usuario creador: </b>@paginatedParameterDTO.lstUser[i]?.Email</p>
-                                    <p><b>Usuario modificador: </b>@paginatedParameterDTO.lstUser[i]?.Email</p>
+                                    <p><b>Usuario creador: </b>@paginatedParameterDTO.lstUserCreation[i]?.Email</p>
+                                    <p><b>Usuario modificador: </b>@paginatedParameterDTO.lstUserLastModification[i]?.Email</p>
                                     <p><b>Nombre: </b>@paginatedParameterDTO.lstParameter[i]?.Name</p>
                                     <div><b>Valor: </b>@paginatedParameterDTO.lstParameter[i]?.Value</div>
                                     @if (@paginatedParameterDTO.lstParameter[i]!.IsPrivate)
