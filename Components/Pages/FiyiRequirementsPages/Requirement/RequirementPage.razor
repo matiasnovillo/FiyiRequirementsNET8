@@ -173,42 +173,41 @@
                         <tbody>
                             @if (paginatedRequirementDTO != null)
                             {
-                                @foreach (Requirement? requirement in paginatedRequirementDTO.lstRequirement)
+                                @for (int i = 0; i < paginatedRequirementDTO.lstRequirement.Count(); i++)
                                 {
                                     <tr>
-                                        <td>@requirement?.RequirementId</td>
-                                        @if (@requirement!.Active)
-{
-    <td>
-        <span class="badge rounded-pill bg-success">ON</span>
-    </td>
-}
-else
-{
-    <td>
-        <span class="badge rounded-pill bg-danger">OFF</span>
-    </td>
-}
-                                        <td>@requirement?.DateTimeCreation</td>
-                                        <td>@requirement?.DateTimeLastModification</td>
-                                        <td>@requirement?.UserCreationId</td>
-                                        <td>@requirement?.UserLastModificationId</td>
-                                        <td>@requirement?.Title</td>
-                                        <td>@requirement?.Body</td>
-                                        <td>@requirement?.RequirementStateId</td>
-                                        <td>@requirement?.RequirementPriorityId</td>
-                                        <td>@requirement?.UserEmployeeId</td>
-                                        
+                                        <td>@paginatedRequirementDTO.lstRequirement[i]?.RequirementId</td>
+                                        @if (@paginatedRequirementDTO.lstRequirement[i]!.Active)
+                                        {
+                                            <td>
+                                                <span class="badge rounded-pill bg-success">ON</span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <span class="badge rounded-pill bg-danger">OFF</span>
+                                            </td>
+                                        }
+                                        <td>@paginatedRequirementDTO.lstRequirement[i]?.DateTimeCreation</td>
+                                        <td>@paginatedRequirementDTO.lstRequirement[i]?.DateTimeLastModification</td>
+                                        <td>@paginatedRequirementDTO.lstRequirement[i]?.UserCreationId</td>
+                                        <td>@paginatedRequirementDTO.lstRequirement[i]?.UserLastModificationId</td>
+                                        <td>@paginatedRequirementDTO.lstRequirement[i]?.Title</td>
+                                        <td>@paginatedRequirementDTO.lstRequirement[i]?.Body</td>
+                                        <td>@paginatedRequirementDTO.lstRequirementState[i]?.Name</td>
+                                        <td>@paginatedRequirementDTO.lstRequirementPriority[i]?.Name</td>
+                                        <td>@paginatedRequirementDTO.lstUserEmployee[i]?.Email</td>
                                         <td>
                                             <div class="nav-item">
                                                 <button class="btn btn-sm btn-outline-danger"
-                                                        onclick=@(() => Delete(requirement!.RequirementId))>
+                                                        onclick=@(() => Delete(paginatedRequirementDTO.lstRequirement[i]!.RequirementId))>
                                                     <span class="fas fa-trash" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="nav-item mt-2">
                                                 <a class="btn btn-sm btn-outline-info"
-                                                   href="FiyiRequirements/RequirementPage/@requirement?.RequirementId">
+                                                   href="FiyiRequirements/RequirementPage/@paginatedRequirementDTO.lstRequirement[i]?.RequirementId">
                                                     <span class="fas fa-pen" aria-hidden="true"></span>
                                                 </a>
                                             </div>
@@ -223,38 +222,38 @@ else
                 {
                     @if (paginatedRequirementDTO != null)      
                     {
-                        @foreach (Requirement? requirement in paginatedRequirementDTO.lstRequirement)
+                        @for (int i = 0; i < paginatedRequirementDTO.lstRequirement.Count(); i++)
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>RequirementId: </b>@requirement?.RequirementId</p>
-                                        @if (@requirement!.Active)
-{
-    <p>
-        <b>Active: </b>
-        <span class="badge rounded-pill bg-success">
-            ON
-        </span>
-    </p>
-}
-else
-{
-    <p>
-        <b>Active: </b>
-        <span class="badge rounded-pill bg-danger">
-            OFF
-        </span>
-    </p>
-}
-                                        <p><b>DateTimeCreation: </b>@requirement?.DateTimeCreation</p>
-                                        <p><b>DateTimeLastModification: </b>@requirement?.DateTimeLastModification</p>
-                                        <p><b>UserCreationId: </b>@requirement?.UserCreationId</p>
-                                        <p><b>UserLastModificationId: </b>@requirement?.UserLastModificationId</p>
-                                        <p><b>Title: </b>@requirement?.Title</p>
-                                        <div><b>Body: </b>@requirement?.Body</div>
-                                        <p><b>RequirementStateId: </b>@requirement?.RequirementStateId</p>
-                                        <p><b>RequirementPriorityId: </b>@requirement?.RequirementPriorityId</p>
-                                        <p><b>UserEmployeeId: </b>@requirement?.UserEmployeeId</p>
+                                    <p><b>RequirementId: </b>@paginatedRequirementDTO.lstRequirement[i]?.RequirementId</p>
+                                        @if (@paginatedRequirementDTO.lstRequirement[i]!.Active)
+                                        {
+                                            <p>
+                                                <b>Active: </b>
+                                                <span class="badge rounded-pill bg-success">
+                                                    ON
+                                                </span>
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                <b>Active: </b>
+                                                <span class="badge rounded-pill bg-danger">
+                                                    OFF
+                                                </span>
+                                            </p>
+                                        }
+                                    <p><b>DateTimeCreation: </b>@paginatedRequirementDTO.lstRequirement[i]?.DateTimeCreation</p>
+                                    <p><b>DateTimeLastModification: </b>@paginatedRequirementDTO.lstRequirement[i]?.DateTimeLastModification</p>
+                                    <p><b>UserCreationId: </b>@paginatedRequirementDTO.lstRequirement[i]?.UserCreationId</p>
+                                    <p><b>UserLastModificationId: </b>@paginatedRequirementDTO.lstRequirement[i]?.UserLastModificationId</p>
+                                    <p><b>Title: </b>@paginatedRequirementDTO.lstRequirement[i]?.Title</p>
+                                    <div><b>Body: </b>@paginatedRequirementDTO.lstRequirement[i]?.Body</div>
+                                    <p><b>RequirementStateId: </b>@paginatedRequirementDTO.lstRequirementState[i]?.Name</p>
+                                    <p><b>RequirementPriorityId: </b>@paginatedRequirementDTO.lstRequirementPriority[i]?.Name</p>
+                                    <p><b>UserEmployeeId: </b>@paginatedRequirementDTO.lstUserEmployee[i]?.Email</p>
                                         
                                 </div>
                                 <div class="card-footer text-body-secondary">
@@ -264,11 +263,11 @@ else
                                         </div>
                                         <div class="col-2">
                                             <button class="btn btn-lg btn-outline-danger"
-                                                    onclick=@(() => Delete(requirement!.RequirementId))>
+                                                    onclick=@(() => Delete(paginatedRequirementDTO.lstRequirement[i]!.RequirementId))>
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="FiyiRequirements/RequirementPage/@requirement?.RequirementId">
+                                               href="FiyiRequirements/RequirementPage/@paginatedRequirementDTO.lstRequirement[i]?.RequirementId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>

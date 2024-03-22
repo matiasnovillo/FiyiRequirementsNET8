@@ -1,3 +1,5 @@
+using DocumentFormat.OpenXml.EMMA;
+using FiyiRequirements.Areas.CMSCore.Entities;
 using FiyiRequirements.Areas.FiyiRequirements.Entities;
 
 /*
@@ -16,6 +18,9 @@ namespace FiyiRequirements.Areas.FiyiRequirements.DTOs
     public class paginatedRequirementDTO
     {
         public List<Requirement?> lstRequirement { get; set; }
+        public List<RequirementPriority> lstRequirementPriority { get; set; }
+        public List<RequirementState> lstRequirementState { get; set; }
+        public List<User> lstUserEmployee { get; set; }
         public int TotalItems { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

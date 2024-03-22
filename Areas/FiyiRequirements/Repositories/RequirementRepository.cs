@@ -5,6 +5,8 @@ using FiyiRequirements.Areas.FiyiRequirements.DTOs;
 using FiyiRequirements.Areas.FiyiRequirements.Interfaces;
 using System.Data;
 using FiyiRequirements.Areas.BasicCore;
+using DocumentFormat.OpenXml.InkML;
+using FiyiRequirements.Areas.CMSCore.Entities;
 
 /*
  * GUID:e6c09dfe-3a3e-461b-b3f9-734aee05fc7b
@@ -82,41 +84,83 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
 
                 int TotalRequirement = _context.Requirement.Count();
 
-                var paginatedRequirement = _context.Requirement.ToList();
+                List<Requirement> lstRequirement = [];
+                List<RequirementState> lstRequirementState = [];
+                List<RequirementPriority> lstRequirementPriority = [];
+                List<User> lstUserEmployee = [];
+
+                var query = from requirement in _context.Requirement
+                            join user in _context.User on requirement.UserEmployeeId equals user.UserId
+                            join state in _context.RequirementState on requirement.RequirementStateId equals state.RequirementStateId
+                            join priority in _context.RequirementPriority on requirement.RequirementPriorityId equals priority.RequirementPriorityId
+                            select new
+                            {
+                                Requirement = requirement,
+                                User = user,
+                                State = state,
+                                Priority = priority
+                            };
 
                 if (requirementStateId == 0)
                 {
-                    paginatedRequirement = _context.Requirement
+                    var query2 = query
                         .Where(x => strictSearch ?
-                            words.All(word => x.Title.ToString().Contains(word)) :
-                            words.Any(word => x.Title.ToString().Contains(word)))
-                        .OrderByDescending(p => p.DateTimeLastModification)
+                            words.All(word => x.Requirement.Title.ToString().Contains(word)) :
+                            words.Any(word => x.Requirement.Title.ToString().Contains(word)))
+                        .OrderByDescending(p => p.Requirement.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+
+                    foreach (var item in query2)
+                    {
+                        lstRequirement.Add(item.Requirement);
+                        lstUserEmployee.Add(item.User);
+                        lstRequirementState.Add(item.State);
+                        lstRequirementPriority.Add(item.Priority);
+                    }
+
+                    return new paginatedRequirementDTO
+                    {
+                        lstRequirement = lstRequirement,
+                        lstRequirementPriority = lstRequirementPriority,
+                        lstRequirementState = lstRequirementState,
+                        lstUserEmployee = lstUserEmployee,
+                        TotalItems = TotalRequirement,
+                        PageIndex = pageIndex,
+                        PageSize = pageSize
+                    };
                 }
                 else
                 {
-                    paginatedRequirement = _context.Requirement
-                                            .Where(x => strictSearch ?
-                                                words.All(word => x.Title.ToString().Contains(word)) :
-                                                words.Any(word => x.Title.ToString().Contains(word)))
-                                            .Where(x => x.RequirementStateId == requirementStateId)
-                                            .OrderByDescending(p => p.DateTimeLastModification)
-                                            .Skip((pageIndex - 1) * pageSize)
-                                            .Take(pageSize)
-                                            .ToList();
+                    var query2 = query
+                        .Where(x => strictSearch ?
+                            words.All(word => x.Requirement.Title.Contains(word)) :
+                            words.Any(word => x.Requirement.Title.Contains(word)))
+                        .Where(x => x.Requirement.RequirementStateId == requirementStateId)
+                        .Skip((pageIndex - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+
+                    foreach (var item in query2)
+                    {
+                        lstRequirement.Add(item.Requirement);
+                        lstUserEmployee.Add(item.User);
+                        lstRequirementState.Add(item.State);
+                        lstRequirementPriority.Add(item.Priority);
+                    }
+
+                    return new paginatedRequirementDTO
+                    {
+                        lstRequirement = lstRequirement,
+                        lstRequirementPriority = lstRequirementPriority,
+                        lstRequirementState = lstRequirementState,
+                        lstUserEmployee = lstUserEmployee,
+                        TotalItems = TotalRequirement,
+                        PageIndex = pageIndex,
+                        PageSize = pageSize
+                    };
                 }
-
-                
-
-                return new paginatedRequirementDTO
-                {
-                    lstRequirement = paginatedRequirement,
-                    TotalItems = TotalRequirement,
-                    PageIndex = pageIndex,
-                    PageSize = pageSize
-                };
             }
             catch (Exception) { throw; }
         }
