@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\Uploads\FiyiRequirements\**" />
-    <Content Remove="wwwroot\Uploads\FiyiRequirements\**" />
-    <EmbeddedResource Remove="wwwroot\Uploads\FiyiRequirements\**" />
-    <None Remove="wwwroot\Uploads\FiyiRequirements\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.1" />
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="IronPdf" Version="2023.12.6" />
@@ -38,7 +31,7 @@
     <Folder Include="wwwroot\Downloads\ExcelFiles\" />
     <Folder Include="wwwroot\Downloads\CSVFiles\" />
     <Folder Include="wwwroot\Downloads\PDFFiles\" />
-    <Folder Include="wwwroot\Uploads\" />
+    <Folder Include="wwwroot\Uploads\FiyiRequirements\RequirementFile\" />
   </ItemGroup>
 
 </Project>

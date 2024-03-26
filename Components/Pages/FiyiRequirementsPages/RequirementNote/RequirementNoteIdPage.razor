@@ -1,5 +1,5 @@
 
-@page "/FiyiRequirements/RequirementNotePage/{RequirementNoteId:int}"
+@page "/FiyiRequirements/RequirementNotePage/{RequirementId:int}/{RequirementNoteId:int}"
 
 @using FiyiRequirements.Areas.FiyiRequirements.Repositories;
 @using FiyiRequirements.Areas.FiyiRequirements.Entities;
@@ -15,7 +15,7 @@ else
     <PageTitle>Edit requirementnote - FiyiRequirements</PageTitle>
 }
 
-<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
 <div class="main-content position-relative max-height-vh-100 h-100">
     <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
@@ -36,7 +36,7 @@ else
                         <span>Edit requirementnote</span>
                     }
                 </h1>
-                <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementNotePage">
+                <NavLink class="btn btn-outline-info" href="@linkVolver">
                     <span class="fas fa-chevron-left"></span>
                     &nbsp;Go back
                 </NavLink>
@@ -45,18 +45,6 @@ else
                 <form method="post" @onsubmit="Submit"
                       @formname="requirementnote-form" class="mb-4">
                     <AntiforgeryToken />
-                    <!--Active-->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               name="strict-search"
-                               @bind="RequirementNote!.Active"
-                               id="active" />
-                        <label class="form-check-label"
-                               for="active">
-                            Active
-                        </label>
-                    </div>
                     <!--Title-->
                     <div class="mb-3">
                         <label for="title"
@@ -136,17 +124,6 @@ else
                         });
                     </script>
                     <script src="assets/vendor/quill/dist/quill.min.js"></script>
-                    <!--RequirementId-->
-                    <div class="mb-3">
-                        <label for="requirementid"
-                               class="input-group input-group-static">
-                            RequirementId
-                        </label>
-                        <select id="requirementid"
-                            class="form-control"
-                            @bind=RequirementNote.RequirementId>
-                        </select>
-                    </div>
                     
                     <hr />
                     <button id="btn-submit" type="submit"
@@ -161,7 +138,7 @@ else
                             <span>Edit</span>
                         }
                     </button>
-                    <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementNotePage">
+                    <NavLink class="btn btn-outline-info" href="@linkVolver">
                         <span class="fas fa-chevron-left"></span>
                         &nbsp;Go back
                     </NavLink>
@@ -176,12 +153,15 @@ else
 
 @code {
     #region Properties
-    public List<Menu> lstMenuResult { get; set; } = [];
+    public List<folderForDashboard> lstFoldersAndPages = new();
 
     public List<Role> lstRole { get; set; } = [];
 
     [Parameter]
     public int RequirementNoteId { get; set; }
+
+    [Parameter]
+    public int RequirementId { get; set; }
 
     public string MessageForForm { get; set; } = "";
 
@@ -190,7 +170,7 @@ else
 
     public User User { get; set; } = new();
 
-    
+    public string linkVolver { get; set; } = "";
     #endregion
 
     protected override void OnInitialized()
@@ -200,7 +180,7 @@ else
             //Look for saved user in shared component, simulates a session
             User = StateContainer.User == null ? new() : StateContainer.User;
 
-            lstMenuResult = [];
+            lstFoldersAndPages = [];
             RequirementNote = new();
 
             if (User != null)
@@ -216,10 +196,12 @@ else
                     List<Menu> lstMenu = menuRepository
                                         .GetAll();
 
-                    lstMenuResult = rolemenuRepository
-                                        .GetAllByRoleId(User.RoleId, lstMenu);
+                    lstFoldersAndPages = rolemenuRepository
+                                            .GetAllPagesAndFoldersForDashboardByRoleId(User.RoleId);
 
                     lstRole = roleRepository.GetAll();
+
+                    linkVolver = $@"FiyiRequirements/RequirementNotePage/{RequirementId}";
 
                     if (RequirementNoteId == 0)
                     {
@@ -229,7 +211,7 @@ else
                     else
                     {
                         //Edit RequirementNote
-                        
+
                         RequirementNote = requirementnoteRepository
                                     .GetByRequirementNoteId(RequirementNoteId);
                     }
@@ -281,9 +263,12 @@ else
             {
                 //Create new RequirementNote
                 RequirementNote.RequirementNoteId = 0;
-
+                RequirementNote.Active = true;
+                RequirementNote.RequirementId = RequirementId;
                 RequirementNote.DateTimeCreation = DateTime.Now;
                 RequirementNote.DateTimeLastModification = DateTime.Now;
+                RequirementNote.UserCreationId = User.UserId;
+                RequirementNote.UserLastModificationId = User.UserId;
 
                 requirementnoteRepository
                         .Add(RequirementNote);
@@ -292,13 +277,14 @@ else
             {
                 //Update data
                 RequirementNote.DateTimeLastModification = DateTime.Now;
+                RequirementNote.UserLastModificationId = User.UserId;
 
                 requirementnoteRepository
                             .Update(RequirementNote);
             }
 
             //Redirect to users page
-            NavigationManager.NavigateTo("FiyiRequirements/RequirementNotePage");
+            NavigationManager.NavigateTo($@"FiyiRequirements/RequirementPage/{RequirementId}");
         }
         catch (Exception ex)
         {

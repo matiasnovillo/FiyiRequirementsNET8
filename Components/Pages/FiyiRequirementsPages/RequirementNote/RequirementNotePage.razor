@@ -1,5 +1,4 @@
-
-@page "/FiyiRequirements/RequirementNotePage"
+@page "/FiyiRequirements/RequirementNotePage/{RequirementId:int}"
 
 @using FiyiRequirements.Areas.FiyiRequirements.Repositories;
 @using FiyiRequirements.Areas.FiyiRequirements.Entities;
@@ -8,7 +7,7 @@
 
 <PageTitle>Query RequirementNote - FiyiRequirements</PageTitle>
 
-<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
 <div class="main-content position-relative max-height-vh-100 h-100">
     <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
@@ -22,11 +21,12 @@
                 <h1 class="mb-3">
                     Query requirementnote
                 </h1>
-                <NavLink class="btn btn-outline-info" href="Dashboard">
+                <NavLink class="btn btn-outline-info" href="@linkVolver">
                     <span class="fas fa-chevron-left" aria-hidden="true"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
-                <NavLink class="btn btn-success text-white" href="FiyiRequirements/RequirementNotePage/0">
+                <NavLink class="btn btn-success text-white" 
+                href="@linkToCreate">
                     <span class="fas fa-plus" aria-hidden="true"></span>
                     &nbsp;Create requirementnote
                 </NavLink>
@@ -38,7 +38,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search requirementnote by RequirementNoteId..." />
+                               placeholder="Buscar nota por titulo..." />
                         <br />
                         <!--Strict or lax search-->
                         <div>
@@ -244,7 +244,7 @@ else
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="FiyiRequirements/RequirementNotePage/@requirementnote?.RequirementNoteId">
+                                                href="FiyiRequirements/RequirementNotePage/@RequirementId/@requirementnote?.RequirementNoteId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>
@@ -294,7 +294,10 @@ else
 
 @code {
     #region Properties
-    public List<Menu> lstMenuResult { get; set; } = [];
+    [Parameter]
+    public int RequirementId { get; set; }
+
+    public List<folderForDashboard> lstFoldersAndPages = new();
 
     public int TotalRows { get; set; } = 0;
 
@@ -319,6 +322,10 @@ else
     public RequirementNote RequirementNote = new();
 
     paginatedRequirementNoteDTO paginatedRequirementNoteDTO = new();
+
+    public string linkVolver { get; set; } = "";
+
+    public string linkToCreate { get; set; } = "";
     #endregion
 
     protected override void OnInitialized()
@@ -328,7 +335,7 @@ else
             //Look for saved user in shared component, simulates a session
             User = StateContainer.User == null ? new() : StateContainer.User;
 
-            lstMenuResult = [];
+            lstFoldersAndPages = [];
 
             paginatedRequirementNoteDTO = new();
             paginatedRequirementNoteDTO.lstRequirementNote = [];
@@ -346,20 +353,25 @@ else
                     List<Menu> lstMenu = menuRepository
                                             .GetAll();
 
-                    lstMenuResult = rolemenuRepository
-                                        .GetAllByRoleId(User.RoleId, lstMenu);
+                    lstFoldersAndPages = rolemenuRepository
+                                            .GetAllPagesAndFoldersForDashboardByRoleId(User.RoleId);
 
                     paginatedRequirementNoteDTO = requirementnoteRepository
-                                                .GetAllByRequirementNoteIdPaginated(
+                                                .GetAllByTitlePaginated(
+                                                    RequirementId,
                                                     "",
                                                     checkStrict,
                                                     1,
                                                     15);
 
                     TotalRows = requirementnoteRepository
-                                    .Count();
+                                    .CountByRequirementId(RequirementId);
 
                     ChosenView = "list";
+
+                    linkVolver = $@"/FiyiRequirements/RequirementPage/{RequirementId}";
+
+                    linkToCreate = $@"FiyiRequirements/RequirementNotePage/{RequirementId}/0";
                 }
                 else
                 {
@@ -412,14 +424,15 @@ else
             TextToSearch = args.Value.ToString();
 
             paginatedRequirementNoteDTO = requirementnoteRepository
-                                        .GetAllByRequirementNoteIdPaginated(
-                                            TextToSearch,
-                                            checkStrict,
-                                            1,
-                                            15);
+                                                .GetAllByTitlePaginated(
+                                                    RequirementId,
+                                                    TextToSearch,
+                                                    checkStrict,
+                                                    1,
+                                                    15);
 
             TotalRows = requirementnoteRepository
-                            .Count();
+                                    .CountByRequirementId(RequirementId);
 
             //Re-render the page
             await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
@@ -454,7 +467,8 @@ else
         if (paginatedRequirementNoteDTO.HasPreviousPage)
         {
             paginatedRequirementNoteDTO = requirementnoteRepository
-                                        .GetAllByRequirementNoteIdPaginated(
+                                        .GetAllByTitlePaginated(
+                                            RequirementId,
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementNoteDTO.PageIndex - 1),
@@ -462,7 +476,7 @@ else
         }
 
         TotalRows = requirementnoteRepository
-                            .Count();
+                                    .CountByRequirementId(RequirementId);
 
         //Re-render the page
         await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
@@ -471,14 +485,15 @@ else
     private async Task OnPageSelected(int pageIndex)
     {
         paginatedRequirementNoteDTO = requirementnoteRepository
-                                            .GetAllByRequirementNoteIdPaginated(
+                                            .GetAllByTitlePaginated(
+                                                RequirementId,
                                                 TextToSearch,
                                                 checkStrict,
                                                 pageIndex,
                                                 paginatedRequirementNoteDTO.PageSize);
 
         TotalRows = requirementnoteRepository
-                        .Count();
+                                    .CountByRequirementId(RequirementId);
 
         //Re-render the page
         await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
@@ -489,7 +504,8 @@ else
         if (paginatedRequirementNoteDTO.HasNextPage)
         {
             paginatedRequirementNoteDTO = requirementnoteRepository
-                                        .GetAllByRequirementNoteIdPaginated(
+                                        .GetAllByTitlePaginated(
+                                            RequirementId,
                                             TextToSearch,
                                             checkStrict,
                                             (paginatedRequirementNoteDTO.PageIndex + 1),
@@ -497,7 +513,7 @@ else
         }
 
         TotalRows = requirementnoteRepository
-                            .Count();
+                                    .CountByRequirementId(RequirementId);
 
         //Re-render the page
         await InvokeAsync(() => StateHasChanged()).ConfigureAwait(false);
@@ -518,14 +534,15 @@ else
             requirementnoteRepository.DeleteByRequirementNoteId(requirementnoteId);
 
             paginatedRequirementNoteDTO = requirementnoteRepository
-                                        .GetAllByRequirementNoteIdPaginated(
+                                        .GetAllByTitlePaginated(
+                                            RequirementId,
                                             TextToSearch,
                                             checkStrict,
                                             1,
                                             15);
 
             TotalRows = requirementnoteRepository
-                                .Count();
+                                    .CountByRequirementId(RequirementId);
 
             TextToSearch = "";
 

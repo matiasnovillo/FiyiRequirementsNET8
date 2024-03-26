@@ -1,5 +1,5 @@
 
-@page "/FiyiRequirements/RequirementFilePage"
+@page "/FiyiRequirements/RequirementFilePage/{RequirementId:int}"
 
 @using FiyiRequirements.Areas.FiyiRequirements.Repositories;
 @using FiyiRequirements.Areas.FiyiRequirements.Entities;
@@ -8,7 +8,7 @@
 
 <PageTitle>Query RequirementFile - FiyiRequirements</PageTitle>
 
-<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
 <div class="main-content position-relative max-height-vh-100 h-100">
     <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
@@ -20,15 +20,15 @@
         <div class="card card-body mx-3 mx-md-4 mt-n6">
             <div class="card-header mb-0 pb-0 bg-white">
                 <h1 class="mb-3">
-                    Query requirementfile
+                    Buscar archivos
                 </h1>
-                <NavLink class="btn btn-outline-info" href="Dashboard">
+                <NavLink class="btn btn-outline-info" href="@linkVolver">
                     <span class="fas fa-chevron-left" aria-hidden="true"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
-                <NavLink class="btn btn-success text-white" href="FiyiRequirements/RequirementFilePage/0">
+                <NavLink class="btn btn-success text-white" href="@linkToCreate">
                     <span class="fas fa-plus" aria-hidden="true"></span>
-                    &nbsp;Create requirementfile
+                    &nbsp;Subir archivo
                 </NavLink>
             </div>
             <div class="card-body px-0">
@@ -38,23 +38,7 @@
                         <!--Searchbox-->
                         <input type="search" @oninput="SearchText"
                                class="form-control"
-                               placeholder="Search requirementfile by RequirementFileId..." />
-                        <br />
-                        <!--Strict or lax search-->
-                        <div>
-                            <h6><b>Strict or lax search</b></h6>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       name="strict-search"
-                                       @bind="checkStrict"
-                                       id="strict-search" />
-                                <label class="form-check-label"
-                                       for="strict-search">
-                                    Strict search
-                                </label>
-                            </div>
-                        </div>
+                               placeholder="Buscar por ruta del archivo..." />
                         <br />
                         <h6><b>View type</b></h6>
                         <div class="btn-group mb-3" role="group" aria-label="btngroup">
@@ -102,8 +86,8 @@
                                 @if (ShowDownloadButtonForExcel)
                                 {
                                     <a class="btn btn-info mb-4"
-                                       href="@DownloadPathForExcel"
-                                       download>
+                                    href="@DownloadPathForExcel"
+                                    download>
                                         <i class="fas fa-download"></i>
                                         Descargar
                                     </a>
@@ -111,8 +95,8 @@
                                 @if (ShowDownloadButtonForCSV)
                                 {
                                     <a class="btn btn-warning mb-4 mx-3"
-                                       href="@DownloadPathForCSV"
-                                       download>
+                                    href="@DownloadPathForCSV"
+                                    download>
                                         <i class="fas fa-download"></i>
                                         Descargar
                                     </a>
@@ -120,8 +104,8 @@
                                 @if (ShowDownloadButtonForPDF)
                                 {
                                     <a class="btn btn-success mb-4"
-                                       href="@DownloadPathForPDF"
-                                       download>
+                                    href="@DownloadPathForPDF"
+                                    download>
                                         <i class="fas fa-download"></i>
                                         Descargar
                                     </a>
@@ -145,7 +129,7 @@
                                 <th>UserLastModificationId</th>
                                 <th>RequirementId</th>
                                 <th>FilePath</th>
-                                
+
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -157,41 +141,41 @@
                                     <tr>
                                         <td>@requirementfile?.RequirementFileId</td>
                                         @if (@requirementfile!.Active)
-{
-    <td>
-        <span class="badge rounded-pill bg-success">ON</span>
-    </td>
-}
-else
-{
-    <td>
-        <span class="badge rounded-pill bg-danger">OFF</span>
-    </td>
-}
+                                        {
+                                            <td>
+                                                <span class="badge rounded-pill bg-success">ON</span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <span class="badge rounded-pill bg-danger">OFF</span>
+                                            </td>
+                                        }
                                         <td>@requirementfile?.DateTimeCreation</td>
                                         <td>@requirementfile?.DateTimeLastModification</td>
                                         <td>@requirementfile?.UserCreationId</td>
                                         <td>@requirementfile?.UserLastModificationId</td>
                                         <td>@requirementfile?.RequirementId</td>
                                         <td>
-    <a class="nav-link text-info"
-       href="@requirementfile?.FilePath"
-       download>
-        <b class="fas fa-download"></b>
-        @requirementfile?.FilePath
-    </a>
-</td>
-                                        
+                                            <a class="nav-link text-info"
+                                            href="@requirementfile?.FilePath"
+                                            download>
+                                                <b class="fas fa-download"></b>
+                                                @requirementfile?.FilePath
+                                            </a>
+                                        </td>
+
                                         <td>
                                             <div class="nav-item">
                                                 <button class="btn btn-sm btn-outline-danger"
-                                                        onclick=@(() => Delete(requirementfile!.RequirementFileId))>
+                                                onclick=@(() => Delete(requirementfile!.RequirementFileId))>
                                                     <span class="fas fa-trash" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="nav-item mt-2">
                                                 <a class="btn btn-sm btn-outline-info"
-                                                   href="FiyiRequirements/RequirementFilePage/@requirementfile?.RequirementFileId">
+                                                href="FiyiRequirements/RequirementFilePage/@requirementfile?.RequirementFileId">
                                                     <span class="fas fa-pen" aria-hidden="true"></span>
                                                 </a>
                                             </div>
@@ -204,44 +188,44 @@ else
                 }
                 else
                 {
-                    @if (paginatedRequirementFileDTO != null)      
+                    @if (paginatedRequirementFileDTO != null)
                     {
                         @foreach (RequirementFile? requirementfile in paginatedRequirementFileDTO.lstRequirementFile)
                         {
                             <div class="card shadow-lg mt-2">
                                 <div class="card-body">
-                                        <p><b>RequirementFileId: </b>@requirementfile?.RequirementFileId</p>
-                                        @if (@requirementfile!.Active)
-{
-    <p>
-        <b>Active: </b>
-        <span class="badge rounded-pill bg-success">
-            ON
-        </span>
-    </p>
-}
-else
-{
-    <p>
-        <b>Active: </b>
-        <span class="badge rounded-pill bg-danger">
-            OFF
-        </span>
-    </p>
-}
-                                        <p><b>DateTimeCreation: </b>@requirementfile?.DateTimeCreation</p>
-                                        <p><b>DateTimeLastModification: </b>@requirementfile?.DateTimeLastModification</p>
-                                        <p><b>UserCreationId: </b>@requirementfile?.UserCreationId</p>
-                                        <p><b>UserLastModificationId: </b>@requirementfile?.UserLastModificationId</p>
-                                        <p><b>RequirementId: </b>@requirementfile?.RequirementId</p>
-                                        <a class="nav-link text-info px-0"
-    href="@requirementfile?.FilePath"
-    download>
-    <b>FilePath: </b>
-    <b class="fas fa-download"></b>
-    @requirementfile?.FilePath
-</a>
-                                        
+                                    <p><b>RequirementFileId: </b>@requirementfile?.RequirementFileId</p>
+                                    @if (@requirementfile!.Active)
+                                    {
+                                        <p>
+                                            <b>Active: </b>
+                                            <span class="badge rounded-pill bg-success">
+                                                ON
+                                            </span>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p>
+                                            <b>Active: </b>
+                                            <span class="badge rounded-pill bg-danger">
+                                                OFF
+                                            </span>
+                                        </p>
+                                    }
+                                    <p><b>DateTimeCreation: </b>@requirementfile?.DateTimeCreation</p>
+                                    <p><b>DateTimeLastModification: </b>@requirementfile?.DateTimeLastModification</p>
+                                    <p><b>UserCreationId: </b>@requirementfile?.UserCreationId</p>
+                                    <p><b>UserLastModificationId: </b>@requirementfile?.UserLastModificationId</p>
+                                    <p><b>RequirementId: </b>@requirementfile?.RequirementId</p>
+                                    <a class="nav-link text-info px-0"
+                                    href="@requirementfile?.FilePath"
+                                    download>
+                                        <b>FilePath: </b>
+                                        <b class="fas fa-download"></b>
+                                        @requirementfile?.FilePath
+                                    </a>
+
                                 </div>
                                 <div class="card-footer text-body-secondary">
                                     <div class="row">
@@ -250,11 +234,11 @@ else
                                         </div>
                                         <div class="col-2">
                                             <button class="btn btn-lg btn-outline-danger"
-                                                    onclick=@(() => Delete(requirementfile!.RequirementFileId))>
+                                            onclick=@(() => Delete(requirementfile!.RequirementFileId))>
                                                 <span class="fas fa-trash" aria-hidden="true"></span>
                                             </button>
                                             <a class="btn btn-lg btn-outline-info"
-                                                href="FiyiRequirements/RequirementFilePage/@requirementfile?.RequirementFileId">
+                                            href="FiyiRequirements/RequirementFilePage/@requirementfile?.RequirementFileId">
                                                 <span class="fas fa-pen" aria-hidden="true"></span>
                                             </a>
                                         </div>
@@ -270,8 +254,8 @@ else
                         <li class="page-item
                         @(paginatedRequirementFileDTO!.HasPreviousPage ? "" : "disabled")">
                             <button class="page-link"
-                                    disabled="@(!paginatedRequirementFileDTO.HasPreviousPage)"
-                                    @onclick="() => OnPreviousPage()">
+                            disabled="@(!paginatedRequirementFileDTO.HasPreviousPage)"
+                            @onclick="() => OnPreviousPage()">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
                         </li>
@@ -281,7 +265,7 @@ else
                             <li class="page-item
                             @(i == paginatedRequirementFileDTO.PageIndex ? "active" : "")">
                                 <button class="page-link"
-                                        onclick=@(() => OnPageSelected(currentPage))>
+                                onclick=@(() => OnPageSelected(currentPage))>
                                     @i
                                 </button>
                             </li>
@@ -304,7 +288,10 @@ else
 
 @code {
     #region Properties
-    public List<Menu> lstMenuResult { get; set; } = [];
+    [Parameter]
+    public int RequirementId { get; set; }
+
+    public List<folderForDashboard> lstFoldersAndPages = new();
 
     public int TotalRows { get; set; } = 0;
 
@@ -329,6 +316,10 @@ else
     public RequirementFile RequirementFile = new();
 
     paginatedRequirementFileDTO paginatedRequirementFileDTO = new();
+
+    public string linkVolver { get; set; } = "";
+
+    public string linkToCreate { get; set; } = "";
     #endregion
 
     protected override void OnInitialized()
@@ -338,7 +329,7 @@ else
             //Look for saved user in shared component, simulates a session
             User = StateContainer.User == null ? new() : StateContainer.User;
 
-            lstMenuResult = [];
+            lstFoldersAndPages = [];
 
             paginatedRequirementFileDTO = new();
             paginatedRequirementFileDTO.lstRequirementFile = [];
@@ -356,12 +347,13 @@ else
                     List<Menu> lstMenu = menuRepository
                                             .GetAll();
 
-                    lstMenuResult = rolemenuRepository
-                                        .GetAllByRoleId(User.RoleId, lstMenu);
+                    lstFoldersAndPages = rolemenuRepository
+                                            .GetAllPagesAndFoldersForDashboardByRoleId(User.RoleId);
 
                     paginatedRequirementFileDTO = requirementfileRepository
-                                                .GetAllByRequirementFileIdPaginated(
+                                                .GetAllByFilePathPaginated(
                                                     "",
+                                                    RequirementId,
                                                     checkStrict,
                                                     1,
                                                     15);
@@ -370,6 +362,10 @@ else
                                     .Count();
 
                     ChosenView = "list";
+
+                    linkVolver = $@"/FiyiRequirements/RequirementPage/{RequirementId}";
+
+                    linkToCreate = $@"/FiyiRequirements/RequirementFilePage/{RequirementId}/0";
                 }
                 else
                 {
@@ -422,8 +418,9 @@ else
             TextToSearch = args.Value.ToString();
 
             paginatedRequirementFileDTO = requirementfileRepository
-                                        .GetAllByRequirementFileIdPaginated(
+                                        .GetAllByFilePathPaginated(
                                             TextToSearch,
+                                            RequirementId,
                                             checkStrict,
                                             1,
                                             15);
@@ -464,8 +461,9 @@ else
         if (paginatedRequirementFileDTO.HasPreviousPage)
         {
             paginatedRequirementFileDTO = requirementfileRepository
-                                        .GetAllByRequirementFileIdPaginated(
+                                        .GetAllByFilePathPaginated(
                                             TextToSearch,
+                                            RequirementId,
                                             checkStrict,
                                             (paginatedRequirementFileDTO.PageIndex - 1),
                                             paginatedRequirementFileDTO.PageSize);
@@ -481,8 +479,9 @@ else
     private async Task OnPageSelected(int pageIndex)
     {
         paginatedRequirementFileDTO = requirementfileRepository
-                                            .GetAllByRequirementFileIdPaginated(
+                                            .GetAllByFilePathPaginated(
                                                 TextToSearch,
+                                                RequirementId,
                                                 checkStrict,
                                                 pageIndex,
                                                 paginatedRequirementFileDTO.PageSize);
@@ -499,8 +498,9 @@ else
         if (paginatedRequirementFileDTO.HasNextPage)
         {
             paginatedRequirementFileDTO = requirementfileRepository
-                                        .GetAllByRequirementFileIdPaginated(
+                                        .GetAllByFilePathPaginated(
                                             TextToSearch,
+                                            RequirementId,
                                             checkStrict,
                                             (paginatedRequirementFileDTO.PageIndex + 1),
                                             paginatedRequirementFileDTO.PageSize);
@@ -528,8 +528,9 @@ else
             requirementfileRepository.DeleteByRequirementFileId(requirementfileId);
 
             paginatedRequirementFileDTO = requirementfileRepository
-                                        .GetAllByRequirementFileIdPaginated(
+                                        .GetAllByFilePathPaginated(
                                             TextToSearch,
+                                            RequirementId,
                                             checkStrict,
                                             1,
                                             15);

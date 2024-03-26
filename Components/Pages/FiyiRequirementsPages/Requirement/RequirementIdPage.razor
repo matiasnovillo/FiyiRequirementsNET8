@@ -195,6 +195,31 @@ else
                         &nbsp;Volver
                     </NavLink>
                 </form>
+                @if(RequirementId == 0)
+                {
+                    <div class="alert alert-info text-white font-weight-bold" role="alert">
+                        Cuando el requerimiento se encuentre creado, podrá acceder a
+                        notas, archivos e historial de cambios
+                    </div>
+                }
+                else
+                {
+                    <NavLink href="@linkNotas"
+                    class="btn btn-block btn-info">
+                        <i class="fas fa-clipboard"></i>
+                        Notas
+                    </NavLink>
+                    <NavLink href="@linkArchivos"
+                             class="btn btn-block btn-info">
+                        <i class="fas fa-file"></i>
+                        Archivos
+                    </NavLink>
+                    <NavLink href="@linkHistorial"
+                             class="btn btn-block btn-info">
+                        <i class="fas fa-clock"></i>
+                        Historial
+                    </NavLink>
+                }
                 @((MarkupString)Message)
             </div>
         </div>
@@ -224,6 +249,12 @@ else
     public List<FiyiRequirements.Areas.FiyiRequirements.Entities.RequirementPriority> lstPriority = [];
 
     public List<FiyiRequirements.Areas.CMSCore.Entities.User> lstEmployee = [];
+
+    public string linkNotas { get; set; } = "";
+
+    public string linkArchivos { get; set; } = "";
+
+    public string linkHistorial { get; set; } = "";
     #endregion
 
     protected override void OnInitialized()
@@ -271,6 +302,12 @@ else
 
                         Requirement = requirementRepository
                                     .GetByRequirementId(RequirementId);
+
+                        linkNotas = $@"/FiyiRequirements/RequirementNotePage/{RequirementId}";
+
+                        linkArchivos = $@"/FiyiRequirements/RequirementFilePage/{RequirementId}";
+
+                        linkHistorial = $@"/FiyiRequirements/RequirementChangehistoryPage/{RequirementId}";
                     }
                 }
                 else

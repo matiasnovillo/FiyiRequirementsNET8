@@ -47,6 +47,17 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
+        public int CountByRequirementId(int requirementId)
+        {
+            try
+            {
+                return _context.RequirementNote
+                    .Where(x => x.RequirementId == requirementId)
+                    .Count();
+            }
+            catch (Exception) { throw; }
+        }
+
         public RequirementNote? GetByRequirementNoteId(int requirementnoteId)
         {
             try
@@ -66,7 +77,8 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedRequirementNoteDTO GetAllByRequirementNoteIdPaginated(string textToSearch,
+        public paginatedRequirementNoteDTO GetAllByTitlePaginated(int requirementId,
+            string textToSearch,
             bool strictSearch,
             int pageIndex, 
             int pageSize)
@@ -79,13 +91,16 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
                     .Trim(), @"\s+", " ")
                     .Split(" ");
 
-                int TotalRequirementNote = _context.RequirementNote.Count();
+                strictSearch = true;
+
+                int TotalRequirementNote = _context.RequirementNote
+                                                .Where(x => x.RequirementId == requirementId)
+                                                .Count();
 
                 var paginatedRequirementNote = _context.RequirementNote
-                        .Where(x => strictSearch ?
-                            words.All(word => x.RequirementNoteId.ToString().Contains(word)) :
-                            words.Any(word => x.RequirementNoteId.ToString().Contains(word)))
-                        .OrderBy(p => p.RequirementNoteId)
+                        .Where(x => words.All(word => x.Title.Contains(word)) &&
+                            x.RequirementId == requirementId)
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();

@@ -1,5 +1,5 @@
 
-@page "/FiyiRequirements/RequirementFilePage/{RequirementFileId:int}"
+@page "/FiyiRequirements/RequirementFilePage/{RequirementId:int}/{RequirementFileId:int}"
 
 @using FiyiRequirements.Areas.FiyiRequirements.Repositories;
 @using FiyiRequirements.Areas.FiyiRequirements.Entities;
@@ -15,7 +15,7 @@ else
     <PageTitle>Edit requirementfile - FiyiRequirements</PageTitle>
 }
 
-<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstMenuResult="lstMenuResult"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
+<FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
 
 <div class="main-content position-relative max-height-vh-100 h-100">
     <FiyiRequirements.Components.Layout.NavBarHorizontalDashboard></FiyiRequirements.Components.Layout.NavBarHorizontalDashboard>
@@ -36,43 +36,20 @@ else
                         <span>Edit requirementfile</span>
                     }
                 </h1>
-                <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementFilePage">
+                <NavLink class="btn btn-outline-info" href="@linkVolver">
                     <span class="fas fa-chevron-left"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
             </div>
             <div class="card-body px-0">
                 <form method="post" @onsubmit="Submit"
                       @formname="requirementfile-form" class="mb-4">
                     <AntiforgeryToken />
-                    <!--Active-->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               name="strict-search"
-                               @bind="RequirementFile!.Active"
-                               id="active" />
-                        <label class="form-check-label"
-                               for="active">
-                            Active
-                        </label>
-                    </div>
-                    <!--RequirementId-->
-                    <div class="mb-3">
-                        <label for="requirementid"
-                               class="input-group input-group-static">
-                            RequirementId
-                        </label>
-                        <select id="requirementid"
-                            class="form-control"
-                            @bind=RequirementFile.RequirementId>
-                        </select>
-                    </div>
                     <!--FilePath-->
                     <div class="mb-3">
                         <label for="filepath"
                                class="input-group input-group-static">
-                            FilePath
+                            Archivo
                         </label>
                         <InputFile type="file"
                                id="filepath"
@@ -107,7 +84,7 @@ else
                             <span>Edit</span>
                         }
                     </button>
-                    <NavLink class="btn btn-outline-info" href="FiyiRequirements/RequirementFilePage">
+                    <NavLink class="btn btn-outline-info" href="@linkVolver">
                         <span class="fas fa-chevron-left"></span>
                         &nbsp;Go back
                     </NavLink>
@@ -122,12 +99,17 @@ else
 
 @code {
     #region Properties
-    public List<Menu> lstMenuResult { get; set; } = [];
+    public List<folderForDashboard> lstFoldersAndPages = new();
 
     public List<Role> lstRole { get; set; } = [];
 
+    public string linkVolver { get; set; }
+
     [Parameter]
     public int RequirementFileId { get; set; }
+
+    [Parameter]
+    public int RequirementId { get; set; }
 
     public string MessageForForm { get; set; } = "";
 
@@ -141,8 +123,8 @@ else
     public int ProgressPercentForFilePath { get; set; } = 0;
     public string ProgressTextForFilePath { get; set; } = "";
     public string ProgressBarColourForFilePath { get; set; } = "bg-info";
-    
-    
+
+
     #endregion
 
     protected override void OnInitialized()
@@ -152,7 +134,7 @@ else
             //Look for saved user in shared component, simulates a session
             User = StateContainer.User == null ? new() : StateContainer.User;
 
-            lstMenuResult = [];
+            lstFoldersAndPages = [];
             RequirementFile = new();
 
             if (User != null)
@@ -168,10 +150,12 @@ else
                     List<Menu> lstMenu = menuRepository
                                         .GetAll();
 
-                    lstMenuResult = rolemenuRepository
-                                        .GetAllByRoleId(User.RoleId, lstMenu);
+                    lstFoldersAndPages = rolemenuRepository
+                                            .GetAllPagesAndFoldersForDashboardByRoleId(User.RoleId);
 
                     lstRole = roleRepository.GetAll();
+
+                    linkVolver = $@"FiyiRequirements/RequirementFilePage/{RequirementId}";
 
                     if (RequirementFileId == 0)
                     {
@@ -181,7 +165,7 @@ else
                     else
                     {
                         //Edit RequirementFile
-                        
+
                         RequirementFile = requirementfileRepository
                                     .GetByRequirementFileId(RequirementFileId);
                     }
@@ -233,7 +217,10 @@ else
             {
                 //Create new RequirementFile
                 RequirementFile.RequirementFileId = 0;
-
+                RequirementFile.Active = true;
+                RequirementFile.RequirementId = RequirementId;
+                RequirementFile.UserCreationId = User.UserId;
+                RequirementFile.UserLastModificationId = User.UserId;
                 RequirementFile.DateTimeCreation = DateTime.Now;
                 RequirementFile.DateTimeLastModification = DateTime.Now;
 
@@ -244,13 +231,14 @@ else
             {
                 //Update data
                 RequirementFile.DateTimeLastModification = DateTime.Now;
+                RequirementFile.UserLastModificationId = User.UserId;
 
                 requirementfileRepository
                             .Update(RequirementFile);
             }
 
             //Redirect to users page
-            NavigationManager.NavigateTo("FiyiRequirements/RequirementFilePage");
+            NavigationManager.NavigateTo($@"FiyiRequirements/RequirementPage/{RequirementId}");
         }
         catch (Exception ex)
         {

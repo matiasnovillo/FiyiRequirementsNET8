@@ -66,26 +66,30 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedRequirementFileDTO GetAllByRequirementFileIdPaginated(string textToSearch,
+        public paginatedRequirementFileDTO GetAllByFilePathPaginated(string textToSearch,
+            int requirementId,
             bool strictSearch,
             int pageIndex, 
             int pageSize)
         {
             try
             {
+                strictSearch = true;
+
                 //textToSearch: "novillo matias  com" -> words: {novillo,matias,com}
                 string[] words = Regex
                     .Replace(textToSearch
                     .Trim(), @"\s+", " ")
                     .Split(" ");
 
-                int TotalRequirementFile = _context.RequirementFile.Count();
+                int TotalRequirementFile = _context.RequirementFile
+                                                .Where(x => x.RequirementId == requirementId)
+                                                .Count();
 
                 var paginatedRequirementFile = _context.RequirementFile
-                        .Where(x => strictSearch ?
-                            words.All(word => x.RequirementFileId.ToString().Contains(word)) :
-                            words.Any(word => x.RequirementFileId.ToString().Contains(word)))
-                        .OrderBy(p => p.RequirementFileId)
+                        .Where(x => words.All(word => x.FilePath.Contains(word)) &&
+                        x.RequirementId == requirementId)
+                        .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
