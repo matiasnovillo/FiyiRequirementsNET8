@@ -26,7 +26,7 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Interfaces
 
         List<RequirementFile?> GetAll();
 
-        paginatedRequirementFileDTO GetAllByFilePathPaginated(string textToSearch,
+        paginatedRequirementFileDTO GetAllByFilePathAndRequirementIdPaginated(string textToSearch,
             int requirementId,
             bool strictSearch,
             int pageIndex,

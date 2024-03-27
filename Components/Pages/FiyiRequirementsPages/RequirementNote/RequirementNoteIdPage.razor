@@ -8,11 +8,11 @@
 
 @if (RequirementNoteId == 0)
 {
-    <PageTitle>Add requirementnote - FiyiRequirements</PageTitle>
+    <PageTitle>Agregar nota - FiyiRequirements</PageTitle>
 }
 else
 {
-    <PageTitle>Edit requirementnote - FiyiRequirements</PageTitle>
+    <PageTitle>Editar nota - FiyiRequirements</PageTitle>
 }
 
 <FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
@@ -29,16 +29,16 @@ else
                 <h1 class="mb-3">
                     @if(RequirementNoteId == 0)
                     {
-                        <span>Add requirementnote</span>
+                        <span>Agregar nota</span>
                     }
                     else
                     {
-                        <span>Edit requirementnote</span>
+                        <span>Editar nota</span>
                     }
                 </h1>
                 <NavLink class="btn btn-outline-info" href="@linkVolver">
                     <span class="fas fa-chevron-left"></span>
-                    &nbsp;Go back
+                    &nbsp;Volver
                 </NavLink>
             </div>
             <div class="card-body px-0">
@@ -49,7 +49,7 @@ else
                     <div class="mb-3">
                         <label for="title"
                                class="input-group input-group-static">
-                            Title
+                            Título
                         </label>
                         <input type="text"
                                id="title"
@@ -62,14 +62,14 @@ else
                     <div class="mb-3">
                         <label for="quill-editor-body"
                                class="input-group input-group-static">
-                            Body
+                            Cuerpo
                         </label>
                         <div id="quill-editor-body">
                         </div>
                         <button id="button-quill-conversion-body"
                         type="button"
                         class="btn btn-outline-primary my-2">
-                            Convert to HTML
+                            Convertir a HTML
                         </button>
                         <input type="text"
                                id="quill-result-body"
@@ -131,19 +131,19 @@ else
                         <i class="fas fa-pen"></i>
                         @if (RequirementNoteId == 0)
                         {
-                            <span>Add</span>
+                            <span>Agregar</span>
                         }
                         else
                         {
-                            <span>Edit</span>
+                            <span>Editar</span>
                         }
                     </button>
                     <NavLink class="btn btn-outline-info" href="@linkVolver">
                         <span class="fas fa-chevron-left"></span>
-                        &nbsp;Go back
+                        &nbsp;Volver
                     </NavLink>
                 </form>
-                @((MarkupString)MessageForForm)
+                @((MarkupString)Message)
             </div>
         </div>
     </div>
@@ -163,7 +163,7 @@ else
     [Parameter]
     public int RequirementId { get; set; }
 
-    public string MessageForForm { get; set; } = "";
+    public string Message { get; set; } = "";
 
     [SupplyParameterFromForm]
     public RequirementNote RequirementNote { get; set; } = new();
@@ -249,7 +249,7 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
                                 Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
                             </div>";
         }
@@ -304,7 +304,7 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
                                 Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
                             </div>";
         }

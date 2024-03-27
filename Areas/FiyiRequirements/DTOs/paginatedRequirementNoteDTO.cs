@@ -1,3 +1,4 @@
+using FiyiRequirements.Areas.CMSCore.Entities;
 using FiyiRequirements.Areas.FiyiRequirements.Entities;
 
 /*
@@ -16,6 +17,9 @@ namespace FiyiRequirements.Areas.FiyiRequirements.DTOs
     public class paginatedRequirementNoteDTO
     {
         public List<RequirementNote?> lstRequirementNote { get; set; }
+        public List<User?> lstUserCreation { get; set; }
+        public List<User?> lstUserLastModification { get; set; }
+        public List<Requirement?> lstRequirement { get; set; }
         public int TotalItems { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

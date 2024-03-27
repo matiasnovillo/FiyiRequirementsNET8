@@ -5,6 +5,7 @@ using FiyiRequirements.Areas.FiyiRequirements.DTOs;
 using FiyiRequirements.Areas.FiyiRequirements.Interfaces;
 using System.Data;
 using FiyiRequirements.Areas.BasicCore;
+using FiyiRequirements.Areas.CMSCore.Entities;
 
 /*
  * GUID:e6c09dfe-3a3e-461b-b3f9-734aee05fc7b
@@ -77,7 +78,7 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedRequirementNoteDTO GetAllByTitlePaginated(int requirementId,
+        public paginatedRequirementNoteDTO GetAllByTitleAndRequirementIdPaginated(int requirementId,
             string textToSearch,
             bool strictSearch,
             int pageIndex, 
@@ -97,17 +98,33 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
                                                 .Where(x => x.RequirementId == requirementId)
                                                 .Count();
 
-                var paginatedRequirementNote = _context.RequirementNote
-                        .Where(x => words.All(word => x.Title.Contains(word)) &&
+                var query = from requirementnote in _context.RequirementNote
+                            join userCreation in _context.User on requirementnote.UserCreationId equals userCreation.UserId
+                            join userLastModification in _context.User on requirementnote.UserLastModificationId equals userLastModification.UserId
+                            join requirement in _context.Requirement on requirementnote.RequirementId equals requirement.RequirementId
+                            where requirementnote.RequirementId == requirementId
+                            select new { RequirementNote = requirementnote, UserCreation = userCreation, UserLastModification = userLastModification, Requirement = requirement };
+
+                // Extraemos los resultados en listas separadas
+                List<RequirementNote> lstRequirementNote = query.Select(result => result.RequirementNote)
+                        .Where(x => strictSearch ?
+                            words.All(word => x.Title.Contains(word)) :
+                            words.Any(word => x.Title.Contains(word)) &&
                             x.RequirementId == requirementId)
                         .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+                List<User> lstUserCreation = query.Select(result => result.UserCreation).ToList();
+                List<User> lstUserLastModification = query.Select(result => result.UserLastModification).ToList();
+                List<Requirement> lstRequirement = query.Select(result => result.Requirement).ToList();
 
                 return new paginatedRequirementNoteDTO
                 {
-                    lstRequirementNote = paginatedRequirementNote,
+                    lstRequirementNote = lstRequirementNote,
+                    lstUserCreation = lstUserCreation,
+                    lstUserLastModification = lstUserLastModification,
+                    lstRequirement = lstRequirement,
                     TotalItems = TotalRequirementNote,
                     PageIndex = pageIndex,
                     PageSize = pageSize

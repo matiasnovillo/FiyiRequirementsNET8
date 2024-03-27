@@ -5,6 +5,8 @@ using FiyiRequirements.Areas.FiyiRequirements.DTOs;
 using FiyiRequirements.Areas.FiyiRequirements.Interfaces;
 using System.Data;
 using FiyiRequirements.Areas.BasicCore;
+using FiyiRequirements.Areas.BasicCore.Entities;
+using FiyiRequirements.Areas.CMSCore.Entities;
 
 /*
  * GUID:e6c09dfe-3a3e-461b-b3f9-734aee05fc7b
@@ -47,6 +49,17 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
+        public int CountByRequirementId(int requirementId)
+        {
+            try
+            {
+                return _context.RequirementFile
+                    .Where(x => x.RequirementId == requirementId)
+                    .Count();
+            }
+            catch (Exception) { throw; }
+        }
+
         public RequirementFile? GetByRequirementFileId(int requirementfileId)
         {
             try
@@ -66,7 +79,7 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
             catch (Exception) { throw; }
         }
 
-        public paginatedRequirementFileDTO GetAllByFilePathPaginated(string textToSearch,
+        public paginatedRequirementFileDTO GetAllByFilePathAndRequirementIdPaginated(string textToSearch,
             int requirementId,
             bool strictSearch,
             int pageIndex, 
@@ -86,17 +99,33 @@ namespace FiyiRequirements.Areas.FiyiRequirements.Repositories
                                                 .Where(x => x.RequirementId == requirementId)
                                                 .Count();
 
-                var paginatedRequirementFile = _context.RequirementFile
-                        .Where(x => words.All(word => x.FilePath.Contains(word)) &&
-                        x.RequirementId == requirementId)
+                var query = from requirementfile in _context.RequirementFile
+                            join userCreation in _context.User on requirementfile.UserCreationId equals userCreation.UserId
+                            join userLastModification in _context.User on requirementfile.UserLastModificationId equals userLastModification.UserId
+                            join requirement in _context.Requirement on requirementfile.RequirementId equals requirement.RequirementId
+                            where requirementfile.RequirementId == requirementId
+                            select new { RequirementFile = requirementfile, UserCreation = userCreation, UserLastModification = userLastModification, Requirement = requirement };
+
+                // Extraemos los resultados en listas separadas
+                List<RequirementFile> lstRequirementFile = query.Select(result => result.RequirementFile)
+                        .Where(x => strictSearch ?
+                            words.All(word => x.FilePath.Contains(word)) :
+                            words.Any(word => x.FilePath.Contains(word)) &&
+                            x.RequirementId == requirementId)
                         .OrderByDescending(p => p.DateTimeLastModification)
                         .Skip((pageIndex - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
+                List<User> lstUserCreation = query.Select(result => result.UserCreation).ToList();
+                List<User> lstUserLastModification = query.Select(result => result.UserLastModification).ToList();
+                List<Requirement> lstRequirement = query.Select(result => result.Requirement).ToList();
 
                 return new paginatedRequirementFileDTO
                 {
-                    lstRequirementFile = paginatedRequirementFile,
+                    lstRequirementFile = lstRequirementFile,
+                    lstUserCreation = lstUserCreation,
+                    lstUserLastModification = lstUserLastModification,
+                    lstRequirement = lstRequirement,
                     TotalItems = TotalRequirementFile,
                     PageIndex = pageIndex,
                     PageSize = pageSize

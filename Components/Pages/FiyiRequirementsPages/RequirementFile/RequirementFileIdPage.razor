@@ -8,11 +8,11 @@
 
 @if (RequirementFileId == 0)
 {
-    <PageTitle>Add requirementfile - FiyiRequirements</PageTitle>
+    <PageTitle>Agregar archivo - FiyiRequirements</PageTitle>
 }
 else
 {
-    <PageTitle>Edit requirementfile - FiyiRequirements</PageTitle>
+    <PageTitle>Editar archivo - FiyiRequirements</PageTitle>
 }
 
 <FiyiRequirements.Components.Layout.NavBarVerticalDashboard lstFoldersAndPages="lstFoldersAndPages"></FiyiRequirements.Components.Layout.NavBarVerticalDashboard>
@@ -29,11 +29,11 @@ else
                 <h1 class="mb-3">
                     @if(RequirementFileId == 0)
                     {
-                        <span>Add requirementfile</span>
+                        <span>Agregar archivo</span>
                     }
                     else
                     {
-                        <span>Edit requirementfile</span>
+                        <span>Editar archivo</span>
                     }
                 </h1>
                 <NavLink class="btn btn-outline-info" href="@linkVolver">
@@ -77,19 +77,19 @@ else
                         <i class="fas fa-pen"></i>
                         @if (RequirementFileId == 0)
                         {
-                            <span>Add</span>
+                            <span>Agregar</span>
                         }
                         else
                         {
-                            <span>Edit</span>
+                            <span>Editar</span>
                         }
                     </button>
                     <NavLink class="btn btn-outline-info" href="@linkVolver">
                         <span class="fas fa-chevron-left"></span>
-                        &nbsp;Go back
+                        &nbsp;Volver
                     </NavLink>
                 </form>
-                @((MarkupString)MessageForForm)
+                @((MarkupString)Message)
             </div>
         </div>
     </div>
@@ -111,7 +111,7 @@ else
     [Parameter]
     public int RequirementId { get; set; }
 
-    public string MessageForForm { get; set; } = "";
+    public string Message { get; set; } = "";
 
     [SupplyParameterFromForm]
     public RequirementFile RequirementFile { get; set; } = new();
@@ -203,7 +203,7 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
                                 Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
                             </div>";
         }
@@ -258,7 +258,7 @@ else
 
             failureRepository.Add(failure);
 
-            MessageForForm = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
+            Message = $@"<div class=""alert alert-danger text-white font-weight-bold"" role=""alert"">
                                 Hubo un error. Intente nuevamente. Mensaje del error: {ex.Message}
                             </div>";
         }
@@ -310,7 +310,7 @@ else
         }
         catch (Exception ex)
         {
-            MessageForForm = $@"There was a mistake. Try again.
+            Message = $@"There was a mistake. Try again.
                              Error message: {ex.Message}";
 
             ProgressPercentForFilePath = 100;
